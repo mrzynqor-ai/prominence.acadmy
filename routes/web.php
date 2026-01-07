@@ -48,7 +48,7 @@ Route::get('payment/web_redirect_to_pay_fee', [PaymentController::class, 'webRed
 
 //Installation routes
 Route::controller(InstallController::class)->group(function () {
-    Route::get('/', 'index');
+    // Route::get('/', 'index'); // Commented after installation - HomeController handles this in guest.php
     Route::get('install/step0', 'step0')->name('step0');
     Route::get('install/step1', 'step1')->name('step1');
     Route::get('install/step2', 'step2')->name('step2');
