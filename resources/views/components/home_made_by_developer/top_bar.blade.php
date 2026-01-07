@@ -40,34 +40,34 @@
                             <form action="{{ route('select.lng') }}" method="get">
                                 <select name="language" id="lng-selector" class="form-select nice-control">
                                     @php
-                                        $activated_language = strtolower(session('language') ?? get_settings('language'));
+                                    $activated_language = strtolower(session('language') ?? get_settings('language'));
                                     @endphp
                                     @foreach (App\Models\Language::all() as $lng)
-                                        <option value="{{ $lng->name }}" {{ strtolower($lng->name) == $activated_language ? 'selected' : '' }} class='{{ $lng->name }}'>{{ $lng->name }}</option>
+                                    <option value="{{ $lng->name }}" {{ strtolower($lng->name) == $activated_language ? 'selected' : '' }} class='{{ $lng->name }}'>{{ get_phrase($lng->name) }}</option>
                                     @endforeach
                                 </select>
                             </form>
                         </li>
                         @if (get_frontend_settings('twitter') != '')
-                            <li class=" drop-area">
-                                <a href="{{ get_frontend_settings('twitter') }}">
-                                    <i class="fa-brands fa-x-twitter"></i>
-                                </a>
-                            </li>
+                        <li class=" drop-area">
+                            <a href="{{ get_frontend_settings('twitter') }}">
+                                <i class="fa-brands fa-x-twitter"></i>
+                            </a>
+                        </li>
                         @endif
                         @if (get_frontend_settings('linkedin') != '')
-                            <li class=" drop-area">
-                                <a href="{{ get_frontend_settings('linkedin') }}">
-                                    <i class="fa-brands fa-linkedin"></i>
-                                </a>
-                            </li>
+                        <li class=" drop-area">
+                            <a href="{{ get_frontend_settings('linkedin') }}">
+                                <i class="fa-brands fa-linkedin"></i>
+                            </a>
+                        </li>
                         @endif
                         @if (get_frontend_settings('facebook') != '')
-                            <li class=" drop-area">
-                                <a href="{{ get_frontend_settings('facebook') }}">
-                                    <i class="fa-brands fa-square-facebook"></i>
-                                </a>
-                            </li>
+                        <li class=" drop-area">
+                            <a href="{{ get_frontend_settings('facebook') }}">
+                                <i class="fa-brands fa-square-facebook"></i>
+                            </a>
+                        </li>
                         @endif
                     </ul>
                 </div>
