@@ -57,21 +57,29 @@ class FileUploader extends Model
         if ($width == null) {
             $uploaded_file->move($upload_to, $file_name);
         } else {
-
-            //Image optimization
-            Image::make($uploaded_file->path())->orientate()->resize($width, $height, function ($constraint) {
-                $constraint->upsize();
-                $constraint->aspectRatio();
-            })->save($upload_to . '/' . $file_name);
-
-            //Ultra Image optimization
-            $optimized_path = $upload_to . '/optimized';
-            if (is_dir($optimized_path)) {
+            try {
                 //Image optimization
-                Image::make($uploaded_file->path())->orientate()->resize($optimized_width, $optimized_height, function ($constraint) {
+                Image::make($uploaded_file->path())->orientate()->resize($width, $height, function ($constraint) {
                     $constraint->upsize();
                     $constraint->aspectRatio();
-                })->save($optimized_path . '/' . $file_name);
+                })->save($upload_to . '/' . $file_name);
+
+                //Ultra Image optimization
+                $optimized_path = $upload_to . '/optimized';
+                if (is_dir($optimized_path)) {
+                    //Image optimization
+                    Image::make($uploaded_file->path())->orientate()->resize($optimized_width, $optimized_height, function ($constraint) {
+                        $constraint->upsize();
+                        $constraint->aspectRatio();
+                    })->save($optimized_path . '/' . $file_name);
+                }
+            } catch (\Exception $e) {
+                \Log::error('FileUploader Error: ' . $e->getMessage());
+                \Log::error('Upload path: ' . $upload_to);
+                \Log::error('File name: ' . $file_name);
+                \Log::error('Uploaded file path: ' . $uploaded_file->path());
+                Session::flash('error', 'Image upload failed: ' . $e->getMessage());
+                return;
             }
         }
 
