@@ -76,3 +76,13 @@
     </div>
 </div>
 <!-----------------  Sub Header End  ------------------->
+<script>
+    $(document).ready(function() {
+        // Update nice-select to show the correct selected language
+        var $lngSelector = $('#lng-selector');
+        var selectedText = $lngSelector.find('option:selected').text();
+        $lngSelector.next('.nice-select').find('.current').text(selectedText);
+        $lngSelector.next('.nice-select').find('.option').removeClass('selected');
+        $lngSelector.next('.nice-select').find('.option[data-value="' + $lngSelector.val() + '"]').addClass('selected');
+    });
+</script>
