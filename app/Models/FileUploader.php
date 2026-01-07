@@ -34,7 +34,7 @@ class FileUploader extends Model
             return;
         }
 
-        if(!str_contains($upload_to, 'http') && str_contains($upload_to, 'public')){
+        if (!str_contains($upload_to, 'http') && str_contains($upload_to, 'public')) {
             $upload_to = str_replace('public/', "", $upload_to);
         }
 
@@ -42,40 +42,39 @@ class FileUploader extends Model
         $upload_path = $upload_to;
         $upload_to = public_path($upload_to);
 
-            if (is_dir($upload_to)) {
-                $file_name = time() . '-' . random(30) . '.' . $uploaded_file->extension();
-                $upload_path = $upload_path.'/'.$file_name;
-            } else {
-                $uploaded_path_arr = explode('/', $upload_to);
-                $file_name = end($uploaded_path_arr);
-                $upload_to = str_replace('/' . $file_name, "", $upload_to);
-                if (!is_dir($upload_to)) {
-                    Storage::makeDirectory($upload_to);
-                }
+        if (is_dir($upload_to)) {
+            $file_name = time() . '-' . random(30) . '.' . $uploaded_file->extension();
+            $upload_path = $upload_path . '/' . $file_name;
+        } else {
+            $uploaded_path_arr = explode('/', $upload_to);
+            $file_name = end($uploaded_path_arr);
+            $upload_to = str_replace('/' . $file_name, "", $upload_to);
+            if (!is_dir($upload_to)) {
+                mkdir($upload_to, 0755, true);
             }
+        }
 
-            if ($width == null) {
-                $uploaded_file->move($upload_to, $file_name);
-            } else {
+        if ($width == null) {
+            $uploaded_file->move($upload_to, $file_name);
+        } else {
 
+            //Image optimization
+            Image::make($uploaded_file->path())->orientate()->resize($width, $height, function ($constraint) {
+                $constraint->upsize();
+                $constraint->aspectRatio();
+            })->save($upload_to . '/' . $file_name);
+
+            //Ultra Image optimization
+            $optimized_path = $upload_to . '/optimized';
+            if (is_dir($optimized_path)) {
                 //Image optimization
-                Image::make($uploaded_file->path())->orientate()->resize($width, $height, function ($constraint) {
+                Image::make($uploaded_file->path())->orientate()->resize($optimized_width, $optimized_height, function ($constraint) {
                     $constraint->upsize();
                     $constraint->aspectRatio();
-                })->save($upload_to . '/' . $file_name);
-
-                //Ultra Image optimization
-                $optimized_path = $upload_to . '/optimized';
-                if (is_dir($optimized_path)) {
-                    //Image optimization
-                    Image::make($uploaded_file->path())->orientate()->resize($optimized_width, $optimized_height, function ($constraint) {
-                        $constraint->upsize();
-                        $constraint->aspectRatio();
-                    })->save($optimized_path . '/' . $file_name);
-                }
+                })->save($optimized_path . '/' . $file_name);
             }
+        }
 
-            return $upload_path;
-        
+        return $upload_path;
     }
 }
