@@ -2,12 +2,21 @@
 
 use App\Http\Controllers\CommonController;
 use App\Http\Controllers\frontend\HomeController;
+use App\Http\Controllers\frontend\CertificateVerificationController;
 use App\Http\Controllers\InstallController;
 use App\Http\Controllers\ModalController;
 use App\Http\Controllers\PaymentController;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+
+// Certificate Verification Routes (Public - No Auth Required)
+Route::get('verify-certificate', [CertificateVerificationController::class, 'index'])
+    ->name('certificate.verify');
+Route::get('verify-certificate/{identifier}', [CertificateVerificationController::class, 'verify'])
+    ->name('certificate.verify.check');
+Route::post('verify-certificate/search', [CertificateVerificationController::class, 'search'])
+    ->name('certificate.verify.search');
 
 //Cache clear route
 Route::get('/clear-cache', function () {
