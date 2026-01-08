@@ -478,6 +478,16 @@
 </li>
 @endif
 
+{{-- Certificate Management --}}
+<li class="sidebar-first-li {{ $current_route == 'admin.certificates' || $current_route == 'admin.certificates.show' ? 'active' : '' }}">
+    <a href="{{ route('admin.certificates') }}">
+        <span class="icon fi-rr-diploma"></span>
+        <div class="text">
+            <span>{{ get_phrase('Certificates') }}</span>
+        </div>
+    </a>
+</li>
+
 </ul>
 </nav>
 

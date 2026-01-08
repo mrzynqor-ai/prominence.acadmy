@@ -21,16 +21,17 @@ use App\Http\Controllers\NewsletterController;
 
 class HomeController extends Controller
 {
-    function homepage_switcher($id){
+    function homepage_switcher($id)
+    {
         session(['home' => $id]);
         return redirect(route('home'));
     }
 
     public function index()
     {
-        if(session('home')){
+        if (session('home')) {
             $page_builder = Builder_page::where('id', session('home'))->first();
-        }else{
+        } else {
             $page_builder = Builder_page::where('status', 1)->first();
         }
 
@@ -55,7 +56,8 @@ class HomeController extends Controller
     {
         $certificate = Certificate::where('identifier', $identifier);
         if ($certificate->count() > 0) {
-            $qr_code_content_value = route('certificate', ['identifier' => $identifier]);
+            // QR Code now points to verification page instead of direct download
+            $qr_code_content_value = route('certificate.verify.check', ['identifier' => $identifier]);
             $qrcode                = QrCode::size(300)->generate($qr_code_content_value);
 
             $page_data['certificate'] = $certificate->first();
@@ -199,7 +201,7 @@ class HomeController extends Controller
         // Accessing the method from NewsletterController
         $newsletterController = new NewsletterController();
         $response = $newsletterController->sendEmailToAssignedAddresses();
-        
+
         if ($response) {
             return response($response);
         }

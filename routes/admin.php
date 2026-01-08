@@ -37,6 +37,7 @@ use App\Http\Controllers\SeoController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\Updater;
 use App\Http\Controllers\UsersController;
+use App\Http\Controllers\Admin\AdminCertificateController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -591,4 +592,12 @@ Route::name('admin.')->prefix('admin')->middleware('admin')->group(function () {
     Route::post('ebook/categories/update/{id}', [EbookCategoryController::class, 'update'])->name('ebook.categories.update');
 
     Route::get('select-language/{language}', [LanguageController::class, 'select_lng'])->name('select.language');
+
+    // Certificate Management Routes
+    Route::controller(AdminCertificateController::class)->group(function () {
+        Route::get('certificates', 'index')->name('certificates');
+        Route::get('certificates/{id}', 'show')->name('certificates.show');
+        Route::post('certificates/{id}/revoke', 'revoke')->name('certificates.revoke');
+        Route::post('certificates/{id}/reactivate', 'reactivate')->name('certificates.reactivate');
+    });
 });
