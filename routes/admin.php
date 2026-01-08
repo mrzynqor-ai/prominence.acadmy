@@ -264,10 +264,6 @@ Route::name('admin.')->prefix('admin')->middleware('admin')->group(function () {
         Route::get('player-settings', 'player_settings')->name('player.settings');
         Route::post('player-settings/update', 'player_settings_update')->name('player.settings.update');
 
-        // About settings
-        Route::get('about', 'about')->name('about');
-        Route::any('admin/save_valid_purchase_code/{action_type?}', 'save_valid_purchase_code')->name('save_valid_purchase_code');
-
         // Certificate settings
         Route::get('certificate_settings', 'certificate')->name('certificate.settings');
         Route::post('certificate/update/template', 'certificate_update_template')->name('certificate.update.template');
