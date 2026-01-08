@@ -28,7 +28,7 @@
         <div class="d-none d-sm-block">
             <div class="img-text-select ">
                 @php
-                    $activated_language = strtolower(session('language') ?? get_settings('language'));
+                $activated_language = strtolower(session('language') ?? get_settings('language'));
                 @endphp
                 <div class="selected-show" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{ get_phrase('Language') }}">
                     <i class="fi-rr-language text-20px py-2"></i>
@@ -36,13 +36,13 @@
                 <div class="drop-content">
                     <ul>
                         @foreach (App\Models\Language::get() as $lng)
-                            <li>
-                                <a href="{{ route('admin.select.language', ['language' => $lng->name]) }}" class="select-text text-capitalize">
+                        <li>
+                            <a href="{{ route('admin.select.language', ['language' => $lng->name]) }}" class="select-text text-capitalize">
 
-                                    <i class="fi fi-br-check text-10px me-1 @if ($activated_language != strtolower($lng->name)) visibility-hidden @endif"></i>
-                                    {{ $lng->name }}
-                                </a>
-                            </li>
+                                <i class="fi fi-br-check text-10px me-1 @if ($activated_language != strtolower($lng->name)) visibility-hidden @endif"></i>
+                                {{ $lng->name }}
+                            </a>
+                        </li>
                         @endforeach
                     </ul>
                 </div>
@@ -63,59 +63,6 @@
             </span>
         </a>
 
-
-        <div class="dropdown ol-icon-dropdown ol-icon-dropdown-transparent" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{ get_phrase('Help Center') }}">
-            <button class="btn ol-btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="fi-rr-messages-question text-20px"></i>
-            </button>
-
-            <ul class="dropdown-menu dropdown-menu-end">
-                <div class="p-2">
-                    <h5 class="title text-14px">{{ get_phrase('Help center') }}</h6>
-                </div>
-                <li>
-                    <a href="https://creativeitem.com/docs/academy-lms" target="_blank" class="dropdown-item">
-                        <i class="fi-rr-document-signed"></i>
-                        <span>{{ get_phrase('Read documentation') }}</span>
-                    </a>
-                </li>
-
-                <li>
-                    <a href="https://www.youtube.com/watch?v=-HHhJUGQPeU&list=PLR1GrQCi5Zqvhh7wgtt-ShMAM1RROYJgE" target="_blank" class="dropdown-item">
-                        <i class="fi-rr-video-arrow-up-right"></i>
-                        <span>{{ get_phrase('Watch video tutorial') }}</span>
-                    </a>
-                </li>
-
-                <li>
-                    <a href="https://support.creativeitem.com" target="_blank" class="dropdown-item">
-                        <i class="fi-rr-envelope-plus"></i>
-                        <span>{{ get_phrase('Get customer support') }}</span>
-                    </a>
-                </li>
-
-                <li>
-                    <a href="https://support.creativeitem.com" target="_blank" class="dropdown-item">
-                        <i class="fi-rr-box-up"></i>
-                        <span>{{ get_phrase('Order customization') }}</span>
-                    </a>
-                </li>
-
-                <li>
-                    <a href="https://support.creativeitem.com" target="_blank" class="select-text text-capitalize">
-                        <i class="fi-rr-add"></i>
-                        <span>{{ get_phrase('Request a new feature') }}</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="https://creativeitem.com/services" target="_blank" class="text-premium select-text text-capitalize d-flex align-items-center">
-                        <i class="fi-rr-settings-sliders me-1"></i>
-                        <span>{{ get_phrase('Get Services') }}</span>
-                        <i class="fi-rr-crown ms-auto"></i>
-                    </a>
-                </li>
-            </ul>
-        </div>
 
 
         <!-- Profile -->
@@ -138,7 +85,7 @@
                 <ul class="mb-12px pb-12px ol-border-bottom-2">
                     <li class="dropdown-list-1"><a class="dropdown-item-1" href="{{ route('admin.manage.profile') }}">{{ get_phrase('My Profile') }}</a></li>
                     @if (has_permission('admin.system.settings'))
-                        <li class="dropdown-list-1"><a class="dropdown-item-1" href="{{ route('admin.system.settings') }}">{{ get_phrase('Settings') }}</a></li>
+                    <li class="dropdown-list-1"><a class="dropdown-item-1" href="{{ route('admin.system.settings') }}">{{ get_phrase('Settings') }}</a></li>
                     @endif
                 </ul>
                 <ul>
@@ -150,8 +97,8 @@
 </div>
 
 
- <script>
-    document.addEventListener('DOMContentLoaded', function () {
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
         const token = localStorage.getItem('device_token');
         const logoutLinks = document.querySelectorAll('.logout-link');
 
