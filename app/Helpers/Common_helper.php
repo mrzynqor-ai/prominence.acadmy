@@ -707,9 +707,15 @@ if (! function_exists('get_current_language_direction')) {
     function get_current_language_direction()
     {
         $active_lan = session('language') ?? get_settings('language');
+        if (empty($active_lan)) {
+            return 'ltr';
+        }
+
+        // Case-insensitive search
         $direction = DB::table('languages')
-            ->where('name', 'like', $active_lan)
+            ->whereRaw('LOWER(name) LIKE ?', ['%' . strtolower($active_lan) . '%'])
             ->value('direction');
+
         return $direction ?: 'ltr';
     }
 }
