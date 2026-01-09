@@ -42,15 +42,15 @@
 
 
     {{-- Custom css --}}
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/backend/css/style.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/backend/css/responsive.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/backend/css/custom.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/backend/css/style.css') }}?v={{ time() }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/backend/css/responsive.css') }}?v={{ time() }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/backend/css/custom.css') }}?v={{ time() }}">
 
     @stack('css')
 
     <!-- RTL CSS for Arabic -->
     @if(get_current_language_direction() == 'rtl')
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/global/css/rtl-admin.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/global/css/rtl-admin.css') }}?v={{ time() }}">
     @endif
 
     <script type="text/javascript" src="{{ asset('assets/backend/js/jquery-3.7.1.min.js') }}"></script>
