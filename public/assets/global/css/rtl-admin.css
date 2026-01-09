@@ -9,10 +9,10 @@
     direction: rtl;
 }
 
-/* Sidebar */
+/* Sidebar - RTL Position Fix */
 [dir="rtl"] .ol-sidebar {
-    right: 0;
-    left: auto;
+    right: 0 !important;
+    left: auto !important;
     border-right: none;
     border-left: 1px solid #e0e0e0;
 }
@@ -39,6 +39,31 @@
 
 [dir="rtl"] .ol-sidebar .sidebar-menu li.has-submenu.open::after {
     transform: rotate(90deg);
+}
+
+/* Sidebar Items - RTL Fix */
+[dir="rtl"] .sidebar-first-li>a {
+    flex-direction: row-reverse;
+    text-align: right;
+}
+
+[dir="rtl"] .sidebar-first-li>a .icon {
+    margin-left: 16px;
+    margin-right: 0;
+}
+
+[dir="rtl"] .first-sub-menu {
+    padding: 10px 36px 15px 15px;
+}
+
+[dir="rtl"] .sidebar-second-li>a {
+    padding-left: 0;
+    padding-right: 18px;
+}
+
+[dir="rtl"] .sidebar-second-li>a::after {
+    left: auto;
+    right: 0;
 }
 
 /* Main Content - FIXED */
@@ -301,6 +326,15 @@
 }
 
 @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700&display=swap');
+
+/* Large screens - Sidebar submenu RTL fix */
+@media all and (min-width: 992px) {
+    [dir="rtl"] .ol-sidebar.hide .first-sub-menu {
+        right: 100% !important;
+        left: auto !important;
+        box-shadow: -4px 4px 12px 0 rgba(75, 86, 117, 0.15);
+    }
+}
 
 /* Responsive */
 @media (max-width: 991px) {
