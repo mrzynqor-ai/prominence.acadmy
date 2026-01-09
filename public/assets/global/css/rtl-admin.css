@@ -66,22 +66,23 @@
     right: 0;
 }
 
-/* Main Content - FIXED with Margins */
+/* Main Content - FIXED with Margins and Reset */
 [dir="rtl"] .ol-sidebar-content {
-    left: auto !important;
+    left: 0 !important;
+    /* Reset original left: 262px */
     right: auto !important;
     margin-left: 0 !important;
     margin-right: 262px !important;
-    width: auto !important;
-    /* width: calc(100% - 262px) !important; removed to let auto width fill space */
+    width: calc(100% - 262px) !important;
 }
 
 [dir="rtl"] .ol-sidebar.hide~.ol-sidebar-content {
-    left: auto !important;
+    left: 0 !important;
+    /* Reset original left */
     right: auto !important;
     margin-left: 0 !important;
     margin-right: 80px !important;
-    width: auto !important;
+    width: calc(100% - 80px) !important;
 }
 
 /* Header */
@@ -352,6 +353,7 @@
     }
 
     [dir="rtl"] .ol-sidebar-content {
+        left: 0 !important;
         margin-right: 0 !important;
         width: 100% !important;
     }
