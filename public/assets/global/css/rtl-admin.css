@@ -1,0 +1,323 @@
+/*
+ * RTL (Right-to-Left) Custom CSS for Arabic Language
+ * Academy LMS - Admin Panel
+ */
+
+/* Base RTL Settings */
+[dir="rtl"] {
+    text-align: right;
+    direction: rtl;
+}
+
+/* Sidebar */
+[dir="rtl"] .ol-sidebar {
+    right: 0;
+    left: auto;
+    border-right: none;
+    border-left: 1px solid #e0e0e0;
+}
+
+[dir="rtl"] .ol-sidebar .sidebar-menu {
+    text-align: right;
+}
+
+[dir="rtl"] .ol-sidebar .sidebar-menu li a {
+    padding-right: 20px;
+    padding-left: 10px;
+}
+
+[dir="rtl"] .ol-sidebar .sidebar-menu li a i {
+    margin-right: 0;
+    margin-left: 10px;
+}
+
+[dir="rtl"] .ol-sidebar .sidebar-menu li.has-submenu::after {
+    right: auto;
+    left: 15px;
+    transform: rotate(180deg);
+}
+
+[dir="rtl"] .ol-sidebar .sidebar-menu li.has-submenu.open::after {
+    transform: rotate(90deg);
+}
+
+/* Main Content */
+[dir="rtl"] .ol-main-content {
+    margin-right: 260px;
+    margin-left: 0;
+}
+
+[dir="rtl"] .ol-main-content.sidebar-collapsed {
+    margin-right: 70px;
+    margin-left: 0;
+}
+
+/* Header */
+[dir="rtl"] .ol-header {
+    right: 260px;
+    left: 0;
+}
+
+[dir="rtl"] .ol-header.sidebar-collapsed {
+    right: 70px;
+    left: 0;
+}
+
+[dir="rtl"] .ol-header .header-right {
+    margin-left: 0;
+    margin-right: auto;
+}
+
+/* Navbar Brand */
+[dir="rtl"] .navbar-brand {
+    margin-right: 0;
+    margin-left: 1rem;
+}
+
+/* Tables */
+[dir="rtl"] .table th,
+[dir="rtl"] .table td {
+    text-align: right;
+}
+
+[dir="rtl"] .table .action-buttons {
+    text-align: left;
+}
+
+/* Forms */
+[dir="rtl"] .form-label {
+    text-align: right;
+}
+
+[dir="rtl"] .form-check {
+    padding-left: 0;
+    padding-right: 1.5em;
+}
+
+[dir="rtl"] .form-check-input {
+    float: right;
+    margin-left: 0;
+    margin-right: -1.5em;
+}
+
+[dir="rtl"] .input-group>.form-control,
+[dir="rtl"] .input-group>.form-select {
+    border-radius: 0 0.375rem 0.375rem 0;
+}
+
+/* Cards */
+[dir="rtl"] .ol-card .card-header {
+    text-align: right;
+}
+
+[dir="rtl"] .ol-card .card-body {
+    text-align: right;
+}
+
+/* Buttons */
+[dir="rtl"] .ol-btn i+span,
+[dir="rtl"] .ol-btn span+i {
+    margin-left: 0;
+    margin-right: 0.5rem;
+}
+
+[dir="rtl"] .btn i {
+    margin-left: 0.5rem;
+    margin-right: 0;
+}
+
+/* Dropdowns */
+[dir="rtl"] .dropdown-menu {
+    text-align: right;
+}
+
+[dir="rtl"] .dropdown-menu-end {
+    right: auto !important;
+    left: 0 !important;
+}
+
+/* Modals */
+[dir="rtl"] .modal-header .btn-close {
+    margin: -0.5rem auto -0.5rem -0.5rem;
+}
+
+[dir="rtl"] .modal-body {
+    text-align: right;
+}
+
+/* Breadcrumbs */
+[dir="rtl"] .breadcrumb-item+.breadcrumb-item::before {
+    float: right;
+    padding-left: 0.5rem;
+    padding-right: 0;
+    transform: scaleX(-1);
+}
+
+[dir="rtl"] .breadcrumb-item+.breadcrumb-item {
+    padding-left: 0;
+    padding-right: 0.5rem;
+}
+
+/* Pagination */
+[dir="rtl"] .pagination {
+    flex-direction: row-reverse;
+}
+
+/* Alerts */
+[dir="rtl"] .alert-dismissible {
+    padding-right: 1rem;
+    padding-left: 3rem;
+}
+
+[dir="rtl"] .alert-dismissible .btn-close {
+    right: auto;
+    left: 0;
+}
+
+/* Lists */
+[dir="rtl"] ul,
+[dir="rtl"] ol {
+    padding-right: 2rem;
+    padding-left: 0;
+}
+
+[dir="rtl"] .list-unstyled,
+[dir="rtl"] .list-group {
+    padding-right: 0;
+}
+
+/* Badge */
+[dir="rtl"] .badge {
+    margin-left: 0;
+    margin-right: 0.5rem;
+}
+
+/* Statistics Cards */
+[dir="rtl"] .stat-card {
+    text-align: right;
+}
+
+[dir="rtl"] .stat-card .stat-icon {
+    margin-right: 0;
+    margin-left: 1rem;
+}
+
+/* Data Tables */
+[dir="rtl"] .dataTables_wrapper .dataTables_filter {
+    text-align: left;
+}
+
+[dir="rtl"] .dataTables_wrapper .dataTables_length {
+    text-align: right;
+}
+
+[dir="rtl"] .dataTables_wrapper .dataTables_info {
+    text-align: right;
+}
+
+/* Toggle Switches */
+[dir="rtl"] .form-switch {
+    padding-left: 0;
+    padding-right: 2.5em;
+}
+
+[dir="rtl"] .form-switch .form-check-input {
+    margin-left: 0;
+    margin-right: -2.5em;
+}
+
+/* Tooltips */
+[dir="rtl"] .tooltip {
+    direction: rtl;
+    text-align: right;
+}
+
+/* Icons Flip */
+[dir="rtl"] .fi-rr-arrow-right:before,
+[dir="rtl"] .fi-rr-angle-right:before {
+    transform: scaleX(-1);
+    display: inline-block;
+}
+
+[dir="rtl"] .fi-rr-arrow-left:before,
+[dir="rtl"] .fi-rr-angle-left:before {
+    transform: scaleX(-1);
+    display: inline-block;
+}
+
+/* Right Modal Panel */
+[dir="rtl"] .right-modal {
+    right: auto;
+    left: 0;
+    transform: translateX(-100%);
+}
+
+[dir="rtl"] .right-modal.show {
+    transform: translateX(0);
+}
+
+/* Notification Panel */
+[dir="rtl"] .notification-dropdown {
+    right: auto;
+    left: 0;
+}
+
+/* Search */
+[dir="rtl"] .search-input {
+    padding-left: 0;
+    padding-right: 2.5rem;
+}
+
+[dir="rtl"] .search-icon {
+    right: 0.75rem;
+    left: auto;
+}
+
+/* Progress Bars - Keep LTR */
+[dir="rtl"] .progress {
+    direction: ltr;
+}
+
+/* Charts - Keep LTR */
+[dir="rtl"] .chart-container {
+    direction: ltr;
+}
+
+/* TinyMCE Editor */
+[dir="rtl"] .tox-tinymce {
+    direction: rtl;
+}
+
+/* Font for Arabic */
+[dir="rtl"] body {
+    font-family: 'Cairo', 'Segoe UI', Tahoma, sans-serif;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700&display=swap');
+
+/* Responsive */
+@media (max-width: 991px) {
+    [dir="rtl"] .ol-sidebar {
+        transform: translateX(100%);
+    }
+
+    [dir="rtl"] .ol-sidebar.show {
+        transform: translateX(0);
+    }
+
+    [dir="rtl"] .ol-main-content {
+        margin-right: 0;
+    }
+
+    [dir="rtl"] .ol-header {
+        right: 0;
+    }
+}
+
+@media (max-width: 767px) {
+
+    [dir="rtl"] .table-responsive table th,
+    [dir="rtl"] .table-responsive table td {
+        white-space: nowrap;
+    }
+}

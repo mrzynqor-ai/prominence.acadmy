@@ -1,0 +1,15 @@
+[0;1;31m×[0m php-fpm-83.service - LSB: starts php-fpm
+     Loaded: loaded (]8;;file://vmi3008038/etc/init.d/php-fpm-83/etc/init.d/php-fpm-83]8;;; generated[0;1;32m[0m)
+     Active: [0;1;31mfailed[0m (Result: exit-code) since Wed 2026-01-07 20:52:44 CET; 1 day 16h ago
+       Docs: ]8;;man:systemd-sysv-generator(8)man:systemd-sysv-generator(8)]8;;
+        CPU: 74ms
+
+Jan 07 20:52:44 vmi3008038 systemd[1]: Starting php-fpm-83.service - LSB: starts php-fpm...
+Jan 07 20:52:44 vmi3008038 php-fpm-83[229830]: Starting php-fpm
+Jan 07 20:52:44 vmi3008038 php-fpm-83[229832]: [07-Jan-2026 20:52:44] ERROR: Another FPM instance seems to already listen on /tmp/php-cgi-83.sock
+Jan 07 20:52:44 vmi3008038 php-fpm-83[229832]: [07-Jan-2026 20:52:44] ERROR: FPM initialization failed
+Jan 07 20:52:44 vmi3008038 php-fpm-83[229830]:  failed
+Jan 07 20:52:44 vmi3008038 systemd[1]: [0;1;39m[0;1;31m[0;1;39mphp-fpm-83.service: Control process exited, code=exited, status=1/FAILURE[0m
+Jan 07 20:52:44 vmi3008038 systemd[1]: [0;1;38;5;185m[0;1;39m[0;1;38;5;185mphp-fpm-83.service: Failed with result 'exit-code'.[0m
+Jan 07 20:52:44 vmi3008038 systemd[1]: php-fpm-83.service: Unit process 229832 (php-fpm) remains running after unit stopped.
+Jan 07 20:52:44 vmi3008038 systemd[1]: [0;1;31m[0;1;39m[0;1;31mFailed to start php-fpm-83.service - LSB: starts php-fpm.[0m

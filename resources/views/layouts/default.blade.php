@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ get_current_language() }}" dir="{{ get_current_language_direction() }}">
 
 <head>
     @include('layouts.seo')
@@ -56,6 +56,12 @@
 
     <!-- Jquery Js -->
     <script src="{{ asset('assets/frontend/default/js/jquery-3.7.1.min.js') }}"></script>
+
+    <!-- RTL CSS for Arabic -->
+    @if(get_current_language_direction() == 'rtl')
+    <link rel="stylesheet" href="{{ asset('assets/frontend/default/css/rtl-custom.css') }}">
+    @endif
+
     @stack('css')
 
 </head>
@@ -63,43 +69,43 @@
 <body>
     @php $current_route_name = Route::currentRouteName(); @endphp
     @php
-        if (session('home')) {
-            $home_page = App\Models\Builder_page::where('id', session('home'))->firstOrNew();
-        } else {
-            $home_page = App\Models\Builder_page::where('status', 1)->firstOrNew();
-        }
+    if (session('home')) {
+    $home_page = App\Models\Builder_page::where('id', session('home'))->firstOrNew();
+    } else {
+    $home_page = App\Models\Builder_page::where('status', 1)->firstOrNew();
+    }
     @endphp
 
     @if ($home_page->is_permanent == 1)
-        @include('components.home_made_by_developer.top_bar')
-        @include('components.home_made_by_developer.header')
-        <section>
-            @yield('content')
-        </section>
-        @include('components.home_made_by_developer.footer')
+    @include('components.home_made_by_developer.top_bar')
+    @include('components.home_made_by_developer.header')
+    <section>
+        @yield('content')
+    </section>
+    @include('components.home_made_by_developer.footer')
     @else
-        @if ($current_route_name == 'home' || $current_route_name == 'admin.page.preview')
-            <section>
-                @yield('content')
-            </section>
-        @else
-            @php $builder_files = $home_page->html ? json_decode($home_page->html, true) : []; @endphp
-            @if (in_array('top_bar', $builder_files))
-                @include('components.home_made_by_builder.top_bar')
-            @endif
+    @if ($current_route_name == 'home' || $current_route_name == 'admin.page.preview')
+    <section>
+        @yield('content')
+    </section>
+    @else
+    @php $builder_files = $home_page->html ? json_decode($home_page->html, true) : []; @endphp
+    @if (in_array('top_bar', $builder_files))
+    @include('components.home_made_by_builder.top_bar')
+    @endif
 
-            @if (in_array('header', $builder_files))
-                @include('components.home_made_by_builder.header')
-            @endif
+    @if (in_array('header', $builder_files))
+    @include('components.home_made_by_builder.header')
+    @endif
 
-            <section>
-                @yield('content')
-            </section>
+    <section>
+        @yield('content')
+    </section>
 
-            @if (in_array('footer', $builder_files))
-                @include('components.home_made_by_builder.footer')
-            @endif
-        @endif
+    @if (in_array('footer', $builder_files))
+    @include('components.home_made_by_builder.footer')
+    @endif
+    @endif
     @endif
 
     <!-- Bootstrap Js -->
@@ -141,7 +147,7 @@
     <script src="{{ asset('assets/frontend/default/js/script.js') }}"></script>
 
     @if(get_frontend_settings('cookie_status'))
-        @include('frontend.default.cookie')
+    @include('frontend.default.cookie')
     @endif
 
     <!-- End Footer -->

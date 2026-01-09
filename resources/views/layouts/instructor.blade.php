@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ get_current_language() }}" dir="{{ get_current_language_direction() }}">
 
 <head>
 
@@ -48,6 +48,11 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/backend/css/custom.css') }}">
 
     @stack('css')
+
+    <!-- RTL CSS for Arabic -->
+    @if(get_current_language_direction() == 'rtl')
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/global/css/rtl-admin.css') }}">
+    @endif
 
     <script type="text/javascript" src="{{ asset('assets/backend/js/jquery-3.7.1.min.js') }}"></script>
 </head>

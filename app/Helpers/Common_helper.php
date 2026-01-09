@@ -702,6 +702,26 @@ if (! function_exists('get_all_language')) {
     }
 }
 
+// Get current language direction (rtl or ltr)
+if (! function_exists('get_current_language_direction')) {
+    function get_current_language_direction()
+    {
+        $active_lan = session('language') ?? get_settings('language');
+        $direction = DB::table('languages')
+            ->where('name', 'like', $active_lan)
+            ->value('direction');
+        return $direction ?: 'ltr';
+    }
+}
+
+// Get current active language name
+if (! function_exists('get_current_language')) {
+    function get_current_language()
+    {
+        return session('language') ?? get_settings('language') ?? 'english';
+    }
+}
+
 if (! function_exists('get_phrase')) {
     function get_phrase($phrase = '', $value_replace = [])
     {
@@ -1582,166 +1602,166 @@ if (! function_exists('remove_js')) {
             $description = preg_replace("/([ ]on[a-zA-Z0-9_-]{1,}=\".*\")|([ ]on[a-zA-Z0-9_-]{1,}='.*')|([ ]on[a-zA-Z0-9_-]{1,}=.*[.].*)/", "", $description);
             $description = preg_replace('/(<.+?)(?<=\s)on[a-z]+\s*=\s*(?:([\'"])(?!\2).+?\2|(?:\S+?\(.*?\)(?=[\s>])))(.*?>)/i', "$1 $3", $description);
 
-//removing inline js
-$description = preg_replace("/([ ]href.*=\".*javascript:.*\")|([ ]href.*='.*javascript:.*')|([ ]href.*=.*javascript:.*)/i", "", $description);
-}
+            //removing inline js
+            $description = preg_replace("/([ ]href.*=\".*javascript:.*\")|([ ]href.*='.*javascript:.*')|([ ]href.*=.*javascript:.*)/i", "", $description);
+        }
 
-return $description;
-}
+        return $description;
+    }
 }
 
 if (! function_exists('get_locked_lesson_ids')) {
-function get_locked_lesson_ids($courseId, $userId)
-{
+    function get_locked_lesson_ids($courseId, $userId)
+    {
 
-$lockedLessonIds = [];
+        $lockedLessonIds = [];
 
-if (check_course_admin($userId) == 'admin' && is_course_instructor($courseId, $userId) == true) {
-return $lockedLessonIds;
-}
+        if (check_course_admin($userId) == 'admin' && is_course_instructor($courseId, $userId) == true) {
+            return $lockedLessonIds;
+        }
 
-// Fetch all sections for the course
-$sections = App\Models\Section::where('course_id', $courseId)
-->orderBy('sort')
-->get();
+        // Fetch all sections for the course
+        $sections = App\Models\Section::where('course_id', $courseId)
+            ->orderBy('sort')
+            ->get();
 
-// Fetch completed lessons
-$lessonHistory = App\Models\Watch_history::where('course_id', $courseId)
-->where('student_id', $userId)
-->firstOrNew();
+        // Fetch completed lessons
+        $lessonHistory = App\Models\Watch_history::where('course_id', $courseId)
+            ->where('student_id', $userId)
+            ->firstOrNew();
 
-$completedLessonArr = json_decode($lessonHistory->completed_lesson, true) ?? [];
+        $completedLessonArr = json_decode($lessonHistory->completed_lesson, true) ?? [];
 
-$lastCompletedLessonId = end($completedLessonArr);
+        $lastCompletedLessonId = end($completedLessonArr);
 
-// Flag to track the first lesson
-$isFirstLesson = true;
+        // Flag to track the first lesson
+        $isFirstLesson = true;
 
-// Loop through each section and its lessons
-foreach ($sections as $index => $section) {
-$lessons = App\Models\Lesson::where('section_id', $section->id)
-->orderBy('sort')
-->get();
+        // Loop through each section and its lessons
+        foreach ($sections as $index => $section) {
+            $lessons = App\Models\Lesson::where('section_id', $section->id)
+                ->orderBy('sort')
+                ->get();
 
-foreach ($lessons as $key => $lesson) {
-// Skip the first lesson if there's no history
-if ($index == 0 && $key == 0) {
-continue; // Skip locking the first lesson
-} elseif (! empty($lastCompletedLessonId) && $lesson->id == next_lesson($courseId, $lastCompletedLessonId)) {
-continue;
-}
-// Lock lesson if it's not completed
-if (! in_array($lesson->id, $completedLessonArr)) {
-$lockedLessonIds[] = $lesson->id;
-}
-}
-}
+            foreach ($lessons as $key => $lesson) {
+                // Skip the first lesson if there's no history
+                if ($index == 0 && $key == 0) {
+                    continue; // Skip locking the first lesson
+                } elseif (! empty($lastCompletedLessonId) && $lesson->id == next_lesson($courseId, $lastCompletedLessonId)) {
+                    continue;
+                }
+                // Lock lesson if it's not completed
+                if (! in_array($lesson->id, $completedLessonArr)) {
+                    $lockedLessonIds[] = $lesson->id;
+                }
+            }
+        }
 
-return $lockedLessonIds;
-}
+        return $lockedLessonIds;
+    }
 }
 
 if (! function_exists('get_watched_duration')) {
-function get_watched_duration($lessonId, $userId)
-{
-$query = DB::table('watch_durations')
-->where('watched_lesson_id', $lessonId)
-->where('watched_student_id', $userId)
-->first();
+    function get_watched_duration($lessonId, $userId)
+    {
+        $query = DB::table('watch_durations')
+            ->where('watched_lesson_id', $lessonId)
+            ->where('watched_student_id', $userId)
+            ->first();
 
-return json_encode($query);
-}
+        return json_encode($query);
+    }
 }
 
 if (! function_exists('next_lesson')) {
-function next_lesson($course_id = "", $lesson_id = "")
-{
-// Get all lessons for the given course, ordered by section and sort order,
-// and ensure the section exists in the sections table
-$lesson_list = DB::table('lessons')
-->join('sections', 'lessons.section_id', '=', 'sections.id') // Join with sections table
-->where('lessons.course_id', $course_id) // Filter by course_id
-->orderBy('sections.sort', 'asc') // Order by section's sort field
-->orderBy('lessons.sort', 'asc') // Order by sort field
-->select('lessons.id') // Select only the lesson ID
-->get(); // Convert the collection to an array
+    function next_lesson($course_id = "", $lesson_id = "")
+    {
+        // Get all lessons for the given course, ordered by section and sort order,
+        // and ensure the section exists in the sections table
+        $lesson_list = DB::table('lessons')
+            ->join('sections', 'lessons.section_id', '=', 'sections.id') // Join with sections table
+            ->where('lessons.course_id', $course_id) // Filter by course_id
+            ->orderBy('sections.sort', 'asc') // Order by section's sort field
+            ->orderBy('lessons.sort', 'asc') // Order by sort field
+            ->select('lessons.id') // Select only the lesson ID
+            ->get(); // Convert the collection to an array
 
-// Find the current lesson position in the list
-$current_index = -1;
-foreach ($lesson_list as $index => $lesson) {
-if ($lesson->id == $lesson_id) {
-$current_index = $index;
-break;
-}
-}
+        // Find the current lesson position in the list
+        $current_index = -1;
+        foreach ($lesson_list as $index => $lesson) {
+            if ($lesson->id == $lesson_id) {
+                $current_index = $index;
+                break;
+            }
+        }
 
-// If the lesson is found and there's a next lesson
-if ($current_index != -1 && isset($lesson_list[$current_index + 1])) {
-// Return the next lesson's ID
-return $lesson_list[$current_index + 1]->id;
-} else {
-// Return null if no next lesson exists
-return null; // or 'No next lesson'
-}
-}
+        // If the lesson is found and there's a next lesson
+        if ($current_index != -1 && isset($lesson_list[$current_index + 1])) {
+            // Return the next lesson's ID
+            return $lesson_list[$current_index + 1]->id;
+        } else {
+            // Return null if no next lesson exists
+            return null; // or 'No next lesson'
+        }
+    }
 }
 
 if (! function_exists('check_recaptcha')) {
-function check_recaptcha($GRecaptchaResponse = "")
-{
-if (isset($GRecaptchaResponse)) {
-$url = 'https://www.google.com/recaptcha/api/siteverify';
-$secret = get_frontend_settings('recaptcha_secretkey');
-$data = [
-'secret' => $secret,
-'response' => $GRecaptchaResponse,
-];
-$query = http_build_query($data);
-$options = [
-'http' => [
-'header' => "Content-Type: application/x-www-form-urlencoded\r\n" .
-"Content-Length: " . strlen($query) . "\r\n" .
-"User-Agent:MyAgent/1.0\r\n",
-'method' => 'POST',
-'content' => $query,
-],
-];
-$context = stream_context_create($options);
-$verify = file_get_contents($url, false, $context);
-$captcha_success = json_decode($verify);
-if ($captcha_success->success == false) {
-return false;
-} else if ($captcha_success->success == true) {
-return true;
-}
-} else {
-return false;
-}
-}
+    function check_recaptcha($GRecaptchaResponse = "")
+    {
+        if (isset($GRecaptchaResponse)) {
+            $url = 'https://www.google.com/recaptcha/api/siteverify';
+            $secret = get_frontend_settings('recaptcha_secretkey');
+            $data = [
+                'secret' => $secret,
+                'response' => $GRecaptchaResponse,
+            ];
+            $query = http_build_query($data);
+            $options = [
+                'http' => [
+                    'header' => "Content-Type: application/x-www-form-urlencoded\r\n" .
+                        "Content-Length: " . strlen($query) . "\r\n" .
+                        "User-Agent:MyAgent/1.0\r\n",
+                    'method' => 'POST',
+                    'content' => $query,
+                ],
+            ];
+            $context = stream_context_create($options);
+            $verify = file_get_contents($url, false, $context);
+            $captcha_success = json_decode($verify);
+            if ($captcha_success->success == false) {
+                return false;
+            } else if ($captcha_success->success == true) {
+                return true;
+            }
+        } else {
+            return false;
+        }
+    }
 }
 
 if (! function_exists('zapier_status_check')) {
-function zapier_status_check($slug = "")
-{
-// Ensure slug is provided
-if (empty($slug)) {
-return false;
-}
+    function zapier_status_check($slug = "")
+    {
+        // Ensure slug is provided
+        if (empty($slug)) {
+            return false;
+        }
 
-// Check if the given slug exists and is active in the ZapierSetting model
-return \App\Models\ZapierSetting::where('slug', $slug)
-->where('status', 1)
-->exists();
-}
+        // Check if the given slug exists and is active in the ZapierSetting model
+        return \App\Models\ZapierSetting::where('slug', $slug)
+            ->where('status', 1)
+            ->exists();
+    }
 }
 
 if (! function_exists('get_all_image')) {
-function get_all_image($url)
-{
-$path = public_path('uploads/' . $url);
-if (is_file($path) && file_exists($path) && $url != '') {
-return asset('uploads/' . $url);
-}
-return asset('uploads/system/placeholder.png');
-}
+    function get_all_image($url)
+    {
+        $path = public_path('uploads/' . $url);
+        if (is_file($path) && file_exists($path) && $url != '') {
+            return asset('uploads/' . $url);
+        }
+        return asset('uploads/system/placeholder.png');
+    }
 }
