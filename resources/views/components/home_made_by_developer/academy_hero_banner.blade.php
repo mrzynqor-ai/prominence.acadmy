@@ -1,4 +1,4 @@
-{{-- 
+{{--
     Academy Hero Banner Block
     =========================
     To make a editable image or text need to be add a "builder editable" class and builder identity attribute with a unique value
@@ -37,7 +37,7 @@
         margin-bottom: 15px;
         text-align: center;
         font-family: 'Cairo', 'Tajawal', sans-serif;
-        text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
     }
 
     .academy-hero-subtitle {
@@ -254,8 +254,8 @@
                         </div>
                         <div class="academy-stat-number">
                             @php
-                                $studentsCount = App\Models\Enrol::count();
-                                $formattedCount = $studentsCount >= 1000 ? number_format($studentsCount / 1000, 1) . 'K' : $studentsCount;
+                            $studentsCount = App\Models\Enrollment::count();
+                            $formattedCount = $studentsCount >= 1000 ? number_format($studentsCount / 1000, 1) . 'K' : $studentsCount;
                             @endphp
                             {{ $formattedCount }}+
                         </div>
@@ -271,15 +271,15 @@
                         </div>
                         <div class="academy-rating">
                             @php
-                                $avgRating = App\Models\Review::avg('rating') ?? 4.8;
+                            $avgRating = App\Models\Review::avg('rating') ?? 4.8;
                             @endphp
                             @for($i = 1; $i <= 5; $i++)
-                                @if($i <= round($avgRating))
-                                    <i class="fa fa-star"></i>
+                                @if($i <=round($avgRating))
+                                <i class="fa fa-star"></i>
                                 @else
-                                    <i class="fa fa-star-o"></i>
+                                <i class="fa fa-star-o"></i>
                                 @endif
-                            @endfor
+                                @endfor
                         </div>
                         <div class="academy-stat-number">
                             {{ number_format($avgRating, 1) }}
