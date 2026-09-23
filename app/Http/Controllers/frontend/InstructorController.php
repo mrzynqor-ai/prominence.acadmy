@@ -21,8 +21,8 @@ class InstructorController extends Controller
     {
         $instructor = User::where('id', $id)->first();
 
-        // if instructor doesn't exists go back
-        if (!$instructor && $instructor->name != $name) {
+        // if instructor doesn't exist go back
+        if (!$instructor) {
             Session::flash('error', get_phrase('Data not found.'));
             return redirect()->back();
         }
@@ -34,11 +34,19 @@ class InstructorController extends Controller
                     ->orWhereJsonContains('courses.instructor_ids', (string)$instructor->id);
             })
             ->latest('courses.id')
-            ->paginate(6);
+            ->paginate(6, ['*'], 'courses_page')
+            ->withQueryString();
 
-        $page_data['instructor_details'] = $instructor;
-        $page_data['instructor_courses'] = $instructor_courses;
-        $view_path                       = 'frontend.' . get_frontend_settings('theme') . '.instructor.details';
+        $instructor_bootcamps = \App\Models\Bootcamp::where('user_id', $instructor->id)
+            ->where('status', 1)
+            ->latest('id')
+            ->paginate(6, ['*'], 'bootcamps_page')
+            ->withQueryString();
+
+        $page_data['instructor_details']  = $instructor;
+        $page_data['instructor_courses']  = $instructor_courses;
+        $page_data['instructor_bootcamps'] = $instructor_bootcamps;
+        $view_path                        = 'frontend.' . get_frontend_settings('theme') . '.instructor.details';
         return view($view_path, $page_data);
     }
 }

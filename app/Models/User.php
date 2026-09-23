@@ -26,7 +26,11 @@ class User extends Authenticatable implements MustVerifyEmail
         'password',
         'role',
         'status',
-        'email_verified_at'
+        'email_verified_at',
+            // 👇 الأعمدة الجديدة
+    'camp',
+    'camp_requested_at',
+    'camp_approval_at'
 
     ];
 

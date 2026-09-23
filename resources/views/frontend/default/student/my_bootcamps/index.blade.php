@@ -1,5 +1,5 @@
 @extends('layouts.default')
-@push('title', get_phrase('My Bootcamps'))
+@push('title', 'دبلومه الماجستير المهني Professional Master\'s Diploma')
 @section('content')
     <section class="my-course-content mt-50">
         <div class="profile-banner-area"></div>
@@ -8,7 +8,7 @@
                 @include('frontend.default.student.left_sidebar')
 
                 <div class="col-lg-9">
-                    <h4 class="g-title text-capitalize">{{ get_phrase('My Bootcamps') }}</h4>
+                    <h4 class="g-title text-capitalize">دبلومه الماجستير المهني Professional Master's Diploma</h4>
                     <div class="my-panel mt-5">
                         <div class="row">
                             @if (count($my_bootcamps) > 0)

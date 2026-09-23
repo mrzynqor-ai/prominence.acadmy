@@ -1,104 +1,330 @@
 @extends('layouts.default')
-@push('title', $category_details['title'] ?? get_phrase('Courses'))
+@php
+    $is_ar = (app()->getLocale() == 'ar') || (session('language') == 'arabic') || (get_current_language_direction() == 'rtl');
+    $page_title = $category_details['title'] ?? ($is_ar ? 'المقررات والدورات التدريبية' : 'All Courses');
+@endphp
+@push('title', $page_title)
 @push('meta')@endpush
-@push('css')@endpush
-@section('content')
-    <!------------------- Breadcum Area Start  ------>
-    <section class="breadcum-area">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="eNtry-breadcum">
-                        <nav aria-label="breadcrumb">
-                            <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="{{ route('home') }}">{{ get_phrase('Home') }}</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">
-                                    {{ $category_details['title'] ?? get_phrase('All Courses') }}
-                                </li>
-                            </ol>
-                        </nav>
+@push('css')
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root {
+    --c-navy: #060f2e;
+    --c-blue: #1756c8;
+    --c-accent: #2e78f0;
+    --c-gold: #f0b429;
+    --c-bg: #f7f9fe;
+    --c-text: #0a1f5c;
+    --c-muted: #5a6a90;
+    --c-border: #dde6f5;
+    --c-radius: 18px;
+    --c-shadow: 0 10px 30px rgba(10,31,92,.07);
+}
 
-                        <div class="row row-gap-3">
-                            <div class="col-auto col-md-4 col-lg-3">
-                                <h3 class="g-title mt-2">{{ $category_details['title'] ?? get_phrase('All Courses') }}</h3>
-                            </div>
-                            <div class="col-auto col-md-4 col-lg-4">
-                                <span class="showing-text mt-4 d-inline-block">{{ get_phrase('Showing') . ' ' . count($courses) . ' ' . get_phrase('of') . ' ' . $courses->total() . ' ' . get_phrase('data') }}</span>
-                            </div>
-                            <div class="col-auto me-auto ms-md-auto col-md-4 col-lg-5 ">
-                                <div class="tab-list">
-                                    <ul>
-                                        <li class="@if ($layout == 'grid') active @endif">
-                                            <a href="#" class="color gradient layout" id="grid">
-                                                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                    <path
-                                                        d="M1.4945 6.00031C1.19903 6.00031 0.945527 5.89107 0.733999 5.6726C0.522458 5.45411 0.416687 5.20224 0.416687 4.91699V1.50031C0.416687 1.20533 0.52368 0.951042 0.737666 0.737431C0.951638 0.523806 1.20636 0.416992 1.50183 0.416992H4.92219C5.21766 0.416992 5.47117 0.523806 5.68271 0.737431C5.89424 0.951042 6 1.20533 6 1.50031V4.91699C6 5.20224 5.89301 5.45411 5.67904 5.6726C5.46507 5.89107 5.21035 6.00031 4.91487 6.00031H1.4945ZM1.4945 13.5836C1.19903 13.5836 0.945527 13.4766 0.733999 13.2626C0.522458 13.0487 0.416687 12.7939 0.416687 12.4985V9.07812C0.416687 8.78265 0.52368 8.52914 0.737666 8.3176C0.951638 8.10607 1.20636 8.00031 1.50183 8.00031H4.92219C5.21766 8.00031 5.47117 8.10729 5.68271 8.32126C5.89424 8.53524 6 8.78996 6 9.08543V12.5058C6 12.8013 5.89301 13.0548 5.67904 13.2663C5.46507 13.4778 5.21035 13.5836 4.91487 13.5836H1.4945ZM9.08331 6.00031C8.79806 6.00031 8.54619 5.89107 8.32771 5.6726C8.10924 5.45411 8 5.20224 8 4.91699V1.50031C8 1.20533 8.10924 0.951042 8.32771 0.737431C8.54619 0.523806 8.79806 0.416992 9.08331 0.416992H12.5C12.795 0.416992 13.0493 0.523806 13.2629 0.737431C13.4765 0.951042 13.5833 1.20533 13.5833 1.50031V4.91699C13.5833 5.20224 13.4765 5.45411 13.2629 5.6726C13.0493 5.89107 12.795 6.00031 12.5 6.00031H9.08331ZM9.08331 13.5836C8.79806 13.5836 8.54619 13.4766 8.32771 13.2626C8.10924 13.0487 8 12.7939 8 12.4985V9.07812C8 8.78265 8.10924 8.52914 8.32771 8.3176C8.54619 8.10607 8.79806 8.00031 9.08331 8.00031H12.5C12.795 8.00031 13.0493 8.10729 13.2629 8.32126C13.4765 8.53524 13.5833 8.78996 13.5833 9.08543V12.5058C13.5833 12.8013 13.4765 13.0548 13.2629 13.2663C13.0493 13.4778 12.795 13.5836 12.5 13.5836H9.08331ZM1.5 4.91699H4.91669V1.50031H1.5V4.91699ZM9.08331 4.91699H12.5V1.50031H9.08331V4.91699ZM9.08331 12.5003H12.5V9.08362H9.08331V12.5003ZM1.5 12.5003H4.91669V9.08362H1.5V12.5003Z"
-                                                        fill="url(#paint0_linear_221_2436)" />
-                                                    <defs>
-                                                        <linearGradient id="paint0_linear_221_2436" x1="0.416687" y1="0.416992" x2="13.5833" y2="13.5836" gradientUnits="userSpaceOnUse">
-                                                            <stop stop-color="#2F57EF" />
-                                                            <stop offset="0.9375" stop-color="#C464FD" />
-                                                        </linearGradient>
-                                                    </defs>
-                                                </svg>
-                                                {{ get_phrase('Grid') }}
-                                            </a>
-                                        </li>
-                                        <li class="@if ($layout == 'list') active @endif">
-                                            <a href="#" class="layout" id="list">
-                                                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                    <path
-                                                        d="M6.5545 7.2916C6.37742 7.2916 6.22899 7.23168 6.10921 7.11185C5.98942 6.992 5.92952 6.8435 5.92952 6.66635C5.92952 6.48918 5.98942 6.34078 6.10921 6.22112C6.22899 6.10147 6.37742 6.04164 6.5545 6.04164H16.6667C16.8438 6.04164 16.9922 6.10156 17.112 6.22139C17.2318 6.34124 17.2917 6.48974 17.2917 6.66689C17.2917 6.84406 17.2318 6.99247 17.112 7.11212C16.9922 7.23177 16.8438 7.2916 16.6667 7.2916H6.5545ZM6.5545 10.6249C6.37742 10.6249 6.22899 10.565 6.10921 10.4452C5.98942 10.3253 5.92952 10.1768 5.92952 9.99968C5.92952 9.82252 5.98942 9.67411 6.10921 9.55446C6.22899 9.4348 6.37742 9.37498 6.5545 9.37498H16.6667C16.8438 9.37498 16.9922 9.43489 17.112 9.55473C17.2318 9.67457 17.2917 9.82307 17.2917 10.0002C17.2917 10.1774 17.2318 10.3258 17.112 10.4455C16.9922 10.5651 16.8438 10.6249 16.6667 10.6249H6.5545ZM6.5545 13.9583C6.37742 13.9583 6.22899 13.8984 6.10921 13.7785C5.98942 13.6587 5.92952 13.5102 5.92952 13.333C5.92952 13.1559 5.98942 13.0074 6.10921 12.8878C6.22899 12.7681 6.37742 12.7083 6.5545 12.7083H16.6667C16.8438 12.7083 16.9922 12.7682 17.112 12.8881C17.2318 13.0079 17.2917 13.1564 17.2917 13.3336C17.2917 13.5107 17.2318 13.6591 17.112 13.7788C16.9922 13.8984 16.8438 13.9583 16.6667 13.9583H6.5545ZM3.39944 7.35571C3.20474 7.35571 3.04089 7.28986 2.90789 7.15816C2.77488 7.02647 2.70837 6.86327 2.70837 6.66858C2.70837 6.4739 2.77422 6.31005 2.90592 6.17704C3.03761 6.04404 3.2008 5.97754 3.3955 5.97754C3.59018 5.97754 3.75403 6.04339 3.88704 6.17508C4.02005 6.30678 4.08656 6.46997 4.08656 6.66466C4.08656 6.85934 4.02071 7.02319 3.889 7.15621C3.7573 7.28921 3.59412 7.35571 3.39944 7.35571ZM3.39944 10.689C3.20474 10.689 3.04089 10.6232 2.90789 10.4915C2.77488 10.3598 2.70837 10.1966 2.70837 10.0019C2.70837 9.80723 2.77422 9.64339 2.90592 9.51037C3.03761 9.37737 3.2008 9.31087 3.3955 9.31087C3.59018 9.31087 3.75403 9.37672 3.88704 9.50841C4.02005 9.64011 4.08656 9.8033 4.08656 9.998C4.08656 10.1927 4.02071 10.3565 3.889 10.4895C3.7573 10.6225 3.59412 10.689 3.39944 10.689ZM3.39944 14.0224C3.20474 14.0224 3.04089 13.9565 2.90789 13.8248C2.77488 13.6931 2.70837 13.5299 2.70837 13.3352C2.70837 13.1406 2.77422 12.9767 2.90592 12.8437C3.03761 12.7107 3.2008 12.6442 3.3955 12.6442C3.59018 12.6442 3.75403 12.7101 3.88704 12.8417C4.02005 12.9734 4.08656 13.1366 4.08656 13.3313C4.08656 13.526 4.02071 13.6899 3.889 13.8229C3.7573 13.9559 3.59412 14.0224 3.39944 14.0224Z"
-                                                        fill="#192335" />
-                                                </svg>
-                                                {{ get_phrase('List') }}
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+.cpage {
+    font-family: {{ $is_ar ? "'Cairo', 'Tajawal', sans-serif" : "system-ui, -apple-system, sans-serif" }};
+    background: var(--c-bg);
+    color: var(--c-text);
+    padding-bottom: 5rem;
+    direction: {{ $is_ar ? 'rtl' : 'ltr' }};
+}
+
+/* ══════════ HERO BANNER ══════════ */
+.cpage-hero {
+    background: linear-gradient(135deg, #060f2e 0%, #0a1f5c 60%, #1756c8 100%);
+    position: relative;
+    overflow: hidden;
+    color: #fff;
+    padding: 2.2rem 0 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 12px 36px rgba(10,31,92,.18);
+}
+.cpage-hero::before {
+    content: '';
+    position: absolute;
+    top: -120px;
+    right: -100px;
+    width: 400px;
+    height: 400px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(240,180,41,.14) 0%, transparent 70%);
+    pointer-events: none;
+}
+.cpage-hero::after {
+    content: '';
+    position: absolute;
+    bottom: -100px;
+    left: -80px;
+    width: 350px;
+    height: 350px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(46,120,240,.2) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+.cpage-hero-inner {
+    position: relative;
+    z-index: 5;
+}
+.cpage-breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+    font-size: 12.5px;
+}
+.cpage-breadcrumb a {
+    color: rgba(255,255,255,.6);
+    text-decoration: none;
+    transition: color .2s;
+}
+.cpage-breadcrumb a:hover {
+    color: #fff;
+}
+.cpage-breadcrumb .sep {
+    color: rgba(255,255,255,.3);
+}
+.cpage-breadcrumb .active {
+    color: var(--c-gold);
+    font-weight: 700;
+}
+
+.cpage-title {
+    font-size: clamp(1.6rem, 3vw, 2.4rem);
+    font-weight: 900;
+    color: #fff;
+    margin-bottom: 8px;
+    line-height: 1.25;
+}
+.cpage-sub {
+    font-size: 14px;
+    color: rgba(255,255,255,.75);
+    max-width: 600px;
+    line-height: 1.65;
+    margin-bottom: 16px;
+}
+
+.cpage-stat-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255,255,255,.1);
+    border: 1px solid rgba(255,255,255,.18);
+    backdrop-filter: blur(10px);
+    padding: 5px 16px;
+    border-radius: 30px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #fff;
+}
+.cpage-stat-badge i {
+    color: var(--c-gold);
+}
+
+/* ══════════ CATEGORY CHIPS BAR ══════════ */
+.cpage-chips-sec {
+    margin-bottom: 1.5rem;
+}
+.cpage-chips-wrap {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 8px;
+    scrollbar-width: thin;
+}
+.cpage-chip {
+    white-space: nowrap;
+    padding: 7px 16px;
+    border-radius: 30px;
+    background: #fff;
+    border: 1px solid var(--c-border);
+    color: var(--c-text);
+    font-size: 12.5px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all .2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    box-shadow: 0 2px 8px rgba(10,31,92,.04);
+}
+.cpage-chip:hover, .cpage-chip.active {
+    background: linear-gradient(135deg, var(--c-blue), #0a1f5c);
+    color: #fff;
+    border-color: var(--c-blue);
+    box-shadow: 0 6px 18px rgba(23,86,200,.25);
+}
+
+/* ══════════ FILTER TOOLBAR ══════════ */
+.cpage-toolbar {
+    background: #fff;
+    border: 1px solid var(--c-border);
+    border-radius: 16px;
+    padding: 12px 18px;
+    margin-bottom: 1.8rem;
+    box-shadow: var(--c-shadow);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+.cpage-toolbar-count {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--c-muted);
+}
+.cpage-toolbar-count strong {
+    color: var(--c-text);
+}
+
+.cpage-layout-toggle {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--c-bg);
+    padding: 4px;
+    border-radius: 10px;
+    border: 1px solid var(--c-border);
+}
+.cpage-layout-btn {
+    padding: 5px 12px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--c-muted);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all .2s;
+}
+.cpage-layout-btn.active {
+    background: var(--c-blue);
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(23,86,200,.22);
+}
+
+/* Sidebar filter styling */
+.cpage-sidebar-box {
+    background: #fff;
+    border: 1px solid var(--c-border);
+    border-radius: var(--c-radius);
+    padding: 20px;
+    box-shadow: var(--c-shadow);
+    margin-bottom: 1.5rem;
+}
+
+@media (max-width: 991px) {
+    .cpage-hero { padding: 1.8rem 0; text-align: center; }
+    .cpage-breadcrumb { justify-content: center; }
+    .cpage-sub { margin-left: auto; margin-right: auto; font-size: 13.5px; }
+}
+@media (max-width: 767px) {
+    .cpage-hero { padding: 1.4rem 0; border-radius: 0 0 16px 16px; margin-bottom: 1.5rem; }
+    .cpage-title { font-size: 1.5rem; margin-bottom: 6px; }
+    .cpage-sub { font-size: 12.5px; margin-bottom: 12px; }
+    .cpage-toolbar { flex-direction: column; align-items: stretch; text-align: center; padding: 10px 14px; }
+    .cpage-layout-toggle { justify-content: center; }
+}
+</style>
+@endpush
+
+@section('content')
+<div class="cpage">
+
+    {{-- ══════════ HERO BANNER ══════════ --}}
+    <section class="cpage-hero">
+        <div class="container">
+            <div class="cpage-hero-inner">
+                <nav class="cpage-breadcrumb">
+                    <a href="{{ route('home') }}">{{ get_phrase('Home') }}</a>
+                    <span class="sep">›</span>
+                    <span class="active">{{ $page_title }}</span>
+                </nav>
+                <h1 class="cpage-title">{{ $page_title }}</h1>
+                <p class="cpage-sub">
+                    {{ $is_ar ? 'استكشف مكتبة شاملة من الدورات التدريبية المتقدمة المصممة لتطوير خبراتك الأكاديمية والمهنية.' : 'Explore a comprehensive library of courses designed to elevate your professional expertise.' }}
+                </p>
+                <div class="cpage-stat-badge">
+                    <i class="fa-solid fa-book-open"></i>
+                    <span>{{ $courses->total() }} {{ $is_ar ? 'دورة متاحة' : 'Courses Available' }}</span>
                 </div>
             </div>
         </div>
     </section>
-    <!------------------- Breadcum Area End  --------->
 
+    <div class="container">
+        {{-- ══════════ CATEGORY CHIPS BAR ══════════ --}}
+        @php
+            $parent_categories = App\Models\Category::where('parent_id', 0)->get();
+            $current_cat_slug = request()->route()->parameter('category');
+        @endphp
+        @if(count($parent_categories) > 0)
+            <div class="cpage-chips-sec">
+                <div class="cpage-chips-wrap">
+                    <a href="{{ route('courses') }}" class="cpage-chip {{ empty($current_cat_slug) ? 'active' : '' }}">
+                        <i class="fa-solid fa-layer-group"></i>
+                        <span>{{ $is_ar ? 'الكل' : 'All' }}</span>
+                    </a>
+                    @foreach($parent_categories as $pcat)
+                        <a href="{{ route('courses', ['category' => $pcat->slug]) }}" class="cpage-chip {{ $current_cat_slug == $pcat->slug ? 'active' : '' }}">
+                            <span>{{ $pcat->title }}</span>
+                        </a>
+                    @endforeach
+                </div>
+            </div>
+        @endif
 
+        {{-- ══════════ FILTER TOOLBAR ══════════ --}}
+        <div class="cpage-toolbar">
+            <div class="cpage-toolbar-count">
+                {{ get_phrase('Showing') }} <strong>{{ count($courses) }}</strong> {{ get_phrase('of') }} <strong>{{ $courses->total() }}</strong> {{ get_phrase('courses') }}
+            </div>
 
-    <!-------------- List Item Start   --------------->
-    <div class="eNtery-item">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-3 col-md-4">
+            <div class="cpage-layout-toggle">
+                <a href="#" class="cpage-layout-btn layout {{ $layout == 'grid' ? 'active' : '' }}" id="grid">
+                    <i class="fa-solid fa-border-all"></i>
+                    <span>{{ get_phrase('Grid') }}</span>
+                </a>
+                <a href="#" class="cpage-layout-btn layout {{ $layout == 'list' ? 'active' : '' }}" id="list">
+                    <i class="fa-solid fa-list"></i>
+                    <span>{{ get_phrase('List') }}</span>
+                </a>
+            </div>
+        </div>
+
+        {{-- ══════════ MAIN CONTENT ROW ══════════ --}}
+        <div class="row">
+            {{-- Filter Sidebar --}}
+            <div class="col-lg-3 col-12 mb-4 mb-lg-0">
+                <div class="cpage-sidebar-box">
                     @include('frontend.default.course.filter')
                 </div>
-                <div class="col-lg-9 col-md-8">
-                    <div class="row">
-                        @foreach ($courses as $course)
-                            @include('frontend.default.course.course_' . $layout)
-                        @endforeach
+            </div>
 
-                        @if ($courses->count() == 0)
-                            <div class="col-12 bg-white radius-10 py-5">
-                                @include('frontend.default.empty')
-                            </div>
-                        @endif
-                    </div>
-
-                    <!-- Pagination -->
-                    @if (count($courses) > 0)
-                        <div class="entry-pagination">
-                            <nav aria-label="Page navigation example">
-                                {{ $courses->links() }}
-                            </nav>
+            {{-- Courses Grid / List --}}
+            <div class="col-lg-9 col-12">
+                <div class="row g-4">
+                    @forelse ($courses as $course)
+                        @include('frontend.default.course.course_' . $layout, ['course' => $course])
+                    @empty
+                        <div class="col-12 text-center py-5 bg-white radius-10 border">
+                            @include('frontend.default.empty')
                         </div>
-                    @endif
-                    <!-- Pagination -->
+                    @endforelse
                 </div>
+
+                {{-- Pagination --}}
+                @if ($courses->hasPages())
+                    <div class="entry-pagination mt-5 d-flex justify-content-center">
+                        {{ $courses->links() }}
+                    </div>
+                @endif
             </div>
         </div>
     </div>
-    <!-------------- List Item End  --------------->
+</div>
 @endsection

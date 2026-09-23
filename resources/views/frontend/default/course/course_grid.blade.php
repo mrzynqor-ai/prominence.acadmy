@@ -14,7 +14,7 @@
         ->toArray();
 @endphp
 
-<div class="col-lg-4 col-md-6 col-sm-6 mb-30">
+<div class="col-lg-4 col-md-6 col-12 mb-30">
     <a href="{{ route('course.details', $course->slug) }}" class="card Ecard eBar-card">
         <div class="courses-img">
             <img src="{{ get_image($course->thumbnail) }}" alt="course-thumbnail">

@@ -31,8 +31,10 @@
 
     <!-- FlatIcons Css -->
     <link rel="stylesheet" href="{{ asset('assets/global/icons/uicons-bold-rounded/css/uicons-bold-rounded.css') }}" />
-    <link rel="stylesheet" href="{{ asset('assets/global/icons/uicons-regular-rounded/css/uicons-regular-rounded.css') }}" />
-    <link rel="stylesheet" href="{{ asset('assets/global/icons/uicons-solid-rounded/css/uicons-solid-rounded.css') }}" />
+    <link rel="stylesheet"
+        href="{{ asset('assets/global/icons/uicons-regular-rounded/css/uicons-regular-rounded.css') }}" />
+    <link rel="stylesheet"
+        href="{{ asset('assets/global/icons/uicons-solid-rounded/css/uicons-solid-rounded.css') }}" />
 
     <!-- Custom Fonts -->
     <link rel="stylesheet" href="{{ asset('assets/frontend/default/css/custome-front/custom-fronts.css') }}">
@@ -48,7 +50,8 @@
     <link rel="stylesheet" href="{{ asset('assets/frontend/default/css/responsive.css') }}">
 
     <!-- Yaireo Tagify -->
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/global/tagify-master/dist/tagify.css') }}" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/global/tagify-master/dist/tagify.css') }}"
+        rel="stylesheet" type="text/css" />
 
     <!-- Custom Style -->
     <link rel="stylesheet" href="{{ asset('assets/frontend/default/css/custom_style.css') }}">
@@ -70,13 +73,14 @@
     @php $current_route_name = Route::currentRouteName(); @endphp
     @php
     if (session('home')) {
-    $home_page = App\Models\Builder_page::where('id', session('home'))->firstOrNew();
+        $home_page = App\Models\Builder_page::where('id', session('home'))->first();
     } else {
-    $home_page = App\Models\Builder_page::where('status', 1)->firstOrNew();
+        $home_page = App\Models\Builder_page::where('status', 1)->first();
     }
+    $is_permanent = $home_page?->is_permanent ?? 0;
     @endphp
 
-    @if ($home_page->is_permanent == 1)
+    @if ($is_permanent == 1)
     @include('components.home_made_by_developer.top_bar')
     @include('components.home_made_by_developer.header')
     <section>
@@ -89,7 +93,7 @@
         @yield('content')
     </section>
     @else
-    @php $builder_files = $home_page->html ? json_decode($home_page->html, true) : []; @endphp
+    @php $builder_files = ($home_page && $home_page->html) ? json_decode($home_page->html, true) : []; @endphp
     @if (in_array('top_bar', $builder_files))
     @include('components.home_made_by_builder.top_bar')
     @endif
@@ -115,7 +119,7 @@
     <!-- nice select js -->
     <script src="{{ asset('assets/frontend/default/js/jquery.nice-select.min.js') }}"></script>
 
-    {{-- New Js Link  --}}
+    {{-- New Js Link --}}
     <script src="{{ asset('assets/frontend/default/vendors/swiper/swiper-bundle.min.js') }}"></script>
     <script src="{{ asset('assets/frontend/default/vendors/counterup/jquery.counterup.min.js') }}"></script>
     <script src="{{ asset('assets/frontend/default/vendors/counterup/jquery.waypoints.js') }}"></script>

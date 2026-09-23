@@ -509,6 +509,29 @@ class UsersController extends Controller
         $page_data['students'] = $query->paginate(10);
         return view('admin.student.index', $page_data);
     }
+    // make her func fo r camps  d
+public function student_camp_toggle(Request $request, $id)
+{
+    $student = User::where('role', 'student')->findOrFail($id);
+
+    if ($student->camp == 1) {
+        // Cancel camp
+        $student->camp = 0;
+        $student->camp_requested_at = null;
+        $student->camp_approval_at = null;
+        $message = get_phrase('Camp cancelled successfully');
+    } else {
+        // Submit camp
+        $student->camp = 1;
+        $student->camp_requested_at = now();
+        $student->camp_approval_at = now();
+        $message = get_phrase('Camp submitted successfully');
+    }
+
+    $student->save();
+
+    return redirect()->back()->with('success', $message);
+}
 
     public function student_create()
     {

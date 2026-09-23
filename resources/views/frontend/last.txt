@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Boroz Academy - أكاديمية بروز للتدريب الحديث</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts - Cairo -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    
+    <!-- Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        navy: '#1a2744',
+                        'navy-light': '#243355',
+                        'navy-dark': '#111c33',
+                        orange: '#e8721c',
+                        'orange-dark': '#d06518',
+                        'gray-bg': '#f5f5f5',
+                        'gray-text': '#6b7280',
+                    },
+                    fontFamily: {
+                        cairo: ['Cairo', 'sans-serif'],
+                    },
+                },
+            },
+        }
+    </script>
+    
+    <!-- Custom Styles -->
+    <style>
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Cairo', sans-serif;
+            color: #333;
+            background: #fff;
+        }
+        
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+        
+        /* Hero Section */
+        .hero-overlay {
+            background: linear-gradient(rgba(26,39,68,0.85), rgba(26,39,68,0.85));
+        }
+        
+        /* Buttons */
+        .btn-orange {
+            background-color: #e8721c;
+            color: #fff;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-orange:hover {
+            background-color: #d06518;
+        }
+        
+        .btn-navy {
+            background-color: #1a2744;
+            color: #fff;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-navy:hover {
+            background-color: #243355;
+        }
+        
+        /* Cards */
+        .course-card {
+            transition: all 0.3s ease;
+        }
+        
+        .course-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.12);
+        }
+        
+        /* Categories */
+        .category-item {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .category-item:hover {
+            background-color: #e8721c;
+            color: #fff;
+        }
+        
+        .category-item:hover svg {
+            stroke: #fff;
+        }
+        
+        /* Forms */
+        .search-input:focus {
+            outline: none;
+            border-color: #e8721c;
+            box-shadow: 0 0 0 3px rgba(232,114,28,0.2);
+        }
+        
+        /* Navigation */
+        .nav-link:hover {
+            color: #e8721c;
+        }
+        
+        /* Partners */
+        .partner-logo {
+            filter: grayscale(100%);
+            opacity: 0.6;
+            transition: all 0.3s ease;
+        }
+        
+        .partner-logo:hover {
+            filter: grayscale(0%);
+            opacity: 1;
+        }
+        
+        /* Articles */
+        .article-link:hover {
+            color: #e8721c;
+        }
+        
+        /* Badges */
+        .green-badge {
+            background-color: #22c55e;
+            color: #fff;
+        }
+        
+        .red-badge {
+            background-color: #ef4444;
+            color: #fff;
+        }
+        
+        .blue-badge {
+            background-color: #3b82f6;
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ========== TOP BAR ========== -->
+    <div style="background-color: #1a2744;" class="text-white text-sm">
+        <div class="max-w-7xl mx-auto px-4 py-2 flex flex-wrap items-center justify-between gap-2">
+            <!-- Left Links -->
+            <div class="flex items-center gap-4">
+                <a href="#" class="flex items-center gap-1 hover:text-orange-300 transition">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"/>
+                        <path d="M12 6v6l4 2"/>
+                    </svg>
+                    <span>تسجيل الدخول</span>
+                </a>
+                <a href="#" class="flex items-center gap-1 hover:text-orange-300 transition">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                        <polyline points="14 2 14 8 20 8"/>
+                    </svg>
+                    <span>التحقق من الشهادات</span>
+                </a>
+            </div>
+            
+            <!-- Right Contact Info -->
+            <div class="flex items-center gap-3">
+                <span class="flex items-center gap-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+                    </svg>
+                    +143-52-9933631
+                </span>
+                <span class="flex items-center gap-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                        <polyline points="22,6 12,13 2,6"/>
+                    </svg>
+                    academy@example.com
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== NAVIGATION ========== -->
+    <nav class="bg-white shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-4">
+            <!-- Logo -->
+            <div class="flex items-center gap-2">
+                <div class="w-12 h-12 rounded-full flex items-center justify-center" style="background-color: #e8721c;">
+                    <span class="text-white font-bold text-lg">بروز</span>
+                </div>
+                <div class="text-right">
+                    <div class="font-bold text-sm" style="color: #1a2744;">أكاديمية بروز</div>
+                    <div class="text-xs" style="color: #6b7280;">P.A.M.T</div>
+                </div>
+            </div>
+            
+            <!-- Desktop Nav Links -->
+            <div class="hidden md:flex items-center gap-6 text-sm font-medium" style="color: #1a2744;">
+                <a href="#" class="nav-link">الرئيسية</a>
+                <a href="#" class="nav-link">الدورات</a>
+                <a href="#" class="nav-link">المعسكر التدريبي</a>
+                <a href="#" class="nav-link">الكتب الإلكترونية</a>
+                <a href="#" class="nav-link">ابحث عن معلم</a>
+                <a href="#" class="nav-link">اتصل بنا</a>
+            </div>
+            
+            <!-- Mobile Menu Button -->
+            <button class="md:hidden p-2 rounded-lg hover:bg-gray-100" onclick="document.getElementById('mobileMenu').classList.toggle('hidden')">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1a2744" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="3" y1="12" x2="21" y2="12"/>
+                    <line x1="3" y1="6" x2="21" y2="6"/>
+                    <line x1="3" y1="18" x2="21" y2="18"/>
+                </svg>
+            </button>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobileMenu" class="hidden md:hidden px-4 pb-4 space-y-2 text-sm font-medium" style="color: #1a2744;">
+            <a href="#" class="block py-2 border-b border-gray-100 nav-link">الرئيسية</a>
+            <a href="#" class="block py-2 border-b border-gray-100 nav-link">الدورات</a>
+            <a href="#" class="block py-2 border-b border-gray-100 nav-link">المعسكر التدريبي</a>
+            <a href="#" class="block py-2 border-b border-gray-100 nav-link">الكتب الإلكترونية</a>
+            <a href="#" class="block py-2 border-b border-gray-100 nav-link">ابحث عن معلم</a>
+            <a href="#" class="block py-2 nav-link">اتصل بنا</a>
+        </div>
+    </nav>
+
+    <!-- ========== HERO SECTION ========== -->
+    <section class="relative min-h-[420px] flex items-center justify-center" style="background: url('/images/hero-bg.jpg') center/cover no-repeat;">
+        <div class="hero-overlay absolute inset-0"></div>
+        <div class="relative z-10 text-center text-white px-4 py-16">
+            <p class="text-lg mb-2 font-light">منصة تعليمية معتمدة</p>
+            <h1 class="text-3xl md:text-5xl font-bold mb-3 leading-tight">نحو مستقبل تعليمي</h1>
+            <h2 class="text-2xl md:text-4xl font-bold mb-6 leading-tight">أكثر احترافية</h2>
+            <p class="text-base mb-6 max-w-2xl mx-auto">نقدم برامج تدريبية حديثة لبناء جيل متميز علميًا ومهنيًا</p>
+            <div class="flex gap-4 justify-center flex-wrap">
+                <a href="#" class="btn-orange inline-block px-8 py-3 rounded-lg font-semibold text-base">سجل الآن</a>
+                <a href="#" class="btn-navy inline-block px-8 py-3 rounded-lg font-semibold text-base">شاهد الفيديو</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== ABOUT ACADEMY SECTION ========== -->
+    <section class="py-16 px-4" style="background-color: #f5f5f5;">
+        <div class="max-w-5xl mx-auto text-center">
+            <h2 class="text-2xl md:text-3xl font-bold mb-6" style="color: #1a2744;">
+                أكاديمية بروز للتدريب الحديث
+            </h2>
+            <p class="text-sm md:text-base leading-relaxed mb-4" style="color: #6b7280;">
+                أكاديمية بروز للتدريب الحديث تسعى لتقديم برامج تعليمية وتدريبية متطورة تواكب متطلبات سوق العمل. نحن نؤمن بأن التعليم هو أساس النجاح، ونعمل على تمكين الأفراد من تحقيق أهدافهم المهنية من خلال برامج تدريبية شاملة ومعتمدة.
+            </p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-10 text-right">
+                <div class="bg-white p-6 rounded-xl shadow-sm">
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="w-10 h-10 rounded-full flex items-center justify-center" style="background-color: #e8721c;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                                <polyline points="22 4 12 14.01 9 11.01"/>
+                            </svg>
+                        </div>
+                        <h3 class="font-bold text-base" style="color: #1a2744;">برامج تدريبية معتمدة دولياً</h3>
+                    </div>
+                </div>
+                
+                <div class="bg-white p-6 rounded-xl shadow-sm">
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="w-10 h-10 rounded-full flex items-center justify-center" style="background-color: #e8721c;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                                <circle cx="9" cy="7" r="4"/>
+                                <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                            </svg>
+                        </div>
+                        <h3 class="font-bold text-base" style="color: #1a2744;">مدربون ذوو خبرة عالية</h3>
+                    </div>
+                </div>
+                
+                <div class="bg-white p-6 rounded-xl shadow-sm">
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="w-10 h-10 rounded-full flex items-center justify-center" style="background-color: #e8721c;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                                <polyline points="2 17 12 22 22 17"/>
+                                <polyline points="2 12 12 17 22 12"/>
+                            </svg>
+                        </div>
+                        <h3 class="font-bold text-base" style="color: #1a2744;">بيئة تعليمية محفزة</h3>
+                    </div>
+                </div>
+                
+                <div class="bg-white p-6 rounded-xl shadow-sm">
+                    <div class="flex items-center gap-3 mb-3">
+                        <div class="w-10 h-10 rounded-full flex items-center justify-center" style="background-color: #e8721c;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                            </svg>
+                        </div>
+                        <h3 class="font-bold text-base" style="color: #1a2744;">دعم مستمر للمتدربين</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== SEARCH SECTION ========== -->
+    <section class="py-12 px-4 bg-white">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-2xl md:text-3xl font-bold mb-6" style="color: #1a2744;">البحث عن دورة تدريبية</h2>
+            <div class="flex flex-col sm:flex-row gap-3 items-center justify-center">
+                <input type="text" placeholder="ابحث عن الدورات..." class="search-input w-full sm:w-96 px-5 py-3 rounded-lg border-2 border-gray-200 text-sm" />
+                <button class="btn-orange px-8 py-3 rounded-lg font-semibold text-sm whitespace-nowrap">ابحث</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== STATISTICS BAR ========== -->
+    <section class="py-8 px-4 border-t border-b border-gray-200 bg-white">
+        <div class="max-w-6xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+            <!-- Stat 1: Trainees -->
+            <div class="flex flex-col items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#e8721c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                    <circle cx="9" cy="7" r="4"/>
+                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                </svg>
+                <div class="text-2xl font-bold" style="color: #1a2744;">+500</div>
+                <div class="text-xs" style="color: #6b7280;">متدرب</div>
+            </div>
+            
+            <!-- Stat 2: Courses -->
+            <div class="flex flex-col items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#e8721c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+                    <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+                </svg>
+                <div class="text-2xl font-bold" style="color: #1a2744;">+50</div>
+                <div class="text-xs" style="color: #6b7280;">دورة</div>
+            </div>
+            
+            <!-- Stat 3: Certificates -->
+            <div class="flex flex-col items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#e8721c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                    <polyline points="14 2 14 8 20 8"/>
+                </svg>
+                <div class="text-2xl font-bold" style="color: #1a2744;">+30</div>
+                <div class="text-xs" style="color: #6b7280;">شهادة معتمدة</div>
+            </div>
+            
+            <!-- Stat 4: Years -->
+            <div class="flex flex-col items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#e8721c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                </svg>
+                <div class="text-2xl font-bold" style="color: #1a2744;">+10</div>
+                <div class="text-xs" style="color: #6b7280;">سنوات خبرة</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== UPCOMING COURSES ========== -->
+    <section class="py-16 px-4" style="background-color: #1a2744;">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-2xl md:text-3xl font-bold text-center text-white mb-10">الدورات التدريبية المتاحة</h2>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Course 1: SQL -->
+                <div class="course-card bg-white rounded-xl overflow-hidden shadow-lg">
+                    <div class="relative">
+                        <img src="/images/course-sql.jpg" alt="تعلم SQL من الصفر" class="w-full h-44 object-cover" />
+                        <div class="absolute top-3 right-3 bg-green-500 text-white text-xs font-bold px-3 py-1 rounded">مجاني</div>
+                    </div>
+                    <div class="p-4 text-center">
+                        <h3 class="font-bold text-sm mb-2" style="color: #1a2744;">تعلم SQL من الصفر</h3>
+                        <p class="text-xs mb-2" style="color: #6b7280;">دورة شاملة لتعلم قواعد البيانات SQL</p>
+                        <p class="text-xs" style="color: #6b7280;">بواسطة: mohamed saeed</p>
+                    </div>
+                </div>
+                
+                <!-- Course 2: Laravel APIs -->
+                <div class="course-card bg-white rounded-xl overflow-hidden shadow-lg">
+                    <div class="relative">
+                        <img src="/images/course-laravel-api.jpg" alt="Advanced Laravel & APIs" class="w-full h-44 object-cover" />
+                        <div class="absolute top-3 left-3 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded">خصم 26%</div>
+                        <div class="absolute top-3 right-3 bg-white text-xs font-bold px-2 py-1 rounded" style="color: #e8721c;">$89</div>
+                    </div>
+                    <div class="p-4 text-center">
+                        <h3 class="font-bold text-sm mb-2" style="color: #1a2744;">Advanced Laravel & APIs</h3>
+                        <p class="text-xs mb-2" style="color: #6b7280;">Build scalable APIs with Laravel</p>
+                        <p class="text-xs" style="color: #6b7280;">بواسطة: Admin</p>
+                    </div>
+                </div>
+                
+                <!-- Course 3: Laravel Fundamentals -->
+                <div class="course-card bg-white rounded-xl overflow-hidden shadow-lg">
+                    <div class="relative">
+                        <img src="/images/course-laravel.jpg" alt="Laravel Fundamentals" class="w-full h-44 object-cover" />
+                        <div class="absolute top-3 right-3 bg-green-500 text-white text-xs font-bold px-3 py-1 rounded">مجاني</div>
+                    </div>
+                    <div class="p-4 text-center">
+                        <h3 class="font-bold text-sm mb-2" style="color: #1a2744;">Laravel Fundamentals</h3>
+                        <p class="text-xs mb-2" style="color: #6b7280;">Learn Laravel from scratch with real projects</p>
+                        <p class="text-xs" style="color: #6b7280;">بواسطة: Admin</p>
+                    </div>
+                </div>
+                
+                <!-- Course 4: Full Stack -->
+                <div class="course-card bg-white rounded-xl overflow-hidden shadow-lg">
+                    <div class="relative">
+                        <img src="/images/course-fullstack.jpg" alt="Full Stack Web Development" class="w-full h-44 object-cover" />
+                        <div class="absolute top-3 left-3 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded">خصم 20%</div>
+                        <div class="absolute top-3 right-3 bg-white text-xs font-bold px-2 py-1 rounded" style="color: #e8721c;">$199</div>
+                    </div>
+                    <div class="p-4 text-center">
+                        <h3 class="font-bold text-sm mb-2" style="color: #1a2744;">Full Stack Web Development</h3>
+                        <p class="text-xs mb-2" style="color: #6b7280;">Become a full stack developer</p>
+                        <p class="text-xs" style="color: #6b7280;">بواسطة: MIHAMMAD SAEED</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-8">
+                <a href="#" class="btn-orange inline-block px-8 py-3 rounded-lg font-semibold text-sm">عرض الدورات التدريبية المتاحة</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== COURSE CATEGORIES ========== -->
+    <section class="py-16 px-4 bg-white">
+        <div class="max-w-5xl mx-auto text-center">
+            <h2 class="text-2xl md:text-3xl font-bold mb-3" style="color: #1a2744;">استعرض الدورات التدريبية التي نقدمها</h2>
+            <p class="text-sm mb-10" style="color: #6b7280;">قم بالبحث والتصنيف للعثور على دورة تدريبية تلبي احتياجاتك من الدورات والبرامج التدريبية في كافة التخصصات</p>
+            
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
+                <!-- Category 1: Programming -->
+                <div class="category-item flex flex-col items-center gap-3 p-5 rounded-xl border-2 border-gray-100 bg-white">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#e8721c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="16 18 22 12 16 6"/>
+                        <polyline points="8 6 2 12 8 18"/>
+                    </svg>
+                    <span class="text-xs font-semibold" style="color: #1a2744;">البرمجة والتطوير</span>
+                </div>
+                
+                <!-- Category 2: Web Development -->
+                <div class="category-item flex flex-col items-center gap-3 p-5 rounded-xl border-2 border-gray-100 bg-white">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#e8721c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+                        <line x1="8" y1="21" x2="16" y2="21"/>
+                        <line x1="12" y1="17" x2="12" y2="21"/>
+                    </svg>
+                    <span class="text-xs font-semibold" style="color: #1a2744;">تطوير الويب</span>
+                </div>
+                
+                <!-- Category 3: Digital Marketing -->
+                <div class="category-item flex flex-col items-center gap-3 p-5 rounded-xl border-2 border-gray-100 bg-white">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#e8721c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                        <polyline points="2 17 12 22 22 17"/>
+                        <polyline points="2 12 12 17 22 12"/>
+                    </svg>
+                    <span class="text-xs font-semibold" style="color: #1a2744;">التسويق الرقمي</span>
+                </div>
+                
+                <!-- Category 4: Design -->
+                <div class="category-item flex flex-col items-center gap-3 p-5 rounded-xl border-2 border-gray-100 bg-white">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#e8721c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 20h9"/>
+                        <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
+                    </svg>
+                    <span class="text-xs font-semibold" style="color: #1a2744;">التصميم الجرافيكي</span>
+                </div>
+                
+                <!-- Category 5: Business -->
+                <div class="category-item flex flex-col items-center gap-3 p-5 rounded-xl border-2 border-gray-100 bg-white">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#e8721c" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                        <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+                        <line x1="12" y1="22.08" x2="12" y2="12"/>
+                    </svg>
+                    <span class="text-xs font-semibold" style="color: #1a2744;">إدارة الأعمال</span>
+                </div>
+            </div>
+            
+            <div class="mt-8">
+                <a href="#" class="text-sm font-semibold hover:underline" style="color: #e8721c;">استعرض المزيد من المجالات والتخصصات ←</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== LATEST PROGRAMS ========== -->
+    <section class="py-16 px-4" style="background-color: #f5f5f5;">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="text-2xl md:text-3xl font-bold text-center mb-3" style="color: #1a2744;">أحدث البرامج التدريبية</h2>
+            <p class="text-sm text-center mb-10" style="color: #6b7280;">استعرض أحدث البرامج والدورات التدريبية التي تم إضافتها حديثا وسجل في الدورة المناسبة لك</p>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Program 1 -->
+                <div class="course-card bg-white rounded-xl overflow-hidden shadow-md">
+                    <img src="/images/program-1.jpg" alt="دبلوم تطبيقي معايير جودة الرعاية الصحية" class="w-full h-40 object-cover" />
+                    <div class="p-4">
+                        <h3 class="font-bold text-sm mb-3" style="color: #1a2744;">دبلوم تطبيقي معايير جودة الرعاية الصحية بمستشفيك</h3>
+                        <div class="flex items-center justify-between text-xs mb-3" style="color: #6b7280;">
+                            <span>30 ساعة تدريبية</span>
+                            <span class="font-bold" style="color: #e8721c;">9,999 ج.م</span>
+                        </div>
+                        <div class="flex gap-2">
+                            <a href="#" class="green-badge flex-1 text-center py-2 rounded-lg text-xs font-semibold">تفاصيل اكثر</a>
+                            <a href="#" class="btn-orange flex-1 text-center py-2 rounded-lg text-xs font-semibold">سجل الآن</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Program 2 -->
+                <div class="course-card bg-white rounded-xl overflow-hidden shadow-md">
+                    <img src="/images/program-2.jpg" alt="دورة الهيدروجين الأخضر والتحول الأخضر" class="w-full h-40 object-cover" />
+                    <div class="p-4">
+                        <h3 class="font-bold text-sm mb-3" style="color: #1a2744;">دورة الهيدروجين الأخضر والتحول الأخضر العالمي في مجال الطاقة</h3>
+                        <div class="flex items-center justify-between text-xs mb-3" style="color: #6b7280;">
+                            <span>30 ساعة تدريبية</span>
+                            <span class="font-bold" style="color: #e8721c;">19,999 ج.م</span>
+                        </div>
+                        <div class="flex gap-2">
+                            <a href="#" class="green-badge flex-1 text-center py-2 rounded-lg text-xs font-semibold">تفاصيل اكثر</a>
+                            <a href="#" class="btn-orange flex-1 text-center py-2 rounded-lg text-xs font-semibold">سجل الآن</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Program 3 -->
+                <div class="course-card bg-white rounded-xl overflow-hidden shadow-md">
+                    <img src="/images/program-3.jpg" alt="دورة إدارة سلسلة الإمداد والتوريد" class="w-full h-40 object-cover" />
+                    <div class="p-4">
+                        <h3 class="font-bold text-sm mb-3" style="color: #1a2744;">دورة إدارة سلسلة الإمداد الهيدروجين والتوريد الأخضر</h3>
+                        <div class="flex items-center justify-between text-xs mb-3" style="color: #6b7280;">
+                            <span>30 ساعة تدريبية</span>
+                            <span class="font-bold" style="color: #e8721c;">15,000 ج.م</span>
+                        </div>
+                        <div class="flex gap-2">
+                            <a href="#" class="green-badge flex-1 text-center py-2 rounded-lg text-xs font-semibold">تفاصيل اكثر</a>
+                            <a href="#" class="btn-orange flex-1 text-center py-2 rounded-lg text-xs font-semibold">سجل الآن</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Program 4 -->
+                <div class="course-card bg-white rounded-xl overflow-hidden shadow-md">
+                    <img src="/images/program-4.jpg" alt="دورة تأمين المعلومات الإلكترونية" class="w-full h-40 object-cover" />
+                    <div class="p-4">
+                        <h3 class="font-bold text-sm mb-3" style="color: #1a2744;">دورة تأمين المعلومات الإلكترونية ومكافحة التحايل الرقمي</h3>
+                        <div class="flex items-center justify-between text-xs mb-3" style="color: #6b7280;">
+                            <span>30 ساعة تدريبية</span>
+                            <span class="font-bold" style="color: #e8721c;">9,999 ج.م</span>
+                        </div>
+                        <div class="flex gap-2">
+                            <a href="#" class="green-badge flex-1 text-center py-2 rounded-lg text-xs font-semibold">تفاصيل اكثر</a>
+                            <a href="#" class="btn-orange flex-1 text-center py-2 rounded-lg text-xs font-semibold">سجل الآن</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-8">
+                <a href="#" class="btn-orange inline-block px-8 py-3 rounded-lg font-semibold text-sm">عرض جميع البرامج التدريبية المتاحة</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== TESTIMONIALS SECTION ========== -->
+    <section class="py-16 px-4 bg-white">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-2xl md:text-3xl font-bold mb-10" style="color: #1a2744;">بعض آراء وتقييمات المتدربين عن الأكاديمي</h2>
+            
+            <div class="p-8 rounded-2xl shadow-lg border border-gray-100 bg-white">
+                <div class="flex flex-col items-center gap-4">
+                    <!-- Avatar -->
+                    <div class="w-16 h-16 rounded-full flex items-center justify-center text-white text-xl font-bold" style="background-color: #e8721c;">
+                        NA
+                    </div>
+                    
+                    <!-- Name -->
+                    <div>
+                        <p class="font-bold text-sm" style="color: #1a2744;">Noran Ahmed Mohammed</p>
+                    </div>
+                    
+                    <!-- Stars -->
+                    <div class="flex gap-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="#e8721c" stroke="#e8721c" stroke-width="1">
+                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                        </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="#e8721c" stroke="#e8721c" stroke-width="1">
+                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                        </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="#e8721c" stroke="#e8721c" stroke-width="1">
+                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                        </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="#e8721c" stroke="#e8721c" stroke-width="1">
+                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                        </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="#e8721c" stroke="#e8721c" stroke-width="1">
+                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                        </svg>
+                    </div>
+                    
+                    <!-- Testimonial Text -->
+                    <p class="text-sm leading-relaxed max-w-2xl" style="color: #6b7280;">
+                        "الدورة كانت ممتازة وجيدة جدا ، المحتوى متميز والمدرب شرح بطريقة سهلة وبسيطة ، استفدت كثيرا منها و أنصح الجميع في دبلوم إدارة وتشغيل المطاعم والمقاهي."
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== ARTICLES SECTION ========== -->
+    <section class="py-16 px-4" style="background-color: #f5f5f5;">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="text-2xl md:text-3xl font-bold text-center mb-3" style="color: #1a2744;">آخر الأخبار والمقالات</h2>
+            <p class="text-sm text-center mb-10" style="color: #6b7280;">
+                تابع آخر أخبارنا ومقالاتنا التعليمية
+            </p>
+            
+            <div class="space-y-4">
+                <!-- Article 1 -->
+                <div class="bg-white rounded-xl p-5 shadow-sm flex items-start gap-4 hover:shadow-md transition">
+                    <div class="w-2 h-2 rounded-full mt-2 flex-shrink-0" style="background-color: #e8721c;"></div>
+                    <div>
+                        <div class="flex items-center gap-2 mb-1">
+                            <span class="text-xs px-2 py-1 rounded" style="background-color: #e8721c; color: white;">أخبار</span>
+                            <span class="text-xs" style="color: #6b7280;">4 فبراير 2026</span>
+                        </div>
+                        <a href="#" class="article-link font-bold text-sm" style="color: #1a2744;">
+                            أفضل تقنيات تطوير الويب في 2026
+                        </a>
+                        <p class="text-xs mt-1" style="color: #6b7280;">
+                            نستعرض أحدث تقنيات تطوير الويب المستخدمة في سوق العمل.
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Article 2 -->
+                <div class="bg-white rounded-xl p-5 shadow-sm flex items-start gap-4 hover:shadow-md transition">
+                    <div class="w-2 h-2 rounded-full mt-2 flex-shrink-0" style="background-color: #e8721c;"></div>
+                    <div>
+                        <div class="flex items-center gap-2 mb-1">
+                            <span class="text-xs px-2 py-1 rounded" style="background-color: #e8721c; color: white;">أخبار</span>
+                            <span class="text-xs" style="color: #6b7280;">4 فبراير 2026</span>
+                        </div>
+                        <a href="#" class="article-link font-bold text-sm" style="color: #1a2744;">
+                            ما هي البرمجة؟ دليل المبتدئين
+                        </a>
+                        <p class="text-xs mt-1" style="color: #6b7280;">
+                            تعرف على أساسيات البرمجة ولماذا تعتبر من أهم مهارات العصر الحديث.
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- Article 3 -->
+                <div class="bg-white rounded-xl p-5 shadow-sm flex items-start gap-4 hover:shadow-md transition">
+                    <div class="w-2 h-2 rounded-full mt-2 flex-shrink-0" style="background-color: #e8721c;"></div>
+                    <div>
+                        <div class="flex items-center gap-2 mb-1">
+                            <span class="text-xs px-2 py-1 rounded" style="background-color: #3b82f6; color: white;">مقالات</span>
+                            <span class="text-xs" style="color: #6b7280;">4 فبراير 2026</span>
+                        </div>
+                        <a href="#" class="article-link font-bold text-sm" style="color: #1a2744;">
+                            كيف تبدأ في التسويق الرقمي؟
+                        </a>
+                        <p class="text-xs mt-1" style="color: #6b7280;">
+                            دليل شامل للمبتدئين في مجال التسويق الإلكتروني.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-8">
+                <a href="#" class="btn-orange inline-block px-8 py-3 rounded-lg font-semibold text-sm">عرض جميع المقالات</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== PARTNERS SECTION ========== -->
+    <section class="py-12 px-4 bg-white">
+        <div class="max-w-5xl mx-auto text-center">
+            <h2 class="text-xl md:text-2xl font-bold mb-8" style="color: #1a2744;">تشرفت الأكاديمية بتدريب موظفين من:</h2>
+            
+            <div class="flex flex-wrap items-center justify-center gap-8">
+                <div class="partner-logo w-28 h-14 rounded-lg flex items-center justify-center border border-gray-200 bg-gray-50 p-2">
+                    <span class="text-xs font-bold" style="color: #6b7280;">GHUFRAN</span>
+                </div>
+                <div class="partner-logo w-28 h-14 rounded-lg flex items-center justify-center border border-gray-200 bg-gray-50 p-2">
+                    <span class="text-xs font-bold" style="color: #6b7280;">وزارة الصحة</span>
+                </div>
+                <div class="partner-logo w-28 h-14 rounded-lg flex items-center justify-center border border-gray-200 bg-gray-50 p-2">
+                    <span class="text-xs font-bold" style="color: #6b7280;">Lumi</span>
+                </div>
+                <div class="partner-logo w-28 h-14 rounded-lg flex items-center justify-center border border-gray-200 bg-gray-50 p-2">
+                    <span class="text-xs font-bold" style="color: #6b7280;">بنك الاسكندرية</span>
+                </div>
+                <div class="partner-logo w-28 h-14 rounded-lg flex items-center justify-center border border-gray-200 bg-gray-50 p-2">
+                    <span class="text-xs font-bold" style="color: #6b7280;">PAPER</span>
+                </div>
+                <div class="partner-logo w-28 h-14 rounded-lg flex items-center justify-center border border-gray-200 bg-gray-50 p-2">
+                    <span class="text-xs font-bold" style="color: #6b7280;">البصمة</span>
+                </div>
+                <div class="partner-logo w-28 h-14 rounded-lg flex items-center justify-center border border-gray-200 bg-gray-50 p-2">
+                    <span class="text-xs font-bold" style="color: #6b7280;">EISAC</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== CTA / CONTACT BANNER ========== -->
+    <section class="py-10 px-4" style="background-color: #1a2744;">
+        <div class="max-w-4xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+            <!-- CTA Text -->
+            <div class="flex items-center gap-4">
+                <a href="#" class="text-white text-sm font-semibold hover:underline">التسجيل في اي دورة - اتصل الآن</a>
+            </div>
+            
+            <!-- Phone Number -->
+            <div class="flex items-center gap-4 text-white">
+                <span class="text-2xl md:text-3xl font-bold tracking-wider" dir="ltr">+143-52-9933631</span>
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#e8721c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+                </svg>
+            </div>
+            
+            <!-- Social Icons -->
+            <div class="flex items-center gap-3">
+                <!-- Twitter -->
+                <a href="#" class="w-10 h-10 rounded-full flex items-center justify-center text-white hover:opacity-80 transition" style="background-color: #e8721c;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
+                    </svg>
+                </a>
+                
+                <!-- Facebook -->
+                <a href="#" class="w-10 h-10 rounded-full flex items-center justify-center text-white hover:opacity-80 transition" style="background-color: #e8721c;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z"/>
+                    </svg>
+                </a>
+                
+                <!-- YouTube -->
+                <a href="#" class="w-10 h-10 rounded-full flex items-center justify-center text-white hover:opacity-80 transition" style="background-color: #e8721c;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z"/>
+                    </svg>
+                </a>
+                
+                <!-- LinkedIn -->
+                <a href="#" class="w-10 h-10 rounded-full flex items-center justify-center text-white hover:opacity-80 transition" style="background-color: #e8721c;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M4.98 3.5c0 1.381-1.11 2.5-2.48 2.5s-2.48-1.119-2.48-2.5c0-1.38 1.11-2.5 2.48-2.5s2.48 1.12 2.48 2.5zm.02 4.5h-5v16h5v-16zm7.982 0h-4.968v16h4.969v-8.399c0-4.67 6.029-5.052 6.029 0v8.399h4.988v-10.131c0-7.88-8.922-7.593-11.018-3.714v-2.155z"/>
+                    </svg>
+                </a>
+                
+                <!-- Instagram -->
+                <a href="#" class="w-10 h-10 rounded-full flex items-center justify-center text-white hover:opacity-80 transition" style="background-color: #e8721c;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== FOOTER ========== -->
+    <footer class="py-12 px-4" style="background-color: #111c33;">
+        <div class="max-w-6xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-10 mb-10">
+                <!-- Column 1: About -->
+                <div>
+                    <h3 class="text-lg font-bold text-white mb-4">نبذه عن أكاديمية بروز</h3>
+                    <p class="text-sm leading-relaxed" style="color: #9ca3af;">
+                        أكاديمية بروز للتدريب الحديث تسعى لتقديم برامج تعليمية وتدريبية متطورة تواكب متطلبات سوق العمل. نحن نؤمن بأن التعليم هو أساس النجاح، ونعمل على تمكين الأفراد من تحقيق أهدافهم المهنية.
+                    </p>
+                </div>
+                
+                <!-- Column 2: Links -->
+                <div>
+                    <h3 class="text-lg font-bold text-white mb-4">روابط هامة</h3>
+                    <ul class="space-y-2 text-sm" style="color: #9ca3af;">
+                        <li><a href="#" class="hover:text-white transition">الرئيسية</a></li>
+                        <li><a href="#" class="hover:text-white transition">الدورات</a></li>
+                        <li><a href="#" class="hover:text-white transition">المعسكر التدريبي</a></li>
+                        <li><a href="#" class="hover:text-white transition">الكتب الإلكترونية</a></li>
+                        <li><a href="#" class="hover:text-white transition">سياسة الخصوصية</a></li>
+                        <li><a href="#" class="hover:text-white transition">الشروط والأحكام</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Column 3: Contact -->
+                <div>
+                    <h3 class="text-lg font-bold text-white mb-4">اتصل بنا</h3>
+                    <ul class="space-y-3 text-sm" style="color: #9ca3af;">
+                        <li class="flex items-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#e8721c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                                <circle cx="12" cy="10" r="3"/>
+                            </svg>
+                            <span>القاهرة - مصر</span>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#e8721c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+                            </svg>
+                            <span dir="ltr">01010577844 - 02/35720261</span>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#e8721c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                                <polyline points="22,6 12,13 2,6"/>
+                            </svg>
+                            <span><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="b2dbdcd4ddf2dbd0c1d3d1d3d6d7dfcb9cddc0d5">[email&#160;protected]</a></span>
+                        </li>
+                        <li class="flex items-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#e8721c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"/>
+                                <line x1="2" y1="12" x2="22" y2="12"/>
+                                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+                            </svg>
+                            <span>www.ibsacademy.org</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Bottom Footer -->
+            <div class="border-t pt-6 text-center" style="border-color: #243355;">
+                <p class="text-xs" style="color: #6b7280;">
+                    &copy; 2026 أكاديمية بروز - P.A.M.T | جميع الحقوق محفوظة
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ========== WHATSAPP FLOATING BUTTON ========== -->
+    <a href="https://wa.me/14352993363" target="_blank" class="fixed bottom-6 left-6 w-14 h-14 rounded-full flex items-center justify-center shadow-lg z-50 hover:scale-110 transition" style="background-color: #25d366;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="white">
+            <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/>
+        </svg>
+    </a>
+
+</body>
+</html>

@@ -27,9 +27,9 @@ class HomeController extends Controller
         return redirect(route('home'));
     }
 
-    public function index()
+    public function wasindex()
     {
-        if (session('home')) {
+         if (session('home')) {
             $page_builder = Builder_page::where('id', session('home'))->first();
         } else {
             $page_builder = Builder_page::where('status', 1)->first();
@@ -50,6 +50,12 @@ class HomeController extends Controller
             $view_path = 'frontend' . '.' . get_frontend_settings('theme') . '.home.index';
             return view($view_path, $page_data);
         }
+    }
+   public function index()
+    {
+      
+            return view('frontend.home');
+        
     }
 
     public function download_certificate($identifier)

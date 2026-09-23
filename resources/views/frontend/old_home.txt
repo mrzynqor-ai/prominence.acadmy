@@ -1,0 +1,1951 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   @include('layouts.seo')
+    @stack('meta')
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    @include('frontend.main-owen.style')
+
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div id="root">
+        <!-- Notifications Container -->
+        <div role="region" aria-label="Notifications (F8)" tabindex="-1" style="pointer-events: none;">
+            <ol tabindex="-1" class="fixed top-0 z-[100] flex max-h-screen w-full flex-col-reverse p-4 sm:bottom-0 sm:right-0 sm:top-auto sm:flex-col md:max-w-[420px]"></ol>
+        </div>
+        <section aria-label="Notifications alt+T" tabindex="-1" aria-live="polite" aria-relevant="additions text" aria-atomic="false"></section>
+
+        <!-- Main App Container -->
+        <div class="min-h-screen font-cairo">
+            
+            <!-- Header -->
+        @php
+        $parent_categories = DB::table('categories')->where('parent_id', 0)->latest('id')->get();
+        $current_route = Route::currentRouteName();
+        @endphp
+
+    <!----------- Header Area Start ----------->
+    <header class="fixed top-0 right-0 left-0 z-50 bg-white/95 backdrop-blur-md shadow-lg">
+        <!-- Top Bar -->
+    <!-- Top Bar - Enhanced -->
+    <div class="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-2">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col sm:flex-row justify-between items-center gap-2 text-xs sm:text-sm">
+                <!-- Contact Info -->
+                <div class="flex flex-wrap items-center justify-center sm:justify-start gap-3 sm:gap-6">
+                    <a href="tel:{{ get_settings('phone') }}" class="flex items-center gap-2 hover:opacity-80 transition-opacity">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                        </svg>
+                        <span class="whitespace-nowrap">{{ get_settings('phone') }}</span>
+                    </a>
+                    
+                    <a href="mailto:{{ get_settings('system_email') }}" class="flex items-center gap-2 hover:opacity-80 transition-opacity">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect width="20" height="16" x="2" y="4" rx="2"></rect>
+                            <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+                        </svg>
+                        <span class="whitespace-nowrap">{{ get_settings('system_email') }}</span>
+                    </a>
+
+                    @if(get_settings('address'))
+                    <a href="#" class="hidden md:flex items-center gap-2 hover:opacity-80 transition-opacity">
+                        <svg width="14" height="14" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M9.99453 11.1912C11.4305 11.1912 12.5945 10.0272 12.5945 8.59121C12.5945 7.15527 11.4305 5.99121 9.99453 5.99121C8.55859 5.99121 7.39453 7.15527 7.39453 8.59121C7.39453 10.0272 8.55859 11.1912 9.99453 11.1912Z" stroke="currentColor" stroke-width="1.25"/>
+                            <path d="M3.0187 7.0763C4.66037 -0.140363 15.352 -0.132029 16.9854 7.08464C17.9437 11.318 15.3104 14.9013 13.002 17.118C11.327 18.7346 8.67704 18.7346 6.9937 17.118C4.6937 14.9013 2.06037 11.3096 3.0187 7.0763Z" stroke="currentColor" stroke-width="1.25"/>
+                        </svg>
+                        <span class="whitespace-nowrap">{{ get_settings('address') }}</span>
+                    </a>
+                    @endif
+                </div>
+                
+                <!-- Right Side: Social + Language -->
+                <div class="flex items-center gap-3 sm:gap-4">
+                    <!-- Social Media -->
+                    @if(get_frontend_settings('facebook') || get_frontend_settings('twitter') || get_frontend_settings('linkedin'))
+                    <div class="flex items-center gap-2">
+                        @if(get_frontend_settings('facebook'))
+                        <a href="{{ get_frontend_settings('facebook') }}" target="_blank" class="hover:opacity-80 transition-opacity">
+                            <i class="fa-brands fa-facebook text-base"></i>
+                        </a>
+                        @endif
+                        @if(get_frontend_settings('twitter'))
+                        <a href="{{ get_frontend_settings('twitter') }}" target="_blank" class="hover:opacity-80 transition-opacity">
+                            <i class="fa-brands fa-x-twitter text-base"></i>
+                        </a>
+                        @endif
+                        @if(get_frontend_settings('linkedin'))
+                        <a href="{{ get_frontend_settings('linkedin') }}" target="_blank" class="hover:opacity-80 transition-opacity">
+                            <i class="fa-brands fa-linkedin text-base"></i>
+                        </a>
+                        @endif
+                    </div>
+                    @endif
+
+                    <!-- Language Selector -->
+                    <!-- <form action="{{ route('select.lng') }}" method="get" class="inline-block">
+                        <select name="language" id="lng-selector" class="bg-transparent border border-white/30 rounded px-2 py-1 text-xs focus:outline-none focus:border-white cursor-pointer">
+                            @php
+                                $activated_language = strtolower(session('language') ?? get_settings('language'));
+                            @endphp
+                            @foreach(App\Models\Language::all() as $lng)
+                                <option value="{{ $lng->name }}" {{ strtolower($lng->name) == $activated_language ? 'selected' : '' }}>
+                                    {{ get_phrase($lng->name) }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </form> -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+        <!-- Main Navigation -->
+        <div class="container mx-auto px-4 py-3 sm:py-4">
+            <div class="flex items-center justify-between gap-4">
+                <!-- Logo -->
+                <a href="{{ route('home') }}" class="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+                    <img src="{{ get_image(get_frontend_settings('light_logo')) }}" alt="أكاديمية بروز" class="h-10 w-10 sm:h-12 sm:w-12 lg:h-14 lg:w-14 object-contain">
+                    <div class="hidden sm:block">
+                        <h1 class="text-sm sm:text-base lg:text-lg font-bold text-blue-600 leading-tight">أكاديمية بروز للتدريب الحديث</h1>
+                        <p class="text-xs text-blue-800 font-semibold">P.A.M.T</p>
+                    </div>
+                </a>
+
+                <!-- Desktop Navigation -->
+                <nav class="hidden lg:flex items-center gap-1 flex-1 justify-center">
+                    <a href="{{ route('home') }}" class="px-3 xl:px-4 py-2 text-gray-700 font-medium hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-300 text-sm xl:text-base @if($current_route == 'home') text-blue-600 bg-blue-50 @endif">
+                        {{ get_phrase('Home') }}
+                    </a>
+                    
+                    <!-- Courses Dropdown -->
+                    <div class="relative group">
+                        <a href="{{ route('courses') }}" class="px-3 xl:px-4 py-2 text-gray-700 font-medium hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-300 text-sm xl:text-base flex items-center gap-1 @if($current_route == 'courses') text-blue-600 bg-blue-50 @endif">
+                            {{ get_phrase('Courses') }}
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </a>
+                        <!-- Mega Menu -->
+                        <div class="absolute top-full left-0 mt-2 w-64 bg-white rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
+                            <div class="py-2">
+                                @foreach($parent_categories->take(10) as $parent_category)
+                                    @php
+                                        $child_categories = App\Models\Category::where('parent_id', $parent_category->id);
+                                    @endphp
+                                    <div class="relative group/sub">
+                                        <a href="{{ route('courses', $parent_category->slug) }}" class="flex items-center justify-between px-4 py-2 hover:bg-blue-50 transition-colors">
+                                            <span class="flex items-center gap-2">
+                                                <i class="{{ $parent_category->icon }} text-blue-600"></i>
+                                                <span>{{ ucfirst($parent_category->title) }}</span>
+                                            </span>
+                                            @if($child_categories->count() > 0)
+                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                                </svg>
+                                            @endif
+                                        </a>
+                                        @if($child_categories->count() > 0)
+                                            <div class="absolute left-full top-0 ml-1 w-56 bg-white rounded-lg shadow-xl opacity-0 invisible group-hover/sub:opacity-100 group-hover/sub:visible transition-all duration-300">
+                                                <div class="py-2">
+                                                    @foreach($child_categories->get() as $child_category)
+                                                        <a href="{{ route('courses', $child_category->slug) }}" class="block px-4 py-2 hover:bg-blue-50 transition-colors">
+                                                            {{ ucfirst($child_category->title) }}
+                                                        </a>
+                                                    @endforeach
+                                                </div>
+                                            </div>
+                                        @endif
+                                    </div>
+                                @endforeach
+                                <a href="{{ route('courses') }}" class="flex items-center gap-2 px-4 py-2 hover:bg-blue-50 transition-colors border-t mt-2 pt-2">
+                                    <i class="fas fa-list-ul text-blue-600"></i>
+                                    <span>{{ get_phrase('All Courses') }}</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a href="{{ route('bootcamps') }}" class="px-3 xl:px-4 py-2 text-gray-700 font-medium hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-300 text-sm xl:text-base @if($current_route == 'bootcamps' || $current_route == 'bootcamp.details') text-blue-600 bg-blue-50 @endif">
+                        {{ get_phrase('Bootcamp') }}
+                    </a>
+                    
+                    <a href="{{ route('ebooks') }}" class="px-3 xl:px-4 py-2 text-gray-700 font-medium hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-300 text-sm xl:text-base @if($current_route == 'ebooks' || $current_route == 'ebook.details') text-blue-600 bg-blue-50 @endif">
+                        {{ get_phrase('Ebooks') }}
+                    </a>
+                    
+                    <a href="{{ route('tutor_list') }}" class="px-3 xl:px-4 py-2 text-gray-700 font-medium hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all duration-300 text-sm xl:text-base @if($current_route == 'tutor_list') text-blue-600 bg-blue-50 @endif">
+                        {{ get_phrase('Find A Tutor') }}
+                    </a>
+                </nav>
+
+                <!-- Search Bar Desktop -->
+                <div class="hidden lg:block">
+                    <form action="{{ route('courses') }}" method="get" class="relative">
+                        <input type="text" name="search" value="{{ request()->input('search') ?? '' }}" placeholder="{{ get_phrase('Search...') }}" class="w-64 px-4 py-2 pr-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                        <button type="submit" class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-blue-600">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                            </svg>
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Icons and User Menu -->
+                <div class="flex items-center gap-3 flex-shrink-0">
+                    <!-- Search Icon Mobile -->
+                    <button type="button" class="lg:hidden p-2 text-gray-700 hover:text-blue-600 transition-colors" onclick="document.getElementById('mobile-search').classList.toggle('hidden')">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                    </button>
+
+                    @auth
+                        <!-- Cart -->
+                        <a href="{{ route('cart') }}" class="relative p-2 text-gray-700 hover:text-blue-600 transition-colors" data-bs-toggle="tooltip" title="{{ get_phrase('Cart') }}">
+                            @php
+                                $cart_count = App\Models\CartItem::where('user_id', auth()->user()->id)->count();
+                            @endphp
+                            @if($cart_count > 0)
+                                <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                                    {{ $cart_count }}
+                                </span>
+                            @endif
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                            </svg>
+                        </a>
+
+                        <!-- Wishlist -->
+                        <a href="{{ route('wishlist') }}" class="hidden lg:block relative p-2 text-gray-700 hover:text-blue-600 transition-colors" data-bs-toggle="tooltip" title="{{ get_phrase('Wishlist') }}">
+                            @php
+                                $wishlist_count = App\Models\Wishlist::where('user_id', auth()->user()->id)->count();
+                            @endphp
+                            @if($wishlist_count > 0)
+                                <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                                    {{ $wishlist_count }}
+                                </span>
+                            @endif
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                            </svg>
+                        </a>
+
+                        <!-- User Profile Dropdown -->
+                        <div class="relative group hidden lg:block">
+                            <button class="flex items-center gap-2 p-1 rounded-full hover:bg-blue-50 transition-colors">
+                                <img src="{{ get_image(Auth()->user()->photo) }}" alt="user" class="w-10 h-10 rounded-full object-cover border-2 border-blue-600">
+                            </button>
+                            
+                            <!-- Dropdown Menu -->
+                            <div class="absolute right-0 top-full mt-2 w-64 bg-white rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
+                                <!-- User Info -->
+                                <div class="flex items-center gap-3 p-4 border-b">
+                                    <img src="{{ get_image(Auth()->user()->photo) }}" alt="user" class="w-12 h-12 rounded-full object-cover">
+                                    <div class="flex-1 min-w-0">
+                                        <h4 class="font-semibold text-gray-900 truncate">{{ ucfirst(Auth()->user()->name) }}</h4>
+                                        <p class="text-sm text-gray-500 truncate">{{ ucfirst(Auth()->user()->role) }}</p>
+                                    </div>
+                                </div>
+
+                                <!-- Menu Items -->
+                                <div class="py-2">
+                                    @if(in_array(auth()->user()->role, ['admin', 'instructor']))
+                                        <a href="{{ route(auth()->user()->role . '.dashboard') }}" class="flex items-center gap-3 px-4 py-2 hover:bg-blue-50 transition-colors">
+                                            <svg class="w-5 h-5 text-gray-500" fill="currentColor" viewBox="0 0 20 20">
+                                                <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path>
+                                            </svg>
+                                            <span>{{ get_phrase('Dashboard') }}</span>
+                                        </a>
+                                    @endif
+
+                                    @if(Auth()->user()->role != 'admin')
+                                        <a href="{{ route('my.courses') }}" class="flex items-center gap-3 px-4 py-2 hover:bg-blue-50 transition-colors">
+                                            <svg class="w-5 h-5 text-gray-500" fill="currentColor" viewBox="0 0 20 20">
+                                                <path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2-.712V17a1 1 0 001 1z"></path>
+                                            </svg>
+                                            <span>{{ get_phrase('My Courses') }}</span>
+                                        </a>
+
+                                        <a href="{{ route('my.bootcamps') }}" class="flex items-center gap-3 px-4 py-2 hover:bg-blue-50 transition-colors">
+                                            <i class="fi-rr-video-camera text-gray-500"></i>
+                                            <span>{{ get_phrase('My Bootcamps') }}</span>
+                                        </a>
+
+                                        <a href="{{ route('my.ebooks') }}" class="flex items-center gap-3 px-4 py-2 hover:bg-blue-50 transition-colors">
+                                            <svg class="w-5 h-5 text-gray-500" fill="currentColor" viewBox="0 0 20 20">
+                                                <path d="M9 4.804A7.968 7.968 0 005.5 4c-1.255 0-2.443.29-3.5.804v10A7.969 7.969 0 015.5 14c1.669 0 3.218.51 4.5 1.385A7.962 7.962 0 0114.5 14c1.255 0 2.443.29 3.5.804v-10A7.968 7.968 0 0014.5 4c-1.255 0-2.443.29-3.5.804V12a1 1 0 11-2 0V4.804z"></path>
+                                            </svg>
+                                            <span>{{ get_phrase('My Ebooks') }}</span>
+                                        </a>
+
+                                        <a href="{{ route('my.profile') }}" class="flex items-center gap-3 px-4 py-2 hover:bg-blue-50 transition-colors">
+                                            <svg class="w-5 h-5 text-gray-500" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path>
+                                            </svg>
+                                            <span>{{ get_phrase('My Profile') }}</span>
+                                        </a>
+
+                                        <a href="{{ route('message') }}" class="flex items-center gap-3 px-4 py-2 hover:bg-blue-50 transition-colors">
+                                            <svg class="w-5 h-5 text-gray-500" fill="currentColor" viewBox="0 0 20 20">
+                                                <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"></path>
+                                                <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"></path>
+                                            </svg>
+                                            <span>{{ get_phrase('Message') }}</span>
+                                        </a>
+
+                                        <a href="{{ route('purchase.history') }}" class="flex items-center gap-3 px-4 py-2 hover:bg-blue-50 transition-colors">
+                                            <svg class="w-5 h-5 text-gray-500" fill="currentColor" viewBox="0 0 20 20">
+                                                <path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4z"></path>
+                                                <path fill-rule="evenodd" d="M18 9H2v5a2 2 0 002 2h12a2 2 0 002-2V9zM4 13a1 1 0 011-1h1a1 1 0 110 2H5a1 1 0 01-1-1zm5-1a1 1 0 100 2h1a1 1 0 100-2H9z" clip-rule="evenodd"></path>
+                                            </svg>
+                                            <span>{{ get_phrase('Purchase History') }}</span>
+                                        </a>
+
+                                        <a href="{{ route('support.ticket.index') }}" class="flex items-center gap-3 px-4 py-2 hover:bg-blue-50 transition-colors">
+                                            <svg class="w-5 h-5 text-gray-500" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-2 0c0 .993-.241 1.929-.668 2.754l-1.524-1.525a3.997 3.997 0 00.078-2.183l1.562-1.562C15.802 8.249 16 9.1 16 10zm-5.165 3.913l1.58 1.58A5.98 5.98 0 0110 16a5.976 5.976 0 01-2.516-.552l1.562-1.562a4.006 4.006 0 001.789.027zm-4.677-2.796a4.002 4.002 0 01-.041-2.08l-.08.08-1.53-1.533A5.98 5.98 0 004 10c0 .954.223 1.856.619 2.657l1.54-1.54zm1.088-6.45A5.974 5.974 0 0110 4c.954 0 1.856.223 2.657.619l-1.54 1.54a4.002 4.002 0 00-2.346.033L7.246 4.668zM12 10a2 2 0 11-4 0 2 2 0 014 0z" clip-rule="evenodd"></path>
+                                            </svg>
+                                            <span>{{ get_phrase('Customer Support') }}</span>
+                                        </a>
+                                    @endif
+
+                                    <div class="border-t my-2"></div>
+
+                                    <a href="javascript:;" class="flex items-center gap-3 px-4 py-2 hover:bg-red-50 text-red-600 transition-colors logout-link">
+                                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z" clip-rule="evenodd"></path>
+                                        </svg>
+                                        <span>{{ get_phrase('Log Out') }}</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    @else
+                        <!-- Guest Cart -->
+                        <a href="{{ route('cart') }}" class="relative p-2 text-gray-700 hover:text-blue-600 transition-colors">
+                            <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">0</span>
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                            </svg>
+                        </a>
+
+                        <!-- Login Button -->
+                        <a href="{{ route('login') }}" class="hidden lg:inline-block px-4 xl:px-6 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors duration-300 text-sm xl:text-base whitespace-nowrap">
+                            {{ get_phrase('Login') }}
+                        </a>
+                    @endauth
+
+                    <!-- Mobile Menu Button -->
+                    <button id="mobile-menu-btn" class="lg:hidden p-2 text-gray-700 hover:text-blue-600 transition-colors">
+                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Search Bar -->
+        <div id="mobile-search" class="hidden lg:hidden bg-white border-t border-gray-200">
+            <div class="container mx-auto px-4 py-3">
+                <form action="{{ route('courses') }}" method="get" class="relative">
+                    <input type="text" name="search" value="{{ request()->input('search') ?? '' }}" placeholder="{{ get_phrase('Search courses...') }}" class="w-full px-4 py-2 pr-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <button type="submit" class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-blue-600">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="lg:hidden hidden bg-white border-t border-gray-200 max-h-[calc(100vh-140px)] overflow-y-auto">
+            <nav class="container mx-auto px-4 py-4 flex flex-col gap-2">
+                @auth
+                    <!-- User Info Mobile -->
+                    <div class="flex items-center gap-3 p-4 bg-blue-50 rounded-lg mb-4">
+                        <img src="{{ get_image(Auth()->user()->photo) }}" alt="user" class="w-12 h-12 rounded-full object-cover border-2 border-blue-600">
+                        <div class="flex-1 min-w-0">
+                            <h4 class="font-semibold text-gray-900 truncate">{{ Auth()->user()->name }}</h4>
+                            <p class="text-sm text-gray-500 truncate">{{ Auth()->user()->email }}</p>
+                        </div>
+                    </div>
+                @endauth
+
+                <a href="{{ route('home') }}" class="px-4 py-3 text-gray-700 font-medium hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all @if($current_route == 'home') text-blue-600 bg-blue-50 @endif">
+                    {{ get_phrase('Home') }}
+                </a>
+
+                <!-- Courses Accordion -->
+                <div class="border rounded-lg overflow-hidden">
+                    <button type="button" onclick="this.nextElementSibling.classList.toggle('hidden')" class="w-full px-4 py-3 text-left text-gray-700 font-medium hover:bg-blue-50 transition-all flex items-center justify-between">
+                        <span>{{ get_phrase('Courses') }}</span>
+                        <svg class="w-5 h-5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    <div class="hidden bg-gray-50">
+                        @foreach($parent_categories->take(30) as $parent_category)
+                            <a href="{{ route('courses', $parent_category->slug) }}" class="block px-6 py-2 hover:bg-blue-50 transition-colors">
+                                {{ $parent_category->title }}
+                            </a>
+                        @endforeach
+                    </div>
+                </div>
+
+                <a href="{{ route('bootcamps') }}" class="px-4 py-3 text-gray-700 font-medium hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all @if($current_route == 'bootcamps' || $current_route == 'bootcamp.details') text-blue-600 bg-blue-50 @endif">
+                    {{ get_phrase('Bootcamp') }}
+                </a>
+
+                <a href="{{ route('ebooks') }}" class="px-4 py-3 text-gray-700 font-medium hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all @if($current_route == 'ebooks' || $current_route == 'ebook.details') text-blue-600 bg-blue-50 @endif">
+                    {{ get_phrase('Ebooks') }}
+                </a>
+
+                <a href="{{ route('tutor_list') }}" class="px-4 py-3 text-gray-700 font-medium hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all @if($current_route == 'tutor_list') text-blue-600 bg-blue-50 @endif">
+                    {{ get_phrase('Find A Tutor') }}
+                </a>
+
+                @auth
+                    @if(Auth()->user()->role != 'admin')
+                        <div class="border-t my-2"></div>
+                        <a href="{{ route('my.courses') }}" class="px-4 py-3 text-gray-700 font-medium hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all">
+                            {{ get_phrase('My Courses') }}
+                        </a>
+                        <a href="{{ route('wishlist') }}" class="px-4 py-3 text-gray-700 font-medium hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all flex items-center justify-between">
+                            <span>{{ get_phrase('Wishlist') }}</span>
+                            @php $wishlist_count = App\Models\Wishlist::where('user_id', auth()->user()->id)->count(); @endphp
+                            @if($wishlist_count > 0)
+                                <span class="bg-red-500 text-white text-xs px-2 py-1 rounded-full">{{ $wishlist_count }}</span>
+                            @endif
+                        </a>
+                        <a href="{{ route('my.ebooks') }}" class="px-4 py-3 text-gray-700 font-medium hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all">
+                            {{ get_phrase('My Ebooks') }}
+                        </a>
+                        <a href="{{ route('my.profile') }}" class="px-4 py-3 text-gray-700 font-medium hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all">
+                            {{ get_phrase('My Profile') }}
+                        </a>
+                        <a href="{{ route('message') }}" class="px-4 py-3 text-gray-700 font-medium hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all">
+                            {{ get_phrase('Message') }}
+                        </a>
+                        <a href="{{ route('purchase.history') }}" class="px-4 py-3 text-gray-700 font-medium hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all">
+                            {{ get_phrase('Purchase History') }}
+                        </a>
+                    @elseif(Auth()->user()->role == 'admin')
+                        <a href="{{ route('admin.dashboard') }}" class="px-4 py-3 text-gray-700 font-medium hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all">
+                            {{ get_phrase('Admin Dashboard') }}
+                        </a>
+                    @endif
+
+                    <div class="border-t my-2"></div>
+                    <a href="javascript:;" class="px-4 py-3 text-red-600 font-medium hover:bg-red-50 rounded-lg transition-all logout-link">
+                        {{ get_phrase('Log Out') }}
+                    </a>
+                @else
+                    <div class="border-t my-2"></div>
+                    <a href="{{ route('login') }}" class="px-4 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-colors text-center">
+                        {{ get_phrase('Login') }}
+                    </a>
+                    <a href="{{ route('register.form') }}" class="px-4 py-3 bg-gray-200 text-gray-700 font-semibold rounded-lg hover:bg-gray-300 transition-colors text-center">
+                        {{ get_phrase('Sign Up') }}
+                    </a>
+                @endauth
+            </nav>
+        </div>
+    </header>
+
+<!-- Add spacing for fixed header -->
+<!-- <div class="h-32 lg:h-36"></div> -->
+
+    @push('js')
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Mobile menu toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        if (mobileMenuBtn && mobileMenu) {
+            mobileMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            // Close mobile menu when clicking a link
+            const mobileLinks = mobileMenu.querySelectorAll('a');
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                });
+            });
+
+            // Close mobile menu when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!mobileMenu.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+                    mobileMenu.classList.add('hidden');
+                }
+            });
+        }
+
+        // Logout functionality
+        const token = localStorage.getItem('device_token');
+        const logoutLinks = document.querySelectorAll('.logout-link');
+
+        logoutLinks.forEach(link => {
+            if (token) {
+                const url = new URL("{{ route('logout') }}", window.location.origin);
+                url.searchParams.append('user_agent', token);
+                link.href = url.toString();
+            } else {
+                link.href = "{{ route('logout') }}";
+            }
+        });
+
+        // Language selector
+        const lngSelector = document.getElementById('lng-selector');
+        if (lngSelector) {
+            lngSelector.addEventListener('change', function(e) {
+                e.preventDefault();
+                this.closest('form').submit();
+            });
+        }
+    });
+    </script>
+    @endpush
+<!----------- Header Area End ----------->
+
+            <!-- Main Content -->
+            <main>
+                <!-- Hero Section -->
+                <section id="home" class="relative min-h-screen flex items-center gradient-hero overflow-hidden">
+                    <!-- Background Decorations -->
+                    <div class="absolute inset-0 overflow-hidden">
+                        <div class="absolute top-20 left-10 w-72 h-72 bg-accent/20 rounded-full blur-3xl animate-float"></div>
+                        <div class="absolute bottom-20 right-10 w-96 h-96 bg-secondary/20 rounded-full blur-3xl animate-float" style="animation-delay: 1s;"></div>
+                        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary-foreground/5 rounded-full"></div>
+                    </div>
+                    <div class="absolute inset-0 opacity-10" style="background-image: url(&quot;data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E&quot;);"></div>
+
+                    <div class="container relative z-10 pt-32 pb-20">
+                        <div class="grid lg:grid-cols-2 gap-12 items-center">
+                            <!-- Hero Content -->
+                            <div class="text-primary-foreground animate-fade-up">
+                                <div class="inline-flex items-center gap-2 bg-primary-foreground/10 backdrop-blur-sm px-4 py-2 rounded-full mb-6">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-graduation-cap">
+                                        <path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"></path>
+                                        <path d="M22 10v6"></path>
+                                        <path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"></path>
+                                    </svg>
+                                    <span class="text-sm font-medium">منصة تعليمية معتمدة</span>
+                                </div>
+                                
+                                <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6">
+                                    نحو مستقبل تعليمي<br>
+                                    <span class="text-accent">أكثر احترافية</span>
+                                </h1>
+                                
+                                <p class="text-xl md:text-2xl text-primary-foreground/90 mb-8 leading-relaxed">
+                                    نقدم برامج تدريبية حديثة لبناء جيل متميز علميًا ومهنيًا
+                                </p>
+
+                                <div class="flex flex-wrap gap-4 mb-12">
+                                    <a href="#courses" class="btn-accent inline-flex items-center gap-2 text-lg">
+                                        سجل الآن
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-left">
+                                            <path d="m12 19-7-7 7-7"></path>
+                                            <path d="M19 12H5"></path>
+                                        </svg>
+                                    </a>
+                                    <a href="#about" class="inline-flex items-center gap-2 px-6 py-3 rounded-lg font-semibold border-2 border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10 transition-all duration-300">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-play">
+                                            <polygon points="6 3 20 12 6 21 6 3"></polygon>
+                                        </svg>
+                                        شاهد الفيديو
+                                    </a>
+                                </div>
+
+                                <!-- Stats -->
+                                <div class="flex flex-wrap gap-8">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-12 h-12 rounded-full bg-primary-foreground/10 flex items-center justify-center">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-users">
+                                                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                                                <circle cx="9" cy="7" r="4"></circle>
+                                                <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+                                                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                                            </svg>
+                                        </div>
+                                        <div>
+                                            <p class="text-2xl font-bold">+500</p>
+                                            <p class="text-sm text-primary-foreground/80">متدرب</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-12 h-12 rounded-full bg-primary-foreground/10 flex items-center justify-center">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-award">
+                                                <path d="m15.477 12.89 1.515 8.526a.5.5 0 0 1-.81.47l-3.58-2.687a1 1 0 0 0-1.197 0l-3.586 2.686a.5.5 0 0 1-.81-.469l1.514-8.526"></path>
+                                                <circle cx="12" cy="8" r="6"></circle>
+                                            </svg>
+                                        </div>
+                                        <div>
+                                            <p class="text-2xl font-bold">+50</p>
+                                            <p class="text-sm text-primary-foreground/80">دورة</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Hero Visual -->
+                            <div class="hidden lg:flex justify-center items-center">
+                                <div class="relative">
+                                    <div class="w-80 h-80 rounded-full gradient-accent opacity-20 blur-2xl absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></div>
+                                    <div class="relative bg-primary-foreground/10 backdrop-blur-sm rounded-3xl p-8 border border-primary-foreground/20">
+                                        <div class="grid grid-cols-2 gap-4">
+                                            <div class="bg-primary-foreground/10 rounded-2xl p-6 text-center">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-graduation-cap mx-auto mb-3 text-accent">
+                                                    <path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"></path>
+                                                    <path d="M22 10v6"></path>
+                                                    <path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"></path>
+                                                </svg>
+                                                <p class="font-semibold">تعليم متميز</p>
+                                            </div>
+                                            <div class="bg-primary-foreground/10 rounded-2xl p-6 text-center">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-users mx-auto mb-3 text-accent">
+                                                    <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                                                    <circle cx="9" cy="7" r="4"></circle>
+                                                    <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+                                                    <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                                                </svg>
+                                                <p class="font-semibold">مدربون خبراء</p>
+                                            </div>
+                                            <div class="bg-primary-foreground/10 rounded-2xl p-6 text-center">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-award mx-auto mb-3 text-accent">
+                                                    <path d="m15.477 12.89 1.515 8.526a.5.5 0 0 1-.81.47l-3.58-2.687a1 1 0 0 0-1.197 0l-3.586 2.686a.5.5 0 0 1-.81-.469l1.514-8.526"></path>
+                                                    <circle cx="12" cy="8" r="6"></circle>
+                                                </svg>
+                                                <p class="font-semibold">شهادات معتمدة</p>
+                                            </div>
+                                            <div class="bg-accent/20 rounded-2xl p-6 text-center border-2 border-accent">
+                                                <p class="text-3xl font-bold text-accent">+10</p>
+                                                <p class="font-semibold">سنوات خبرة</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Wave Separator -->
+                    <div class="absolute bottom-0 left-0 right-0">
+                        <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M0 120L60 105C120 90 240 60 360 45C480 30 600 30 720 37.5C840 45 960 60 1080 67.5C1200 75 1320 75 1380 75L1440 75V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0Z" fill="hsl(var(--background))"></path>
+                        </svg>
+                    </div>
+                </section>
+
+                <!-- About Section -->
+                <section id="about" class="py-20 bg-background">
+                    <div class="container">
+                        <div class="grid lg:grid-cols-2 gap-16 items-center">
+                            <!-- About Image -->
+                            <div class="relative">
+                                <div class="relative z-10">
+                                    <div class="bg-muted rounded-3xl p-8 shadow-card">
+                                        <img                      src="{{ asset('assets/frontend/default/image/skill-image.png') }}" alt="أكاديمية بروز" class="w-full max-w-sm mx-auto">
+                                    </div>
+                                </div>
+                                <div class="absolute -top-4 -right-4 w-24 h-24 gradient-accent rounded-2xl -z-0"></div>
+                                <div class="absolute -bottom-4 -left-4 w-32 h-32 gradient-primary rounded-2xl -z-0"></div>
+                            </div>
+
+                            <!-- About Content -->
+                            <div>
+                                <span class="inline-block text-accent font-semibold mb-2">تعرف علينا</span>
+                                <h2 class="section-title">من نحن</h2>
+                                <p class="text-muted-foreground text-lg leading-relaxed mb-6">
+                                    أكاديمية بروز للتدريب الحديث تسعى لتقديم برامج تعليمية وتدريبية متطورة تواكب متطلبات سوق العمل. نحن نؤمن بأن التعليم هو أساس النجاح، ونعمل على تمكين الأفراد من تحقيق أهدافهم المهنية من خلال برامج تدريبية شاملة ومعتمدة.
+                                </p>
+
+                                <!-- Features List -->
+                                <div class="grid sm:grid-cols-2 gap-4 mb-8">
+                                    <div class="flex items-center gap-3">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check text-accent flex-shrink-0">
+                                            <circle cx="12" cy="12" r="10"></circle>
+                                            <path d="m9 12 2 2 4-4"></path>
+                                        </svg>
+                                        <span class="text-foreground font-medium">برامج تدريبية معتمدة دولياً</span>
+                                    </div>
+                                    <div class="flex items-center gap-3">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check text-accent flex-shrink-0">
+                                            <circle cx="12" cy="12" r="10"></circle>
+                                            <path d="m9 12 2 2 4-4"></path>
+                                        </svg>
+                                        <span class="text-foreground font-medium">مدربون ذوو خبرة عالية</span>
+                                    </div>
+                                    <div class="flex items-center gap-3">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check text-accent flex-shrink-0">
+                                            <circle cx="12" cy="12" r="10"></circle>
+                                            <path d="m9 12 2 2 4-4"></path>
+                                        </svg>
+                                        <span class="text-foreground font-medium">بيئة تعليمية محفزة</span>
+                                    </div>
+                                    <div class="flex items-center gap-3">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-circle-check text-accent flex-shrink-0">
+                                            <circle cx="12" cy="12" r="10"></circle>
+                                            <path d="m9 12 2 2 4-4"></path>
+                                        </svg>
+                                        <span class="text-foreground font-medium">دعم مستمر للمتدربين</span>
+                                    </div>
+                                </div>
+
+                                <!-- Vision, Mission, Values -->
+                                <div class="grid sm:grid-cols-3 gap-4">
+                                    <div class="card-edu text-center">
+                                        <div class="w-12 h-12 mx-auto gradient-primary rounded-xl flex items-center justify-center mb-3">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-eye text-primary-foreground">
+                                                <path d="M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0"></path>
+                                                <circle cx="12" cy="12" r="3"></circle>
+                                            </svg>
+                                        </div>
+                                        <h3 class="font-bold text-foreground mb-1">رؤيتنا</h3>
+                                        <p class="text-sm text-muted-foreground">الريادة في التدريب والتطوير</p>
+                                    </div>
+                                    <div class="card-edu text-center">
+                                        <div class="w-12 h-12 mx-auto gradient-accent rounded-xl flex items-center justify-center mb-3">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-target text-accent-foreground">
+                                                <circle cx="12" cy="12" r="10"></circle>
+                                                <circle cx="12" cy="12" r="6"></circle>
+                                                <circle cx="12" cy="12" r="2"></circle>
+                                            </svg>
+                                        </div>
+                                        <h3 class="font-bold text-foreground mb-1">رسالتنا</h3>
+                                        <p class="text-sm text-muted-foreground">تمكين الأفراد والمؤسسات</p>
+                                    </div>
+                                    <div class="card-edu text-center">
+                                        <div class="w-12 h-12 mx-auto gradient-primary rounded-xl flex items-center justify-center mb-3">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-lightbulb text-primary-foreground">
+                                                <path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"></path>
+                                                <path d="M9 18h6"></path>
+                                                <path d="M10 22h4"></path>
+                                            </svg>
+                                        </div>
+                                        <h3 class="font-bold text-foreground mb-1">قيمنا</h3>
+                                        <p class="text-sm text-muted-foreground">التميز والإبداع والجودة</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                @php
+                $featured_courses = App\Models\Course::where('status', 'active')->latest('id')->get();
+                @endphp
+
+        <section id="courses" class="py-20 bg-muted">
+            <div class="container">
+                <!-- Section Header -->
+                <div class="text-center mb-16">
+                    <span class="inline-block text-accent font-semibold mb-2">برامجنا</span>
+                    <h2 class="section-title">الدورات التدريبية</h2>
+                    <p class="section-subtitle">
+                        اكتشف مجموعة متنوعة من الدورات التدريبية المصممة لتطوير مهاراتك وتعزيز مسيرتك المهنية
+                    </p>
+                </div>
+                
+                <!-- Courses Grid -->
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    
+                    @foreach ($featured_courses->take(6) as $key => $row)
+                    <!-- Course Card {{ $key + 1 }} -->
+                    <article class="bg-card rounded-2xl overflow-hidden shadow-card hover-lift group">
+                        <!-- Course Image -->
+                        <div class="relative h-48 overflow-hidden">
+                            <img src="{{ get_image($row->thumbnail) }}" 
+                                alt="{{ ucfirst($row->title) }}" 
+                                class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                            
+                            <!-- Price Badge -->
+                            <div class="absolute top-4 right-4 flex flex-col gap-2">
+                                @if (isset($row->category))
+                                <span class="bg-accent text-accent-foreground px-3 py-1 rounded-full text-sm font-medium">
+                                    {{ $row->category->name }}
+                                </span>
+                                @endif
+                                
+                                <span class="bg-primary text-primary-foreground px-3 py-1 rounded-full text-sm font-bold">
+                                    @if (isset($row->is_paid) && $row->is_paid == 0)
+                                        {{ get_phrase('مجاني') }}
+                                    @elseif (isset($row->discount_flag) && $row->discount_flag == 1)
+                                        {{ currency($row->discounted_price, 2) }}
+                                    @else
+                                        {{ currency($row->price, 2) }}
+                                    @endif
+                                </span>
+                            </div>
+                            
+                            <!-- Wishlist Button -->
+                            @auth
+                            <button 
+                                data-bs-toggle="tooltip" 
+                                data-bs-title="{{ $row->wishlists()->where('course_id', $row->id)->count() > 0 ? get_phrase('إزالة من المفضلة') : get_phrase('إضافة للمفضلة') }}" 
+                                class="absolute top-4 left-4 w-10 h-10 bg-white/90 hover:bg-white rounded-full flex items-center justify-center transition-all {{ $row->wishlists()->where('course_id', $row->id)->count() > 0 ? 'text-red-500' : 'text-gray-600' }}" 
+                                onclick="event.preventDefault(); wishlistToggle('{{ $row->id }}', this)">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="{{ $row->wishlists()->where('course_id', $row->id)->count() > 0 ? 'currentColor' : 'none' }}" stroke="currentColor" stroke-width="2">
+                                    <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+                                </svg>
+                            </button>
+                            @endauth
+                        </div>
+                        
+                        <!-- Course Content -->
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-foreground mb-2 group-hover:text-primary transition-colors line-clamp-2">
+                                {{ ellipsis(ucfirst($row->title), 80) }}
+                            </h3>
+                            
+                            @if (isset($row->short_description))
+                            <p class="text-muted-foreground mb-4 line-clamp-2">
+                                {{ ellipsis($row->short_description, 100) }}
+                            </p>
+                            @endif
+                            
+                            <!-- Course Meta Info -->
+                            <div class="flex items-center justify-between text-sm text-muted-foreground mb-4">
+                                <!-- Lessons -->
+                                <div class="flex items-center gap-1">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="m16 6 4 14"></path>
+                                        <path d="M12 6v14"></path>
+                                        <path d="M8 8v12"></path>
+                                        <path d="M4 4v16"></path>
+                                    </svg>
+                                    <span>{{ lesson_count($row->id) }} {{ get_phrase('درس') }}</span>
+                                </div>
+                                
+                                <!-- Students -->
+                                <div class="flex items-center gap-1">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                                        <circle cx="9" cy="7" r="4"></circle>
+                                        <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+                                        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                                    </svg>
+                                    <span>{{ course_enrollments($row->id) }} {{ get_phrase('متدرب') }}</span>
+                                </div>
+                                
+                                <!-- Rating -->
+                                @if (isset($row->rating))
+                                <div class="flex items-center gap-1 text-accent">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2">
+                                        <path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"></path>
+                                    </svg>
+                                    <span>{{ number_format($row->rating, 1) }}</span>
+                                </div>
+                                @endif
+                            </div>
+                            
+                            <!-- Instructor Info -->
+                            <div class="flex items-center gap-2 mb-4 pb-4 border-b border-border">
+                                <img src="{{ course_instructor_image($row->id) }}" 
+                                    alt="{{ course_by_instructor($row->id)->name }}" 
+                                    class="w-8 h-8 rounded-full object-cover">
+                                <p class="text-sm text-muted-foreground">
+                                    {{ get_phrase('بواسطة') }} 
+                                    <span class="font-medium text-foreground">{{ course_by_instructor($row->id)->name }}</span>
+                                </p>
+                            </div>
+                            
+                            <!-- Discounted Price Display (if applicable) -->
+                            @if (isset($row->discount_flag) && $row->discount_flag == 1)
+                            <div class="mb-4">
+                                <span class="text-2xl font-bold text-primary">{{ currency($row->discounted_price, 2) }}</span>
+                                <span class="text-sm text-muted-foreground line-through mr-2">{{ currency($row->price, 2) }}</span>
+                                <span class="inline-block bg-red-100 text-red-600 text-xs px-2 py-1 rounded-full mr-2">
+                                    خصم {{ round((($row->price - $row->discounted_price) / $row->price) * 100) }}%
+                                </span>
+                            </div>
+                            @endif
+                            
+                            <!-- CTA Button -->
+                            <a href="{{ route('course.details', $row->slug) }}" 
+                            class="flex items-center justify-center gap-2 w-full btn-primary text-center">
+                                عرض التفاصيل
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="m12 19-7-7 7-7"></path>
+                                    <path d="M19 12H5"></path>
+                                </svg>
+                            </a>
+                        </div>
+                    </article>
+                    @endforeach
+                    
+                </div>
+                
+                <!-- View All Button -->
+                <div class="text-center mt-12">
+                    <a href="{{ route('courses') }}" class="btn-accent inline-flex items-center gap-2 text-lg">
+                        عرض جميع الدورات
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="m12 19-7-7 7-7"></path>
+                            <path d="M19 12H5"></path>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+
+                <section id="programs" class="py-20 bg-background relative overflow-hidden">
+    <!-- Background Decoration -->
+    <div class="absolute top-0 left-0 w-1/2 h-full gradient-primary opacity-5 -skew-x-12 transform origin-top-left"></div>
+    
+    <div class="container relative z-10">
+        <!-- Section Header -->
+        <div class="text-center mb-16">
+            <span class="inline-block text-accent font-semibold mb-2">مميزاتنا</span>
+            <h2 class="section-title">لماذا تختار أكاديمية بروز؟</h2>
+            <p class="section-subtitle">
+                نقدم لك تجربة تعليمية متميزة تجمع بين الجودة والاحترافية والدعم المستمر
+            </p>
+        </div>
+        
+        <!-- Features Grid -->
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            
+            <!-- Feature 1: مدربون معتمدون -->
+            <div class="group relative bg-card rounded-2xl p-8 shadow-card hover-lift border border-border hover:border-primary/30 transition-all duration-300">
+                <div class="w-16 h-16 gradient-primary rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-primary-foreground">
+                        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="9" cy="7" r="4"></circle>
+                        <polyline points="16 11 18 13 22 9"></polyline>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-bold text-foreground mb-3">مدربون معتمدون</h3>
+                <p class="text-muted-foreground leading-relaxed">
+                    نخبة من المدربين المعتمدين دولياً ذوي الخبرة العملية الواسعة
+                </p>
+                <div class="absolute bottom-0 left-0 right-0 h-1 gradient-accent rounded-b-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            </div>
+            
+            <!-- Feature 2: مناهج حديثة -->
+            <div class="group relative bg-card rounded-2xl p-8 shadow-card hover-lift border border-border hover:border-primary/30 transition-all duration-300">
+                <div class="w-16 h-16 gradient-primary rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-primary-foreground">
+                        <path d="M12 7v14"></path>
+                        <path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"></path>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-bold text-foreground mb-3">مناهج حديثة</h3>
+                <p class="text-muted-foreground leading-relaxed">
+                    مناهج تعليمية متطورة تواكب أحدث التطورات في سوق العمل
+                </p>
+                <div class="absolute bottom-0 left-0 right-0 h-1 gradient-accent rounded-b-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            </div>
+            
+            <!-- Feature 3: شهادات معتمدة -->
+            <div class="group relative bg-card rounded-2xl p-8 shadow-card hover-lift border border-border hover:border-primary/30 transition-all duration-300">
+                <div class="w-16 h-16 gradient-primary rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-primary-foreground">
+                        <path d="m15.477 12.89 1.515 8.526a.5.5 0 0 1-.81.47l-3.58-2.687a1 1 0 0 0-1.197 0l-3.586 2.686a.5.5 0 0 1-.81-.469l1.514-8.526"></path>
+                        <circle cx="12" cy="8" r="6"></circle>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-bold text-foreground mb-3">شهادات معتمدة</h3>
+                <p class="text-muted-foreground leading-relaxed">
+                    شهادات معترف بها محلياً ودولياً تعزز سيرتك الذاتية
+                </p>
+                <div class="absolute bottom-0 left-0 right-0 h-1 gradient-accent rounded-b-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            </div>
+            
+            <!-- Feature 4: دعم مستمر للمتدربين -->
+            <div class="group relative bg-card rounded-2xl p-8 shadow-card hover-lift border border-border hover:border-primary/30 transition-all duration-300">
+                <div class="w-16 h-16 gradient-primary rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-primary-foreground">
+                        <path d="M3 14h3a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-7a9 9 0 0 1 18 0v7a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3"></path>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-bold text-foreground mb-3">دعم مستمر للمتدربين</h3>
+                <p class="text-muted-foreground leading-relaxed">
+                    فريق دعم متخصص لمساعدتك طوال رحلتك التعليمية
+                </p>
+                <div class="absolute bottom-0 left-0 right-0 h-1 gradient-accent rounded-b-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            </div>
+            
+            <!-- Feature 5: تدريب عملي -->
+            <div class="group relative bg-card rounded-2xl p-8 shadow-card hover-lift border border-border hover:border-primary/30 transition-all duration-300">
+                <div class="w-16 h-16 gradient-primary rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-primary-foreground">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <circle cx="12" cy="12" r="6"></circle>
+                        <circle cx="12" cy="12" r="2"></circle>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-bold text-foreground mb-3">تدريب عملي</h3>
+                <p class="text-muted-foreground leading-relaxed">
+                    تطبيق عملي للمهارات المكتسبة من خلال مشاريع حقيقية
+                </p>
+                <div class="absolute bottom-0 left-0 right-0 h-1 gradient-accent rounded-b-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            </div>
+            
+            <!-- Feature 6: تطوير مستمر -->
+            <div class="group relative bg-card rounded-2xl p-8 shadow-card hover-lift border border-border hover:border-primary/30 transition-all duration-300">
+                <div class="w-16 h-16 gradient-primary rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-primary-foreground">
+                        <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline>
+                        <polyline points="16 7 22 7 22 13"></polyline>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-bold text-foreground mb-3">تطوير مستمر</h3>
+                <p class="text-muted-foreground leading-relaxed">
+                    متابعة مستمرة لتطورك المهني بعد انتهاء البرنامج
+                </p>
+                <div class="absolute bottom-0 left-0 right-0 h-1 gradient-accent rounded-b-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            </div>
+            
+        </div>
+    </div>
+</section>
+              <section class="py-20 gradient-hero relative overflow-hidden">
+    <!-- Pattern Overlay -->
+    <div class="absolute inset-0 opacity-10" style="background-image: url('data:image/svg+xml,...');"></div>
+    
+    <div class="container relative z-10">
+        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            
+            <!-- Stat 1: +500 متدرب -->
+            <div class="text-center text-primary-foreground group">
+                <div class="w-20 h-20 mx-auto bg-primary-foreground/10 backdrop-blur-sm rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-primary-foreground/20 transition-all duration-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-accent">
+                        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="9" cy="7" r="4"></circle>
+                        <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                    </svg>
+                </div>
+                <p class="text-5xl font-bold mb-2">+500</p>
+                <p class="text-xl text-primary-foreground/80">متدرب</p>
+            </div>
+            
+            <!-- Stat 2: +50 دورة تدريبية -->
+            <div class="text-center text-primary-foreground group">
+                <div class="w-20 h-20 mx-auto bg-primary-foreground/10 backdrop-blur-sm rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-primary-foreground/20 transition-all duration-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-accent">
+                        <path d="M12 7v14"></path>
+                        <path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"></path>
+                    </svg>
+                </div>
+                <p class="text-5xl font-bold mb-2">+50</p>
+                <p class="text-xl text-primary-foreground/80">دورة تدريبية</p>
+            </div>
+            
+            <!-- Stat 3: +30 شهادة معتمدة -->
+            <div class="text-center text-primary-foreground group">
+                <div class="w-20 h-20 mx-auto bg-primary-foreground/10 backdrop-blur-sm rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-primary-foreground/20 transition-all duration-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-accent">
+                        <path d="m15.477 12.89 1.515 8.526a.5.5 0 0 1-.81.47l-3.58-2.687a1 1 0 0 0-1.197 0l-3.586 2.686a.5.5 0 0 1-.81-.469l1.514-8.526"></path>
+                        <circle cx="12" cy="8" r="6"></circle>
+                    </svg>
+                </div>
+                <p class="text-5xl font-bold mb-2">+30</p>
+                <p class="text-xl text-primary-foreground/80">شهادة معتمدة</p>
+            </div>
+            
+            <!-- Stat 4: +10 سنوات خبرة -->
+            <div class="text-center text-primary-foreground group">
+                <div class="w-20 h-20 mx-auto bg-primary-foreground/10 backdrop-blur-sm rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-primary-foreground/20 transition-all duration-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-accent">
+                        <path d="M8 2v4"></path>
+                        <path d="M16 2v4"></path>
+                        <rect width="18" height="18" x="3" y="4" rx="2"></rect>
+                        <path d="M3 10h18"></path>
+                    </svg>
+                </div>
+                <p class="text-5xl font-bold mb-2">+10</p>
+                <p class="text-xl text-primary-foreground/80">سنوات خبرة</p>
+            </div>
+            
+        </div>
+    </div>
+</section>
+              
+              
+@php
+    $popular_instructors = DB::table('courses')
+        ->select('enrollments.user_id', DB::raw('count(*) as enrol_number'))
+        ->join('enrollments', 'courses.id', '=', 'enrollments.course_id')
+        ->groupBy('enrollments.user_id')
+        ->orderBy('enrol_number', 'DESC')
+        ->limit(8)
+        ->get();
+@endphp
+
+<!-- SECTION 9: TEAM SECTION -->
+<section id="team" class="py-20 bg-muted">
+    <div class="container">
+        <!-- Section Header -->
+        <div class="text-center mb-16">
+            <span class="inline-block text-accent font-semibold mb-2">تعرف على فريقنا</span>
+            <h2 class="section-title">فريق العمل</h2>
+            <p class="section-subtitle">
+                نخبة من الخبراء والمتخصصين الملتزمين بتقديم أفضل تجربة تعليمية
+            </p>
+        </div>
+        
+        <!-- Team Grid -->
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            
+            @foreach ($popular_instructors as $key => $instructor)
+                @php
+                    $instructorDetails = App\Models\User::where('id', $instructor->user_id)->first();
+                    if (!$instructorDetails) {
+                        continue;
+                    }
+                    
+                    // Get instructor's bio or description
+                    $bio = $instructorDetails->biography ?? $instructorDetails->description ?? 'خبير في مجال التعليم والتدريب';
+                    
+                    // Get total courses taught
+                    $totalCourses = DB::table('courses')->where('user_id', $instructorDetails->id)->count();
+                    
+                    // Get total students
+                    $totalStudents = $instructor->enrol_number ?? 0;
+                @endphp
+                
+                <!-- Team Member -->
+                <div class="group bg-card rounded-2xl overflow-hidden shadow-card hover-lift">
+                    <div class="relative overflow-hidden">
+                        <a href="{{ route('instructor.details', ['name' => slugify($instructorDetails->name), 'id' => $instructorDetails->id]) }}">
+                            @if($instructorDetails->photo)
+                                <img src="{{ get_image($instructorDetails->photo) }}" 
+                                     alt="{{ $instructorDetails->name }}" 
+                                     class="w-full h-72 object-cover group-hover:scale-110 transition-transform duration-500">
+                            @else
+                                <img src="{{ asset('assets/frontend/default/image/user-placeholder.png') }}" 
+                                     alt="{{ $instructorDetails->name }}" 
+                                     class="w-full h-72 object-cover group-hover:scale-110 transition-transform duration-500">
+                            @endif
+                        </a>
+                        
+                        <div class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        
+                        <!-- Social Links -->
+                        <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            @if($instructorDetails->facebook)
+                                <a href="{{ $instructorDetails->facebook }}" target="_blank" rel="noopener noreferrer" 
+                                   class="w-10 h-10 bg-primary-foreground rounded-full flex items-center justify-center hover:bg-accent transition-colors"
+                                   aria-label="فيسبوك">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" class="text-primary" aria-hidden="true">
+                                        <path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"></path>
+                                    </svg>
+                                </a>
+                            @endif
+                            
+                            @if($instructorDetails->linkedin)
+                                <a href="{{ $instructorDetails->linkedin }}" target="_blank" rel="noopener noreferrer"
+                                   class="w-10 h-10 bg-primary-foreground rounded-full flex items-center justify-center hover:bg-accent transition-colors"
+                                   aria-label="لينكد إن">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" class="text-primary" aria-hidden="true">
+                                        <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                                    </svg>
+                                </a>
+                            @endif
+                            
+                            @if($instructorDetails->twitter)
+                                <a href="{{ $instructorDetails->twitter }}" target="_blank" rel="noopener noreferrer"
+                                   class="w-10 h-10 bg-primary-foreground rounded-full flex items-center justify-center hover:bg-accent transition-colors"
+                                   aria-label="تويتر">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" class="text-primary" aria-hidden="true">
+                                        <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                                    </svg>
+                                </a>
+                            @endif
+                        </div>
+                        
+                        <!-- Stats Badge (Optional) -->
+                        <div class="absolute top-4 right-4 bg-accent text-accent-foreground px-3 py-1 rounded-full text-xs font-medium">
+                            {{ $totalStudents }} طالب
+                        </div>
+                    </div>
+                    
+                    <div class="p-6 text-center">
+                        <a href="{{ route('instructor.details', ['name' => slugify($instructorDetails->name), 'id' => $instructorDetails->id]) }}">
+                            <h3 class="text-xl font-bold text-foreground mb-1 hover:text-primary transition-colors">
+                                {{ $instructorDetails->name }}
+                            </h3>
+                        </a>
+                        <p class="text-accent font-medium mb-2">{{ get_phrase('Instructor') }}</p>
+                        <p class="text-sm text-muted-foreground line-clamp-2">
+                            {{ ellipsis($bio, 80) }}
+                        </p>
+                        
+                        <!-- Additional Stats (Optional) -->
+                        <div class="flex justify-center gap-4 mt-4 pt-4 border-t border-border">
+                            <div class="text-center">
+                                <p class="text-lg font-bold text-foreground">{{ $totalCourses }}</p>
+                                <p class="text-xs text-muted-foreground">دورة</p>
+                            </div>
+                            <div class="text-center">
+                                <p class="text-lg font-bold text-foreground">{{ $totalStudents }}</p>
+                                <p class="text-xs text-muted-foreground">طالب</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+            
+            @if($popular_instructors->count() == 0)
+                <div class="col-span-full text-center py-12">
+                    <p class="text-muted-foreground">لا يوجد مدربون متاحون حالياً</p>
+                </div>
+            @endif
+            
+        </div>
+        
+        <!-- View All Button -->
+        <div class="text-center mt-12">
+            <a href="{{ route('instructors') }}" class="btn-primary inline-flex items-center gap-2">
+                عرض جميع المدربين
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="m12 19-7-7 7-7"></path>
+                    <path d="M19 12H5"></path>
+                </svg>
+            </a>
+        </div>
+    </div>
+</section>
+<!-- SECTION 10: TESTIMONIALS SECTION -->
+<section class="py-20 bg-background">
+    <div class="container">
+        <!-- Section Header -->
+        <div class="text-center mb-16">
+            <span class="inline-block text-accent font-semibold mb-2">آراء المتدربين</span>
+            <h2 class="section-title">ماذا يقول عملاؤنا</h2>
+            <p class="section-subtitle">
+                تجارب حقيقية من متدربينا السابقين
+            </p>
+        </div>
+        
+        <!-- Testimonials Grid -->
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            
+            @php
+                $testimonials = json_decode(get_frontend_settings('testimonials'), true);
+            @endphp
+            
+            @if($testimonials && is_array($testimonials))
+                @foreach ($testimonials as $key => $testimonial)
+                    <!-- Testimonial Card -->
+                    <div class="bg-card rounded-2xl p-8 shadow-card hover-lift border border-border">
+                        <!-- Rating Stars -->
+                        <div class="flex gap-1 mb-4">
+                            @for ($i = 1; $i <= 5; $i++)
+                                @if($i <= (isset($testimonial['rating']) ? $testimonial['rating'] : 5))
+                                    <!-- Filled Star -->
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" class="text-accent">
+                                        <path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"></path>
+                                    </svg>
+                                @else
+                                    <!-- Empty Star -->
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-accent">
+                                        <path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"></path>
+                                    </svg>
+                                @endif
+                            @endfor
+                        </div>
+                        
+                        <!-- Testimonial Text -->
+                        <p class="text-muted-foreground leading-relaxed mb-6">
+                            "{{ $testimonial['comment'] ?? 'لا يوجد تعليق' }}"
+                        </p>
+                        
+                        <!-- Author Info -->
+                        <div class="flex items-center gap-4">
+                            @if(isset($testimonial['image']) && $testimonial['image'])
+                                <img src="{{ get_image($testimonial['image']) }}" 
+                                     alt="{{ $testimonial['name'] ?? 'متدرب' }}" 
+                                     class="w-14 h-14 rounded-full object-cover">
+                            @else
+                                <img src="{{ asset('assets/frontend/default/image/user-placeholder.png') }}" 
+                                     alt="{{ $testimonial['name'] ?? 'متدرب' }}" 
+                                     class="w-14 h-14 rounded-full object-cover">
+                            @endif
+                            <div>
+                                <h4 class="font-bold text-foreground">{{ $testimonial['name'] ?? 'متدرب' }}</h4>
+                                <p class="text-sm text-muted-foreground">{{ $testimonial['position'] ?? 'عميل' }}</p>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            @else
+                <!-- Fallback if no testimonials -->
+                <div class="col-span-full text-center py-12">
+                    <p class="text-muted-foreground">لا توجد شهادات متاحة حالياً</p>
+                </div>
+            @endif
+            
+        </div>
+    </div>
+</section>
+              
+<!-- SECTION 11: NEWS & BLOG SECTION -->
+@php
+    use Carbon\Carbon;
+    $blogs = App\Models\Blog::where('status', 1)
+        ->orderBy('is_popular', 'desc')
+        ->orderBy('id', 'desc')
+        ->take(3)
+        ->get();
+@endphp
+
+<!-- SECTION 11: NEWS & BLOG SECTION -->
+<section id="news" class="py-20 bg-muted">
+    <div class="container">
+        <!-- Section Header -->
+        <div class="text-center mb-16">
+            <span class="inline-block text-accent font-semibold mb-2">آخر الأخبار</span>
+            <h2 class="section-title">الأخبار والمقالات</h2>
+            <p class="section-subtitle">
+                تابع آخر أخبارنا ومقالاتنا التعليمية
+            </p>
+        </div>
+        
+        <!-- News Grid -->
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            
+            @foreach ($blogs as $key => $blog)
+            <!-- News Article -->
+            <article class="bg-card rounded-2xl overflow-hidden shadow-card hover-lift group">
+                <a href="{{ route('blog.details', $blog->slug) }}">
+                    <div class="relative h-56 overflow-hidden">
+                        <img src="{{ get_image($blog->thumbnail) }}" 
+                             alt="{{ $blog->title }}" 
+                             class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute top-4 right-4 bg-accent text-accent-foreground px-3 py-1 rounded-full text-sm font-medium">
+                            {{ $blog->is_popular ? 'أخبار' : 'مقالات' }}
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <!-- Date -->
+                        <div class="flex items-center gap-2 text-sm text-muted-foreground mb-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect width="18" height="18" x="3" y="4" rx="2" ry="2"></rect>
+                                <line x1="16" x2="16" y1="2" y2="6"></line>
+                                <line x1="8" x2="8" y1="2" y2="6"></line>
+                                <line x1="3" x2="21" y1="10" y2="10"></line>
+                            </svg>
+                            <span>{{ Carbon::parse($blog->created_at)->locale('ar')->translatedFormat('j F Y') }}</span>
+                        </div>
+                        
+                        <h3 class="text-xl font-bold text-foreground mb-3 group-hover:text-primary transition-colors">
+                            {{ ucfirst($blog->title) }}
+                        </h3>
+                        <p class="text-muted-foreground mb-4 line-clamp-3">
+                            {{ ellipsis(strip_tags($blog->description), 160) }}
+                        </p>
+                        <span class="inline-flex items-center gap-2 text-accent font-medium hover:gap-3 transition-all">
+                            اقرأ المزيد
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="m12 19-7-7 7-7"></path>
+                                <path d="M19 12H5"></path>
+                            </svg>
+                        </span>
+                    </div>
+                </a>
+            </article>
+            @endforeach
+            
+        </div>
+        
+        <!-- View All Button -->
+        <div class="text-center mt-12">
+            <a href="{{ route('blogs') }}" class="btn-primary inline-flex items-center gap-2">
+                عرض جميع المقالات
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="m12 19-7-7 7-7"></path>
+                    <path d="M19 12H5"></path>
+                </svg>
+            </a>
+        </div>
+    </div>
+</section>
+ 
+
+<!-- SECTION 14: CONTACT SECTION -->
+<!-- SECTION 14: CONTACT SECTION -->
+<section id="contact" class="py-20 bg-background">
+    <div class="container">
+        <div class="grid lg:grid-cols-2 gap-16 items-start">
+            
+            <!-- Contact Info -->
+            <div>
+                <span class="inline-block text-accent font-semibold mb-2">تواصل معنا</span>
+                <h2 class="section-title mb-6">نسعد بتواصلكم</h2>
+                <p class="text-muted-foreground text-lg leading-relaxed mb-8">
+                    لديك استفسار أو تحتاج إلى مساعدة؟ فريقنا جاهز للإجابة على جميع أسئلتك ومساعدتك في اختيار البرنامج التدريبي المناسب.
+                </p>
+                
+                <!-- Contact Details -->
+                <div class="space-y-6">
+                    <!-- Phone -->
+                    <div class="flex items-start gap-4">
+                        <div class="w-14 h-14 gradient-primary rounded-2xl flex items-center justify-center flex-shrink-0">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-primary-foreground">
+                                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-foreground mb-1">اتصل بنا</h3>
+                            <p class="text-muted-foreground">{{ get_settings('phone') }}</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Email -->
+                    <div class="flex items-start gap-4">
+                        <div class="w-14 h-14 gradient-accent rounded-2xl flex items-center justify-center flex-shrink-0">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-accent-foreground">
+                                <rect width="20" height="16" x="2" y="4" rx="2"></rect>
+                                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-foreground mb-1">راسلنا</h3>
+                            <p class="text-muted-foreground">{{ get_settings('system_email') }}</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Location -->
+                    <div class="flex items-start gap-4">
+                        <div class="w-14 h-14 gradient-primary rounded-2xl flex items-center justify-center flex-shrink-0">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-primary-foreground">
+                                <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path>
+                                <circle cx="12" cy="10" r="3"></circle>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-foreground mb-1">موقعنا</h3>
+                            <p class="text-muted-foreground">{{ get_settings('address') }}</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Working Hours -->
+                    <div class="flex items-start gap-4">
+                        <div class="w-14 h-14 gradient-accent rounded-2xl flex items-center justify-center flex-shrink-0">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-accent-foreground">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-foreground mb-1">أوقات العمل</h3>
+                            <p class="text-muted-foreground">الأحد - الخميس: 9:00 ص - 6:00 م</p>
+                            <p class="text-muted-foreground">الجمعة - السبت: مغلق</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Social Media -->
+                <div class="mt-8">
+                    <h3 class="font-bold text-foreground mb-4">تابعنا على</h3>
+                    <div class="flex gap-3">
+                        <a href="#" class="w-12 h-12 gradient-primary rounded-xl flex items-center justify-center hover:scale-110 transition-transform">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" class="text-primary-foreground">
+                                <path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"></path>
+                            </svg>
+                        </a>
+                        <a href="#" class="w-12 h-12 gradient-primary rounded-xl flex items-center justify-center hover:scale-110 transition-transform">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" class="text-primary-foreground">
+                                <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path>
+                            </svg>
+                        </a>
+                        <a href="#" class="w-12 h-12 gradient-primary rounded-xl flex items-center justify-center hover:scale-110 transition-transform">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" class="text-primary-foreground">
+                                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                                <rect width="4" height="12" x="2" y="9"></rect>
+                                <circle cx="4" cy="4" r="2"></circle>
+                            </svg>
+                        </a>
+                        <a href="#" class="w-12 h-12 gradient-primary rounded-xl flex items-center justify-center hover:scale-110 transition-transform">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-primary-foreground">
+                                <rect width="20" height="20" x="2" y="2" rx="5" ry="5"></rect>
+                                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                                <line x1="17.5" x2="17.51" y1="6.5" y2="6.5"></line>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Contact Form -->
+            <div class="bg-card rounded-3xl p-8 shadow-card border border-border">
+                <h3 class="text-2xl font-bold text-foreground mb-6">أرسل لنا رسالة</h3>
+                
+                @if(Session::has('success'))
+                    <div class="mb-4 p-4 bg-green-100 border border-green-400 text-green-700 rounded-lg">
+                        {{ Session::get('success') }}
+                    </div>
+                @endif
+                
+                @if(Session::has('error'))
+                    <div class="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg">
+                        {{ Session::get('error') }}
+                    </div>
+                @endif
+                
+                @if($errors->any())
+                    <div class="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg">
+                        <ul class="list-disc list-inside">
+                            @foreach($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+                
+                <form action="{{ route('contact.store') }}" method="POST" class="space-y-6">
+                    @csrf
+                    
+                    <!-- Name Input -->
+                    <div>
+                        <label for="name" class="block text-sm font-medium text-foreground mb-2">الاسم الكامل <span class="text-red-500">*</span></label>
+                        <input 
+                            type="text" 
+                            id="name" 
+                            name="name"
+                            value="{{ old('name') }}"
+                            class="w-full px-4 py-3 rounded-lg border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary transition-all"
+                            placeholder="أدخل اسمك الكامل"
+                            required
+                        >
+                    </div>
+                    
+                    <!-- Email Input -->
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-foreground mb-2">البريد الإلكتروني <span class="text-red-500">*</span></label>
+                        <input 
+                            type="email" 
+                            id="email" 
+                            name="email"
+                            value="{{ old('email') }}"
+                            class="w-full px-4 py-3 rounded-lg border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary transition-all"
+                            placeholder="example@email.com"
+                            required
+                        >
+                    </div>
+                    
+                    <!-- Phone Input -->
+                    <div>
+                        <label for="phone" class="block text-sm font-medium text-foreground mb-2">رقم الجوال <span class="text-red-500">*</span></label>
+                        <input 
+                            type="tel" 
+                            id="phone" 
+                            name="phone"
+                            value="{{ old('phone') }}"
+                            class="w-full px-4 py-3 rounded-lg border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary transition-all"
+                            placeholder="+966 5X XXX XXXX"
+                            required
+                        >
+                    </div>
+                    
+                    <!-- Address Input -->
+                    <div>
+                        <label for="address" class="block text-sm font-medium text-foreground mb-2">العنوان <span class="text-red-500">*</span></label>
+                        <input 
+                            type="text" 
+                            id="address" 
+                            name="address"
+                            value="{{ old('address') }}"
+                            class="w-full px-4 py-3 rounded-lg border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary transition-all"
+                            placeholder="أدخل عنوانك"
+                            required
+                        >
+                    </div>
+                    
+                    <!-- Message Textarea -->
+                    <div>
+                        <label for="message" class="block text-sm font-medium text-foreground mb-2">الرسالة <span class="text-red-500">*</span></label>
+                        <textarea 
+                            id="message" 
+                            name="message"
+                            rows="5" 
+                            class="w-full px-4 py-3 rounded-lg border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary transition-all resize-none"
+                            placeholder="اكتب رسالتك هنا..."
+                            required
+                        >{{ old('message') }}</textarea>
+                    </div>
+                    
+                    @if(get_frontend_settings('recaptcha_status') == true)
+                        <!-- reCAPTCHA -->
+                        <div class="g-recaptcha" data-sitekey="{{ get_frontend_settings('recaptcha_sitekey') }}"></div>
+                    @endif
+                    
+                    <!-- Submit Button -->
+                    <button type="submit" class="w-full btn-accent flex items-center justify-center gap-2">
+                        إرسال الرسالة
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="m3 3 3 9-3 9 19-9Z"></path>
+                            <path d="M6 12h16"></path>
+                        </svg>
+                    </button>
+                </form>
+            </div>
+            
+        </div>
+    </div>
+</section>
+
+@if(get_frontend_settings('recaptcha_status') == true)
+    @push('scripts')
+        <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    @endpush
+@endif
+
+<!---->
+
+<!--footer-->
+{{-- Footer Component with Tailwind CSS --}}
+{{-- reCAPTCHA Script --}}
+ 
+
+<footer class="bg-gradient-to-br from-blue-900 via-blue-800 to-blue-900 text-white">
+    <div class="container mx-auto px-4 py-16">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-12">
+            
+            {{-- Brand Column - 4 columns on large screens --}}
+            <div class="lg:col-span-4">
+                <div class="footer-content drop-area space-y-6">
+                    {{-- Logo and Brand --}}
+                    <div class="flex items-center gap-3">
+                        <img src="{{ get_image(get_frontend_settings('light_logo')) }}" 
+                             alt="أكاديمية بروز" 
+                             class="h-16 w-16 object-contain bg-white rounded-full p-1">
+                        <div>
+                            <h3 class="text-xl font-bold text-white">أكاديمية بروز</h3>
+                            <p class="text-sm text-white/80">P.A.M.T</p>
+                        </div>
+                    </div>
+
+                    {{-- Description --}}
+                    <p class="description text-white/80 leading-relaxed builder-editable" builder-identity="1">
+                        {{ get_phrase('It is a long established fact that a reader will be the distract by the read content of a page layout') }}.
+                    </p>
+
+                    {{-- Social Media Links --}}
+                    <ul class="f-socials flex gap-3">
+                        <li>
+                            <a href="{{ get_frontend_settings('twitter') }}" 
+                               class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-accent hover:scale-110 transition-all duration-300" 
+                               aria-label="Twitter">
+                                <i class="fa-brands fa-x-twitter text-white"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ get_frontend_settings('facebook') }}" 
+                               class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-accent hover:scale-110 transition-all duration-300" 
+                               aria-label="Facebook">
+                                <i class="fa-brands fa-facebook-f text-white"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ get_frontend_settings('linkedin') }}" 
+                               class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-accent hover:scale-110 transition-all duration-300" 
+                               aria-label="LinkedIn">
+                                <i class="fa-brands fa-linkedin-in text-white"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" 
+                               class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-accent hover:scale-110 transition-all duration-300" 
+                               aria-label="Instagram">
+                                <i class="fa-brands fa-instagram text-white"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" 
+                               class="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-accent hover:scale-110 transition-all duration-300" 
+                               aria-label="YouTube">
+                                <i class="fa-brands fa-youtube text-white"></i>
+                            </a>
+                        </li>
+                    </ul>
+
+                    {{-- Contact Button --}}
+                    <div class="gradient-border2">
+                        <a href="{{ route('contact.us') }}" 
+                           class="gradient-border-btn inline-flex items-center gap-2 px-6 py-3 bg-accent text-white rounded-xl hover:bg-accent-dark hover:shadow-lg transition-all duration-300">
+                            {{ get_phrase('Contact with Us') }}
+                            <i class="fa-solid fa-arrow-right-long"></i>
+                        </a>
+                    </div>
+
+                    {{-- Mobile App Badge (Google Play) --}}
+                    <a href="{{ get_frontend_settings('mobile_app_link') }}" 
+                       target="_blank" 
+                       class="inline-block hover:opacity-80 transition-opacity">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="162" height="48" viewBox="0 0 162 48" fill="none">
+                            <rect x="0.6" y="0.6" width="160.8" height="46.8" rx="5.4" fill="black" />
+                            <rect x="0.6" y="0.6" width="160.8" height="46.8" rx="5.4" stroke="#A6A6A6" stroke-width="1.2" />
+                            <path d="M128.324 36.0002H130.563V20.9983H128.324V36.0002ZM148.492 26.4026L145.925 32.9065H145.848L143.184 26.4026H140.772L144.768 35.4926L142.49 40.5494H144.825L150.982 26.4026H148.492ZM135.792 34.2963C135.06 34.2963 134.037 33.9292 134.037 33.0223C134.037 31.8644 135.311 31.4205 136.41 31.4205C137.394 31.4205 137.859 31.6324 138.456 31.9221C138.282 33.312 137.086 34.2963 135.792 34.2963ZM136.064 26.0744C134.442 26.0744 132.764 26.7888 132.069 28.3713L134.056 29.201C134.481 28.3713 135.272 28.1013 136.102 28.1013C137.26 28.1013 138.437 28.7955 138.456 30.0312V30.1854C138.051 29.9538 137.182 29.6065 136.121 29.6065C133.978 29.6065 131.798 30.7834 131.798 32.9838C131.798 34.991 133.554 36.2843 135.522 36.2843C137.027 36.2843 137.859 35.6088 138.378 34.8171H138.456V35.9758H140.619V30.2238C140.619 27.5604 138.629 26.0744 136.064 26.0744ZM122.225 28.2288H119.04V23.0866H122.225C123.899 23.0866 124.85 24.4723 124.85 25.6576C124.85 26.8202 123.899 28.2288 122.225 28.2288ZM122.168 20.9983H116.802V36.0002H119.04V30.3166H122.168C124.649 30.3166 127.089 28.5204 127.089 25.6576C127.089 22.7955 124.649 20.9983 122.168 20.9983ZM92.9098 34.2991C91.3629 34.2991 90.0682 33.0034 90.0682 31.2255C90.0682 29.427 91.3629 28.113 92.9098 28.113C94.4371 28.113 95.6356 29.427 95.6356 31.2255C95.6356 33.0034 94.4371 34.2991 92.9098 34.2991ZM95.481 27.2426H95.4036C94.9011 26.6434 93.934 26.1021 92.7168 26.1021C90.1644 26.1021 87.8253 28.345 87.8253 31.2255C87.8253 34.0863 90.1644 36.3096 92.7168 36.3096C93.934 36.3096 94.9011 35.7681 95.4036 35.1499H95.481V35.8839C95.481 37.8372 94.4371 38.8807 92.7552 38.8807C91.3831 38.8807 90.5324 37.8949 90.184 37.0638L88.2318 37.8757C88.7919 39.2285 90.2802 40.8916 92.7552 40.8916C95.3848 40.8916 97.6081 39.3447 97.6081 35.5746V26.4115H95.481V27.2426ZM99.155 36.0002H101.397V20.9983H99.155V36.0002ZM104.703 31.0512C104.645 29.0791 106.231 28.0741 107.371 28.0741C108.26 28.0741 109.014 28.5189 109.266 29.1565L104.703 31.0512ZM111.662 29.3496C111.237 28.2096 109.942 26.1021 107.293 26.1021C104.664 26.1021 102.479 28.1707 102.479 31.2058C102.479 34.0671 104.645 36.3096 107.544 36.3096C109.883 36.3096 111.237 34.8794 111.798 34.0478L110.058 32.8876C109.478 33.7384 108.686 34.2991 107.544 34.2991C106.404 34.2991 105.592 33.777 105.071 32.7523L111.894 29.9299L111.662 29.3496ZM57.2929 27.6681V29.8333H62.4739C62.3192 31.0512 61.9132 31.9404 61.2945 32.5591C60.5403 33.3128 59.361 34.1444 57.2929 34.1444C54.1029 34.1444 51.6092 31.5733 51.6092 28.3834C51.6092 25.1936 54.1029 22.6221 57.2929 22.6221C59.0136 22.6221 60.2698 23.2989 61.1979 24.1689L62.7256 22.6413C61.43 21.4042 59.7097 20.457 57.2929 20.457C52.9231 20.457 49.25 24.0142 49.25 28.3834C49.25 32.7523 52.9231 36.3096 57.2929 36.3096C59.6511 36.3096 61.43 35.5362 62.8218 34.0863C64.2524 32.6557 64.6972 30.6452 64.6972 29.021C64.6972 28.5189 64.6582 28.0549 64.581 27.6681H57.2929ZM70.5876 34.2991C69.0406 34.2991 67.7066 33.0231 67.7066 31.2058C67.7066 29.3692 69.0406 28.113 70.5876 28.113C72.1339 28.113 73.4679 29.3692 73.4679 31.2058C73.4679 33.0231 72.1339 34.2991 70.5876 34.2991ZM70.5876 26.1021C67.7642 26.1021 65.464 28.248 65.464 31.2058C65.464 34.1444 67.7642 36.3096 70.5876 36.3096C73.4098 36.3096 75.7105 34.1444 75.7105 31.2058C75.7105 28.248 73.4098 26.1021 70.5876 26.1021ZM81.7629 34.2991C80.2171 34.2991 78.8826 33.0231 78.8826 31.2058C78.8826 29.3692 80.2171 28.113 81.7629 28.113C83.3098 28.113 84.6434 29.3692 84.6434 31.2058C84.6434 33.0231 83.3098 34.2991 81.7629 34.2991ZM81.7629 26.1021C78.9406 26.1021 76.6405 28.248 76.6405 31.2058C76.6405 34.1444 78.9406 36.3096 81.7629 36.3096C84.5863 36.3096 86.8864 34.1444 86.8864 31.2058C86.8864 28.248 84.5863 26.1021 81.7629 26.1021Z" fill="white" />
+                            <path d="M53.3719 15.8809C52.296 15.8809 51.3706 15.5023 50.6245 14.7563C49.8781 14.0098 49.5 13.0752 49.5 11.9884C49.5 10.9015 49.8782 9.96852 50.6245 9.22038C51.3706 8.47428 52.296 8.09585 53.3719 8.09585C53.92 8.09585 54.4315 8.19052 54.9204 8.38765C55.4094 8.5848 55.8095 8.85848 56.1246 9.21663L56.1989 9.30124L55.3596 10.1403L55.2757 10.0372C55.0668 9.78045 54.801 9.58099 54.4643 9.43601C54.1288 9.29139 53.7613 9.2246 53.3719 9.2246C52.6141 9.2246 51.9854 9.48193 51.4603 10.0051C51.4602 10.0052 51.46 10.0052 51.4598 10.0053C50.9467 10.539 50.6887 11.1888 50.6887 11.9884C50.6887 12.7886 50.947 13.4385 51.4608 13.9723C51.9858 14.4953 52.6145 14.754 53.3719 14.754C54.0655 14.754 54.6392 14.5603 55.0903 14.177H55.0905C55.5104 13.8202 55.7624 13.338 55.8516 12.7234H53.2519V11.6171H56.9752L56.9911 11.7184C57.0216 11.9128 57.0431 12.1005 57.0431 12.2809C57.0431 13.3131 56.7284 14.1557 56.111 14.7755C55.414 15.5144 54.4974 15.8809 53.3719 15.8809L53.3719 15.8809ZM85.702 15.8809C84.6245 15.8809 83.71 15.5021 82.9734 14.7563C82.9734 14.7562 82.9733 14.7562 82.9732 14.7561C82.9731 14.756 82.9731 14.756 82.973 14.7558C82.2354 14.0181 81.8695 13.0832 81.8695 11.9883C81.8695 10.8935 82.2355 9.95859 82.973 9.22084C82.973 9.22076 82.9731 9.22072 82.9732 9.2206L82.9734 9.22036C83.71 8.47444 84.6246 8.09583 85.702 8.09583C86.7774 8.09583 87.6923 8.47454 88.4288 9.23161C89.1665 9.96925 89.5327 10.9024 89.5327 11.9883C89.5327 13.0832 89.1667 14.0181 88.4292 14.7558L88.429 14.7561C87.692 15.5024 86.7687 15.8808 85.702 15.8808L85.702 15.8809ZM58.1086 15.7196V8.2571H58.2286H62.5655V9.38585H59.2767V11.4352H62.243V12.5415H59.2767V14.5927H62.5655V15.7196H58.1086ZM65.2931 15.7196V9.38585H63.2756V8.2571H68.4788V9.38585H68.3588H66.4613V15.7196H65.2931ZM71.8041 15.7196V8.2571H72.9722V8.3771V15.7196H71.8041ZM75.9127 15.7196V9.38585H73.8952V8.2571H79.0983V9.38585H78.9783H77.0808V15.7196H75.9127ZM90.5695 15.7196V8.2571H91.8867L95.239 13.6238L95.2102 12.605V8.2571H96.3783V15.7196H95.2223L91.7088 10.0817L91.7377 11.0998V11.1015V15.7196H90.5695ZM85.702 14.754C86.4598 14.754 87.0784 14.4955 87.5827 13.9733L87.5834 13.9723L87.5841 13.9716C88.0955 13.46 88.3458 12.8015 88.3458 11.9883C88.3458 11.1771 88.0954 10.5164 87.5841 10.005L87.5834 10.0043L87.5827 10.0036C87.0785 9.48144 86.46 9.22453 85.702 9.22453C84.9428 9.22453 84.3243 9.48099 83.8106 10.0031L83.8102 10.0036C83.3082 10.5274 83.0583 11.1774 83.0583 11.9883C83.0583 12.8012 83.3081 13.4491 83.8102 13.973L83.8106 13.9735C84.3244 14.4957 84.943 14.7539 85.702 14.7539V14.754Z" fill="white" />
+                            <path d="M24.8617 23.3081L12.0859 36.8681C12.0864 36.8709 12.0874 36.8732 12.0879 36.8761C12.4797 38.3484 13.8245 39.4326 15.4206 39.4326C16.0587 39.4326 16.6577 39.2601 17.1714 38.9573L17.2122 38.9334L31.593 30.6351L24.8617 23.3081Z" fill="#EA4335" />
+                            <path d="M37.778 20.9991L37.7657 20.9907L31.5572 17.3915L24.5625 23.6157L31.5815 30.6338L37.7573 27.0704C38.8401 26.4859 39.5751 25.3444 39.5751 24.0281C39.5751 22.7213 38.8499 21.5855 37.778 20.9991Z" fill="#FBBC04" />
+                            <path d="M12.0781 11.1319C12.0013 11.4151 11.9609 11.7117 11.9609 12.0197V35.9809C11.9609 36.2883 12.0008 36.586 12.0786 36.8682L25.2941 23.6551L12.0781 11.1319Z" fill="#4285F4" />
+                            <path d="M24.9408 24L31.5535 17.3892L17.189 9.06096C16.6669 8.74824 16.0576 8.56776 15.4055 8.56776C13.8094 8.56776 12.4627 9.65388 12.0708 11.1281C12.0703 11.1295 12.0703 11.1305 12.0703 11.1318L24.9408 24Z" fill="#34A853" />
+                        </svg>
+                    </a>
+                </div>
+            </div>
+
+            {{-- Right Side - 8 columns on large screens --}}
+            <div class="lg:col-span-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8">
+                    
+                    {{-- Top Categories - 3 columns --}}
+                    <div class="lg:col-span-3">
+                        <div class="footer-widget">
+                            <h4 class="text-lg font-bold mb-6 text-white">{{ get_phrase('Top Categories') }}</h4>
+                            <ul class="space-y-3">
+                                @foreach (top_categories() as $category)
+                                    <li>
+                                        <a href="{{ route('courses', $category->slug) }}" 
+                                           class="text-white/80 hover:text-accent hover:translate-x-1 inline-block transition-all duration-300">
+                                            {{ ucfirst($category->title) }}
+                                        </a>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    </div>
+
+                    {{-- Useful Links - 3 columns --}}
+                    <div class="lg:col-span-3">
+                        <div class="footer-widget drop-area">
+                            <h4 class="text-lg font-bold mb-6 text-white">{{ get_phrase('Useful links') }}</h4>
+                            <ul class="space-y-3">
+                                <li>
+                                    <a href="{{ route('courses') }}" 
+                                       class="text-white/80 hover:text-accent hover:translate-x-1 inline-block transition-all duration-300">
+                                        {{ get_phrase('Course') }}
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('blogs') }}" 
+                                       class="text-white/80 hover:text-accent hover:translate-x-1 inline-block transition-all duration-300">
+                                        {{ get_phrase('Blog') }}
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('knowledge.base.topicks') }}" 
+                                       class="text-white/80 hover:text-accent hover:translate-x-1 inline-block transition-all duration-300">
+                                        {{ get_phrase('Knowledge Base') }}
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    {{-- Company & Newsletter - 6 columns --}}
+                    <div class="lg:col-span-6">
+                        <div class="footer-widget drop-area">
+                            <h4 class="text-lg font-bold mb-6 text-white">{{ get_phrase('Company') }}</h4>
+                            
+                            {{-- Contact Information --}}
+                            <ul class="space-y-3 mb-8">
+                                <li class="flex items-center gap-2">
+                                    <i class="fa-solid fa-phone text-accent"></i>
+                                    <a href="tel:{{ get_settings('phone') }}" 
+                                       class="text-white/80 hover:text-accent transition-colors">
+                                        {{ get_phrase('Phone : ') }}{{ get_settings('phone') }}
+                                    </a>
+                                </li>
+                                <li class="flex items-center gap-2">
+                                    <i class="fa-solid fa-envelope text-accent"></i>
+                                    <a href="mailto:{{ get_settings('system_email') }}" 
+                                       class="text-white/80 hover:text-accent transition-colors">
+                                        {{ get_phrase('Email : ') }}{{ get_settings('system_email') }}
+                                    </a>
+                                </li>
+                            </ul>
+
+                            {{-- Newsletter Section --}}
+                            <div class="newslater-bottom bg-white/5 rounded-2xl p-6 backdrop-blur-sm">
+                                <h4 class="text-lg font-bold mb-3 text-white builder-editable" builder-identity="2">
+                                    {{ get_phrase('Newsletter') }}
+                                </h4>
+                                <p class="description text-white/80 mb-4 text-sm builder-editable" builder-identity="3">
+                                    {{ get_phrase("Subscribe to stay tuned for new web design and latest updates. Let's do it!") }}
+                                </p>
+                                
+                                <form action="{{ route('newsletter.store') }}" 
+                                      method="post" 
+                                      class="newslater-form space-y-3" 
+                                      id="newslater-form">
+                                    @csrf
+                                    
+                                    <div class="relative">
+                                        <input type="email" 
+                                               name="email" 
+                                               required
+                                               class="w-full px-4 py-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition-all" 
+                                               placeholder="{{ get_phrase('Email address') }}">
+                                        <i class="fa-solid fa-envelope absolute left-4 top-1/2 -translate-y-1/2 text-white/50"></i>
+                                    </div>
+                                    
+                                    @if (get_frontend_settings('recaptcha_status'))
+                                        <button type="submit" 
+                                                class="w-full px-6 py-3 bg-accent text-white font-semibold rounded-xl hover:bg-accent-dark hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-300 g-recaptcha" 
+                                                data-sitekey="{{ get_frontend_settings('recaptcha_sitekey') }}" 
+                                                data-callback='onNewslaterSubmit' 
+                                                data-action='submit'>
+                                            {{ get_phrase('Submit') }}
+                                            <i class="fa-solid fa-paper-plane ml-2"></i>
+                                        </button>
+                                    @else
+                                        <button type="submit" 
+                                                class="w-full px-6 py-3 bg-accent text-white font-semibold rounded-xl hover:bg-accent-dark hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-300">
+                                            {{ get_phrase('Submit') }}
+                                            <i class="fa-solid fa-paper-plane ml-2"></i>
+                                        </button>
+                                    @endif
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- Footer Bottom --}}
+    <div class="footer-bottom border-t border-white/10 bg-black">
+        <div class="container mx-auto px-4 py-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+                
+                {{-- Policy Links --}}
+                <div class="order-2 md:order-1">
+                    <ul class="footer-policy flex flex-wrap justify-center md:justify-start gap-4 text-sm">
+                        <li>
+                            <a href="{{ route('about.us') }}" 
+                               class="text-white/80 hover:text-accent transition-colors">
+                                {{ get_phrase('About Us') }}
+                            </a>
+                        </li>
+                        <li class="text-white/40">|</li>
+                        <li>
+                            <a href="{{ route('privacy.policy') }}" 
+                               class="text-white/80 hover:text-accent transition-colors">
+                                {{ get_phrase('Privacy Policy') }}
+                            </a>
+                        </li>
+                        <li class="text-white/40">|</li>
+                        <li>
+                            <a href="{{ route('terms.condition') }}" 
+                               class="text-white/80 hover:text-accent transition-colors">
+                                {{ get_phrase('Terms And Use') }}
+                            </a>
+                        </li>
+                        <li class="text-white/40">|</li>
+                        <li>
+                            <a href="{{ route('refund.policy') }}" 
+                               class="text-white/80 hover:text-accent transition-colors">
+                                {{ get_phrase('Sales and Refunds') }}
+                            </a>
+                        </li>
+                        <li class="text-white/40">|</li>
+                        <li>
+                            <a href="{{ route('cookie.policy') }}" 
+                               class="text-white/80 hover:text-accent transition-colors">
+                                {{ get_phrase('Cookie Policy') }}
+                            </a>
+                        </li>
+                        <li class="text-white/40">|</li>
+                        <li>
+                            <a href="{{ route('faq') }}" 
+                               class="text-white/80 hover:text-accent transition-colors">
+                                {{ get_phrase('FAQ') }}
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                {{-- Copyright --}}
+                <div class="order-1 md:order-2">
+                    <div class="copyright-text text-center md:text-left">
+                        <p class="text-white/80 text-sm builder-editable" builder-identity="4">
+                            © 2026 
+                            <a href="{{ get_settings('footer_link') }}" 
+                               target="_blank" 
+                               class="text-accent hover:text-accent-light transition-colors font-semibold">
+                                {{ get_settings('footer_text') }}
+                            </a>
+                            {{ get_phrase('All Rights Reserved') }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- Scroll to Top Button --}}
+    <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" 
+            class="fixed bottom-8 left-8 w-12 h-12 bg-accent text-white rounded-full flex items-center justify-center hover:bg-accent-dark hover:scale-110 shadow-lg transition-all duration-300 z-50 group"
+            aria-label="العودة للأعلى"
+            id="scrollToTop">
+        <svg xmlns="http://www.w3.org/2000/svg" 
+             width="24" 
+             height="24" 
+             viewBox="0 0 24 24" 
+             fill="none" 
+             stroke="currentColor" 
+             stroke-width="2" 
+             stroke-linecap="round" 
+             stroke-linejoin="round" 
+             class="group-hover:-translate-y-1 transition-transform">
+            <path d="m18 15-6-6-6 6"></path>
+        </svg>
+    </button>
+</footer>
+
+{{-- JavaScript --}}
+@push('js')
+    <script>
+        "use strict";
+
+        // Newsletter Form Submission with reCAPTCHA
+        function onNewslaterSubmit(token) {
+            document.getElementById("newslater-form").submit();
+        }
+
+        // Scroll to Top Button Visibility
+        window.addEventListener('scroll', function() {
+            const scrollToTopBtn = document.getElementById('scrollToTop');
+            if (scrollToTopBtn) {
+                if (window.pageYOffset > 300) {
+                    scrollToTopBtn.classList.remove('opacity-0', 'invisible');
+                    scrollToTopBtn.classList.add('opacity-100', 'visible');
+                } else {
+                    scrollToTopBtn.classList.remove('opacity-100', 'visible');
+                    scrollToTopBtn.classList.add('opacity-0', 'invisible');
+                }
+            }
+        });
+    </script>
+@endpush
+
+ 
+</main>
+        </div>
+    </div>
+    
+    
+</body>
+</html>

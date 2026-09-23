@@ -27,7 +27,7 @@ class BootcampController extends Controller
             $query->where('bootcamp_categories.slug', $category);
         }
 
-        $page_data['bootcamps'] = $query->paginate(9)->appends(request()->query());
+        $page_data['bootcamps'] = $query->latest('bootcamps.id')->paginate(9)->appends(request()->query());
         return view(theme_path() . 'bootcamp.index', $page_data);
     }
 

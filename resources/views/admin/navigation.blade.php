@@ -577,8 +577,8 @@ has_permission('admin.seo.settings'))
         </li>
         @endif
         @if (has_permission('admin.pages'))
-        <li class="sidebar-second-li {{ $current_route == 'admin.pages' ? 'active' : '' }}"><a href="{{ route('admin.pages') }}">{{ get_phrase('Home Page Builder') }}</a>
-        </li>
+        <!--<li class="sidebar-second-li {{ $current_route == 'admin.pages' ? 'active' : '' }}"><a href="{{ route('admin.pages') }}">{{ get_phrase('Home Page Builder') }}</a>-->
+        <!--</li>-->
         @endif
         @if (has_permission('admin.seo.settings'))
         <li class="sidebar-second-li {{ $current_route == 'admin.seo.settings' ? 'active' : '' }}">

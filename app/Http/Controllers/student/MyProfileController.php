@@ -33,15 +33,22 @@ class MyProfileController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-        $data['name']      = $request->name;
-        $data['email']     = $request->email;
-        $data['phone']     = $request->phone;
-        $data['website']   = $request->website;
-        $data['facebook']  = $request->facebook;
-        $data['twitter']   = $request->twitter;
-        $data['linkedin']  = $request->linkedin;
-        $data['skills']    = $request->skills;
-        $data['biography'] = $request->biography;
+        $data['name']  = $request->name;
+        $data['email'] = $request->email;
+        if ($request->filled('skills')) {
+            $data['skills'] = $request->skills;
+        }
+        if ($request->filled('biography')) {
+            $data['about'] = $request->biography;
+        }
+        $social_links = [
+            'phone'    => $request->phone,
+            'website'  => $request->website,
+            'facebook' => $request->facebook,
+            'twitter'  => $request->twitter,
+            'linkedin' => $request->linkedin,
+        ];
+        $data['social_links'] = json_encode(array_filter($social_links));
 
         User::where('id', $user_id)->update($data);
         Session::flash('success', get_phrase('Profile updated successfully.'));

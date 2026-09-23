@@ -731,18 +731,24 @@ if (! function_exists('get_current_language')) {
 if (! function_exists('get_phrase')) {
     function get_phrase($phrase = '', $value_replace = [])
     {
-        $active_lan    = session('language') ?? get_settings('language');
-        $active_lan_id = DB::table('languages')->where('name', 'like', $active_lan)->value('id');
-        $lan_phrase    = DB::table('language_phrases')->where('language_id', $active_lan_id)->where('phrase', $phrase)->first();
+        $translated = $phrase;
+        try {
+            if (Schema::hasTable('languages') && Schema::hasTable('language_phrases')) {
+                $active_lan    = session('language') ?? get_settings('language');
+                $active_lan_id = DB::table('languages')->where('name', 'like', $active_lan)->value('id');
+                $lan_phrase    = DB::table('language_phrases')->where('language_id', $active_lan_id)->where('phrase', $phrase)->first();
 
-        if ($lan_phrase) {
-            $translated = $lan_phrase->translated;
-        } else {
-            $translated  = $phrase;
-            $english_lan = DB::table('languages')->where('name', 'like', 'english')->first();
-            if (DB::table('language_phrases')->where('language_id', $english_lan->id)->where('phrase', $phrase)->count() == 0) {
-                DB::table('language_phrases')->insert(['language_id' => $english_lan->id, 'phrase' => $phrase, 'translated' => $translated]);
+                if ($lan_phrase) {
+                    $translated = $lan_phrase->translated;
+                } else {
+                    $english_lan = DB::table('languages')->where('name', 'like', 'english')->first();
+                    if ($english_lan && DB::table('language_phrases')->where('language_id', $english_lan->id)->where('phrase', $phrase)->count() == 0) {
+                        DB::table('language_phrases')->insert(['language_id' => $english_lan->id, 'phrase' => $phrase, 'translated' => $translated]);
+                    }
+                }
             }
+        } catch (\Throwable $e) {
+            $translated = $phrase;
         }
 
         if (! is_array($value_replace)) {
@@ -915,16 +921,23 @@ if (! function_exists('random')) {
 if (! function_exists('get_settings')) {
     function get_settings($type = "", $return_type = false)
     {
-        $value = App\Models\Setting::where('type', $type);
-        if ($value->count() > 0) {
-            if ($return_type === true) {
-                return json_decode($value->value('description'), true);
-            } elseif ($return_type === "object") {
-                return json_decode($value->value('description'));
-            } else {
-                return $value->value('description');
+        try {
+            if (!Schema::hasTable('settings')) {
+                return false;
             }
-        } else {
+            $value = App\Models\Setting::where('type', $type);
+            if ($value->count() > 0) {
+                if ($return_type === true) {
+                    return json_decode($value->value('description'), true);
+                } elseif ($return_type === "object") {
+                    return json_decode($value->value('description'));
+                } else {
+                    return $value->value('description');
+                }
+            } else {
+                return false;
+            }
+        } catch (\Throwable $e) {
             return false;
         }
     }
@@ -965,17 +978,25 @@ if (! function_exists('htmlspecialchars_decode')) {
 if (! function_exists('get_frontend_settings')) {
     function get_frontend_settings($type = "", $return_type = false)
     {
-        $value = DB::table('frontend_settings')->where('key', $type);
-        if ($value->count() > 0) {
-            if ($return_type === true) {
-                return json_decode($value->value('value'), true);
-            } elseif ($return_type === "object") {
-                return json_decode($value->value('value'));
-            } else {
-                return $value->value('value');
+        try {
+            if (!Schema::hasTable('frontend_settings')) {
+                return $type === 'theme' ? 'default' : false;
             }
-        } else {
-            return false;
+            $value = DB::table('frontend_settings')->where('key', $type);
+            if ($value->count() > 0) {
+                $val = $value->value('value');
+                if ($return_type === true) {
+                    return json_decode($val, true);
+                } elseif ($return_type === "object") {
+                    return json_decode($val);
+                } else {
+                    return $val ?: ($type === 'theme' ? 'default' : false);
+                }
+            } else {
+                return $type === 'theme' ? 'default' : false;
+            }
+        } catch (\Throwable $e) {
+            return $type === 'theme' ? 'default' : false;
         }
     }
 }

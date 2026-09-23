@@ -152,6 +152,7 @@ Route::name('admin.')->prefix('admin')->middleware('admin')->group(function () {
         Route::get('student/edit/{id}', 'student_edit')->name('student.edit');
         Route::post('student/update/{id}', 'student_update')->name('student.update');
         Route::get('student/delete/{id}', 'student_delete')->name('student.delete');
+        Route::post('student/{id}/camp-toggle', 'student_camp_toggle')->name('student.camp.toggle');
 
         Route::get('admin/create', 'admin_create')->name('admins.create');
         Route::post('admin/store', 'admin_store')->name('admins.store');

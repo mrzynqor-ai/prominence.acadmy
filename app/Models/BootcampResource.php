@@ -9,6 +9,8 @@ class BootcampResource extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+
     protected $fillable = [
         'module_id',
         'title',

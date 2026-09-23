@@ -1,5 +1,7 @@
 <?php
 
+error_reporting(error_reporting() & ~E_DEPRECATED);
+
 /*
 |--------------------------------------------------------------------------
 | Create The Application

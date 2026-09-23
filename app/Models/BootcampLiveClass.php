@@ -9,6 +9,8 @@ class BootcampLiveClass extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+
     protected $fillable = [
         'module_id',
         'title',

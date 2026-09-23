@@ -140,8 +140,8 @@ class AuthenticatedSessionController extends Controller
 
             // $raw_user_agent = request()->header('user-agent');
             // $current_user_agent = base64_encode($user->id . $raw_user_agent);
-            $raw_user_agent = $request->input('user_agent');
-            $current_user_agent =  $raw_user_agent;
+            $raw_user_agent = $request->input('user_agent') ?? request()->header('user-agent') ?? 'default';
+            $current_user_agent = $raw_user_agent;
             $allowed_devices = get_settings('device_limitation') ?? 1;
 
             // Fetch all devices linked to user

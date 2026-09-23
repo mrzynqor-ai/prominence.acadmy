@@ -1,4 +1,4 @@
-<div class="col-lg-12 col-md-12 col-sm-6 mb-30">
+<div class="col-12 mb-30">
     <a href="{{ route('course.details', $course->slug) }}" class="single-feature w-100">
         <div class="row">
             <div class="col-lg-4 col-md-4">

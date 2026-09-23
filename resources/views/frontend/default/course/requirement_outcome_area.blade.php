@@ -6,6 +6,8 @@
 <div class="ps-box p-0 shadow-none">
     <div class="requirment d-block">
         <div class="row row-gap-4">
+            @if (!empty($requirements))
+                
             <div class="col-sm-6">
                 <div class="requirment-left ">
                     <h4 class="g-title mb-20">{{ get_phrase('Requirment') }}</h4>
@@ -19,6 +21,10 @@
                     </ul>
                 </div>
             </div>
+            @endif
+
+            @if (!empty($outcomes))
+
             <div class="col-sm-6">
                 <div class="requirment-right">
                     <h4 class="g-title mb-20">{{ get_phrase('Outcomes') }}</h4>
@@ -32,6 +38,8 @@
                     </ul>
                 </div>
             </div>
+            @endif
+
         </div>
     </div>
 </div>

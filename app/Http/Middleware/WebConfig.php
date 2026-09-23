@@ -16,6 +16,7 @@ class WebConfig
     public function handle(Request $request, Closure $next): Response
     {
         $s3_keys = get_settings('amazon_s3', 'object');
+        $s3_keys = is_object($s3_keys) ? $s3_keys : null;
         config(
             [
                 'app.name' => get_settings('system_title'),
@@ -29,14 +30,14 @@ class WebConfig
                 'mail.mailers.smtp.username' => get_settings('smtp_user'),
                 'mail.mailers.smtp.password' => get_settings('smtp_pass'),
                 'mail.mailers.smtp.timeout' => null,
-                'mail.mailers.smtp.local_domain' => $_SERVER['SERVER_NAME'],
+                'mail.mailers.smtp.local_domain' => $_SERVER['SERVER_NAME'] ?? $request->getHost(),
                 'mail.from.name' => get_settings('system_title'),
                 'mail.from.address' => get_settings('smtp_from_email'),
 
-                'filesystems.disks.s3.key' => $s3_keys->AWS_ACCESS_KEY_ID,
-                'filesystems.disks.s3.secret' => $s3_keys->AWS_SECRET_ACCESS_KEY,
-                'filesystems.disks.s3.region' => $s3_keys->AWS_DEFAULT_REGION,
-                'filesystems.disks.s3.bucket' => $s3_keys->AWS_BUCKET,
+                'filesystems.disks.s3.key' => $s3_keys?->AWS_ACCESS_KEY_ID,
+                'filesystems.disks.s3.secret' => $s3_keys?->AWS_SECRET_ACCESS_KEY,
+                'filesystems.disks.s3.region' => $s3_keys?->AWS_DEFAULT_REGION,
+                'filesystems.disks.s3.bucket' => $s3_keys?->AWS_BUCKET,
             ]
         );
 
